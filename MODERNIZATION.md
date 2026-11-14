@@ -6,8 +6,8 @@ This fork continues [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad), which was
 
 ## Status (2026-11-14)
 
-- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4).
-- **Next:** in-range dependency updates against the audit baseline below, then test tooling (#5).
+- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4); in-range dependency updates (#34); sqlite3 6; test tooling (#5). Phase 1 complete.
+- **Next:** Phase 2 server security issues (#8, #9, #10, #14).
 
 Tables below are the original snapshot; removed packages are marked.
 
