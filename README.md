@@ -8,7 +8,7 @@ Most of this codebase is from the 2016-2020 era of JavaScript. To modernize it w
 
 # SQLPad
 
-A web app for writing and running SQL queries and visualizing the results. Supports Postgres, MySQL, SQL Server, ClickHouse, Crate, Vertica, Trino, Presto, SAP HANA, Cassandra, Google BigQuery, SQLite, TiDB and many more via [ODBC](https://github.com/sqlpad/sqlpad/wiki/ODBC).
+A web app for writing and running SQL queries and visualizing the results. Supports Postgres, Redshift, MySQL, MariaDB, SQL Server, ClickHouse, Trino, Presto, Pinot, Drill, SAP HANA, Google BigQuery, SQLite and TiDB.
 
 ![SQLPad Query Editor](https://user-images.githubusercontent.com/303966/99915755-32f78e80-2ccb-11eb-9f74-b18846d6108d.png)
 

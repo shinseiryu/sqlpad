@@ -25,8 +25,20 @@ describe('api/drivers', function () {
       'Does not have a SQL Server field'
     );
 
-    const mysql = drivers.find((i) => i.id === 'mysql');
-    assert(mysql);
-    assert.strictEqual(mysql.supportsConnectionClient, true);
+    const mysql2 = drivers.find((i) => i.id === 'mysql2');
+    assert(mysql2);
+    assert.strictEqual(mysql2.supportsConnectionClient, true);
+
+    // Removed drivers must not be listed
+    for (const id of [
+      'athena',
+      'cassandra',
+      'crate',
+      'mysql',
+      'unixodbc',
+      'vertica',
+    ]) {
+      assert(!drivers.find((i) => i.id === id), `${id} not listed`);
+    }
   });
 });

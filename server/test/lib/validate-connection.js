@@ -63,6 +63,12 @@ describe('drivers', function () {
   it('missing driver imp throws', function () {
     assert.throws(() => {
       validateConnection({ name: 'name', driver: 'not exist' });
-    }, 'missing driver imp throws error');
+    }, /Driver "not exist" is not available/);
+  });
+
+  it('removed driver throws a clear error', function () {
+    assert.throws(() => {
+      validateConnection({ name: 'name', driver: 'vertica' });
+    }, /Driver "vertica" \(Vertica\) is no longer supported/);
   });
 });

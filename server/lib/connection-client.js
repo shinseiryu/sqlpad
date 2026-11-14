@@ -1,6 +1,6 @@
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 import consts from './consts.js';
-import drivers from '../drivers/index.js';
+import drivers, { driverNotAvailableMessage } from '../drivers/index.js';
 import renderConnection from './render-connection.js';
 import appLog from './app-log.js';
 import getColumns from './get-columns.js';
@@ -24,7 +24,7 @@ class ConnectionClient {
     this.driver = drivers[connection.driver];
 
     if (!this.driver) {
-      throw new Error('Invalid driver');
+      throw new Error(driverNotAvailableMessage(connection.driver));
     }
 
     this.user = user;

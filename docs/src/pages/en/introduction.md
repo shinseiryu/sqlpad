@@ -4,7 +4,7 @@ description: Docs intro
 layout: ../../layouts/MainLayout.astro
 ---
 
-SQLPad is a web app for writing and running SQL queries and visualizing the results. Supports Postgres, MySQL, SQL Server, ClickHouse, Crate, Vertica, Trino, Presto, Pinot, Drill, SAP HANA, BigQuery, SQLite, TiDB and many others via ODBC.
+SQLPad is a web app for writing and running SQL queries and visualizing the results. Supports Postgres, Redshift, MySQL, MariaDB, SQL Server, ClickHouse, Trino, Presto, Pinot, Drill, SAP HANA, BigQuery, SQLite and TiDB.
 
 <img class="screenshot" src="/images/screenshot.png" alt="SQLPad screenshot" >
 
@@ -39,12 +39,6 @@ While not exactly alternatives, these open source projects might be of interest:
     <img src="/images/logo-sql-server.png" data-origin="/images/logo-sql-server.png" alt="SQL Server">
   </div>
   <div class="db-container">
-    <img src="/images/logo-vertica.jpg" data-origin="/images/logo-vertica.png" alt="Vertica" >
-  </div>
-  <div class="db-container">
-    <img src="/images/logo-crate.png" data-origin="/images/logo-crate.png" alt="Crate" >
-  </div>
-  <div class="db-container">
     <img src="/images/logo-clickhouse.png" data-origin="/images/logo-clickhouse.png" alt="ClickHouse" >
   </div>
   <div class="db-container db-container-bg">
@@ -62,9 +56,6 @@ While not exactly alternatives, these open source projects might be of interest:
   <div class="db-container">
     <img src="/images/logo-pinot.png" data-origin="/images/logo-pinot.png" alt="Apache Pinot" >
   </div>
-  <div class="db-container db-container-bg">
-    <img src="/images/logo-cassandra.png" data-origin="/images/logo-cassandra.png" alt="Cassandra" >
-  </div>
   <div class="db-container">
     <img src="/images/logo-bigquery.png" data-origin="/images/logo-bigquery.png" alt="BigQuery" >
   </div>
@@ -74,5 +65,4 @@ While not exactly alternatives, these open source projects might be of interest:
   <div class="db-container">
     <img src="/images/logo-tidb.png" data-origin="/images/logo-tidb.png" alt="TiDB" >
   </div>
-  <div class="db-container">many others via ODBC</div>
 </div>

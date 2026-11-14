@@ -4,6 +4,7 @@
 
 - Node 24 or later required; Docker image now uses Node 26 (Debian 13)
 - Docker images published to ghcr.io/shinseiryu/sqlpad
+- Removed drivers: `athena`, `cassandra`, `crate`, `mysql` (legacy; use `mysql2`), `unixodbc` (ODBC) and `vertica`. Saved connections using them still load but report that the driver is no longer supported. The `ODBC_ENABLED` Docker build option is gone.
 
 ## [7.5.7] - 2025-08-21
 
