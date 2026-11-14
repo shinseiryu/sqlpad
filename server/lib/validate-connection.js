@@ -1,4 +1,4 @@
-import drivers from '../drivers/index.js';
+import drivers, { driverNotAvailableMessage } from '../drivers/index.js';
 
 /**
  * Clean value to boolean
@@ -52,7 +52,7 @@ function validateConnection(connection) {
   }
   const driverImplementation = drivers[driver];
   if (!driverImplementation) {
-    throw new Error(`driver implementation ${driver} not found`);
+    throw new Error(driverNotAvailableMessage(driver));
   }
   const validFields = driverImplementation.fields.map((field) => field.key);
 

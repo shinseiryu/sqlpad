@@ -13,7 +13,7 @@ import {
   isConnectionEnv,
 } from './config-utils.js';
 
-import drivers from '../../drivers/index.js';
+import drivers, { driverNotAvailableMessage } from '../../drivers/index.js';
 
 const REMOVED_ENVS = [
   'CERT_PASSPHRASE',
@@ -178,7 +178,9 @@ class Config {
         const driverImplementation = drivers[driver];
         if (!driverImplementation) {
           errors.push(
-            `Environment config SQLPAD_CONNECTIONS__${id}__driver invalid. "${driver}" not a supported driver.`
+            `Environment config SQLPAD_CONNECTIONS__${id}__driver invalid. ${driverNotAvailableMessage(
+              driver
+            )}`
           );
         } else {
           const validDriverFieldMap = {};

@@ -63,7 +63,7 @@ Admins can create connections in the UI, but connections can also be created in 
 
 ### Driver
 
-SQLPad connections use various drivers to connect to a target database. Prior to the addition of ODBC support, SQLPad required a wrapping each database driver separately, as each implementation was slightly different. In SQLPad there is a Postgres driver and a MySQL driver. There is also an ODBC driver, _which requires its own additional drivers_ to be able to connect to the target database.
+SQLPad connections use a driver to connect to a target database. Each supported database has its own driver (for example `postgres`, `mysql2` or `sqlserver`); see [Connections](/en/connections) for the full list and their settings.
 
 ### Query
 

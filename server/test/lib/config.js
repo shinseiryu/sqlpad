@@ -137,7 +137,25 @@ describe('lib/config', function () {
     assert(validations.errors);
     const found = validations.errors.find((error) =>
       error.includes(
-        'Environment config SQLPAD_CONNECTIONS__test__driver invalid. "foo" not a supported driver.'
+        'Environment config SQLPAD_CONNECTIONS__test__driver invalid. Driver "foo" is not available.'
+      )
+    );
+    assert(found, 'has error');
+  });
+
+  it('Errors env connection removed driver', function () {
+    const config = new Config(
+      {},
+      {
+        SQLPAD_CONNECTIONS__test__name: 'My test',
+        SQLPAD_CONNECTIONS__test__driver: 'athena',
+      }
+    );
+    const validations = config.getValidations();
+    assert(validations.errors);
+    const found = validations.errors.find((error) =>
+      error.includes(
+        'Driver "athena" (Athena) is no longer supported by this version of SQLPad.'
       )
     );
     assert(found, 'has error');

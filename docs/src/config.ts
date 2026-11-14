@@ -1,7 +1,7 @@
 export const SITE = {
   title: 'SQLPad',
   description:
-    'Web-based SQL editor run in your own private cloud. Supports MySQL, Postgres, SQL Server, Vertica, Crate, ClickHouse, Trino, Presto, SAP HANA, Cassandra, BigQuery, SQLite, and more with ODBC',
+    'Web-based SQL editor run in your own private cloud. Supports MySQL, Postgres, SQL Server, ClickHouse, Trino, Presto, SAP HANA, BigQuery, SQLite, and more',
   defaultLanguage: 'en_US',
 };
 

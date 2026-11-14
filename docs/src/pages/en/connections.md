@@ -18,7 +18,7 @@ Multi-statement transaction support adds the ability for a user to use the same 
 
 Multi-statement transaction support is opt-in based on connection configuration. If a connection uses a driver and multi-statement transaction support is not enabled, the connection falls back to the legacy SQLPad behavior of opening a new connection for each query execution, then immediately closing it following the query.
 
-Work is under way to add multi-statement transaction support to drivers that benefit from the addition. At this time MySQL, SQLite, Postgres, and ODBC drivers support this approach.
+Work is under way to add multi-statement transaction support to drivers that benefit from the addition. At this time the MySQL (mysql2), SQLite, and Postgres drivers support this approach.
 
 ## Defining Connections via Configuration
 
@@ -46,18 +46,6 @@ SQLPAD_CONNECTIONS__prod123__mysqlInsecureAuth=true
 ## Connection selection
 
 A default connection selection can be set using environment variable `SQLPAD_DEFAULT_CONNECTION_ID`. It can also be specified as part of the query editor URL, i.e., `https://mysqlpad.example.com/queries/new?connectionName=connection1` or `https://mysqlpad.example.com/queries/new?connectionId=xxx-xxxxx-xxx-xxx`.
-
-## CrateDB
-
-| key        | description            | data type |
-| ---------- | ---------------------- | :-------: |
-| `name`     | Name of connection     |   text    |
-| `driver`   | Must be `crate`        |   text    |
-| `host`     | Host/Server/IP Address |   text    |
-| `port`     | Port (optional)        |   text    |
-| `username` | Database Username      |   text    |
-| `password` | Database Password      |   text    |
-| `ssl`      | Use SSL                |  boolean  |
 
 ## Apache Drill
 
@@ -105,22 +93,9 @@ A default connection selection can be set using environment variable `SQLPAD_DEF
 | `hanadatabase` | Tenant                 |   text    |
 | `hanaSchema`   | Schema (optional)      |   text    |
 
-## MySQL
+## MySQL / MariaDB (mysql2)
 
-| key                                | description                                 | data type |
-| ---------------------------------- | ------------------------------------------- | :-------: |
-| `name`                             | Name of connection                          |   text    |
-| `driver`                           | Must be `mysql`                             |   text    |
-| `multiStatementTransactionEnabled` | Reuse db connection across query executions |  boolean  |
-| `host`                             | Host/Server/IP Address                      |   text    |
-| `port`                             | Port (optional)                             |   text    |
-| `database`                         | Database                                    |   text    |
-| `username`                         | Database Username                           |   text    |
-| `password`                         | Database Password                           |   text    |
-| `mysqlSsl`                         | Use SSL                                     |  boolean  |
-| `mysqlInsecureAuth`                | Use old/insecure pre 4.1 Auth System        |  boolean  |
-
-## MySQL2
+?> The legacy `mysql` driver has been removed. Recreate any `mysql` connections with the `mysql2` driver.
 
 | key                           | description                                                                        | data type |
 | ----------------------------- | ---------------------------------------------------------------------------------- | :-------: |
@@ -222,28 +197,6 @@ Redshift uses the Postgres driver, using a different query for pulling schema.
 | `catalog`  | Catalog                |   text    |
 | `schema`   | Schema                 |   text    |
 
-## Vertica
-
-| key        | description            | data type |
-| ---------- | ---------------------- | :-------: |
-| `name`     | Name of connection     |   text    |
-| `driver`   | Must be `vertica`      |   text    |
-| `host`     | Host/Server/IP Address |   text    |
-| `port`     | Port (optional)        |   text    |
-| `database` | Database               |   text    |
-| `username` | Database Username      |   text    |
-| `password` | Database Password      |   text    |
-
-## Cassandra
-
-| key               | description                      | data type |
-| ----------------- | -------------------------------- | :-------: |
-| `name`            | Name of connection               |   text    |
-| `driver`          | Must be `cassandra`              |   text    |
-| `contactPoints`   | Contact points (comma delimited) |   text    |
-| `localDataCenter` | Local data center                |   text    |
-| `keyspace`        | Keyspace                         |   text    |
-
 ## BigQuery
 
 | key               | description                      | data type |
@@ -265,53 +218,3 @@ Redshift uses the Postgres driver, using a different query for pulling schema.
 | `idleTimeoutSeconds`               | Seconds to allow connection to be idle before closing |  number   |
 | `filename`                         | Path to file                                          |   text    |
 | `readonly`                         | Open file in read only mode                           |  boolean  |
-
-## Athena
-
-| key                      | description                             | data type |
-| ------------------------ | --------------------------------------- | :-------: |
-| `name`                   | Name of connection                      |   text    |
-| `driver`                 | Must be `athena`                        |   text    |
-| `awsRegion`              | AWS Region                              |   text    |
-| `awsAccessKeyId`         | AWS Access Key ID                       |   text    |
-| `awsSecretAccessKey`     | AWS Secret Access Key                   |   text    |
-| `athenaStagingDirectory` | Athena staging directory in S3          |   text    |
-| `athenaWorkgroup`        | Athena workgroup (`primary' by default) |   text    |
-
-## ODBC (unixodbc)
-
-?> Despite the underlying `driver` being `unixodbc`, this appears to be functional on Windows.
-
-The ODBC driver by default use the following SQL to try and obtain schema information for the database connected. This may not work for your target database however.
-
-If information schema is not supported by your target database, you may override this query using the `schema_sql` key.
-
-This query is used for the schema sidebar and autocomplete purposes, and is not required to be able to run queries against the target database.
-
-```sql
-SELECT
-  c.table_schema AS table_schema,
-  c.table_name AS table_name,
-  c.column_name AS column_name,
-  c.data_type AS data_type
-FROM
-  INFORMATION_SCHEMA.columns c
-WHERE
-  c.table_schema NOT IN ('INFORMATION_SCHEMA', 'information_schema')
-ORDER BY
-  c.table_schema,
-  c.table_name,
-  c.ordinal_position
-```
-
-| key                                | description                                                                                                                                                                                                                                                         | data type |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------: |
-| `name`                             | Name of connection                                                                                                                                                                                                                                                  |   text    |
-| `driver`                           | Must be `unixodbc`                                                                                                                                                                                                                                                  |   text    |
-| `multiStatementTransactionEnabled` | Reuse db connection across query executions                                                                                                                                                                                                                         |  boolean  |
-| `idleTimeoutSeconds`               | Seconds to allow connection to be idle before closing                                                                                                                                                                                                               |  number   |
-| `connection_string`                | ODBC connection string                                                                                                                                                                                                                                              |   text    |
-| `schema_sql`                       | Database SQL to lookup schema (optional, if omitted default to checking INFORMATION_SCHEMA)                                                                                                                                                                         |   text    |
-| `username`                         | Username (optional). Will be added to connect_string as `Uid` key                                                                                                                                                                                                   |   text    |
-| `password`                         | Password (optional). Will be added to connect_string as `Pwd` key                                                                                                                                                                                                   |   text    |
-| `limit_strategies`                 | Comma separated list of limit strategies used to restrict queries. These strategies will be used to enforce and inject LIMIT and FETCH FIRST use in SELECT queries. Allowed strategies are `limit`, `fetch`, `first`, and `top`. <br/><br/> Example: `limit, fetch` |   text    |
