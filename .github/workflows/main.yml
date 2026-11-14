@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build and upload
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code ${{ github.sha }}
         uses: actions/checkout@v4
@@ -19,24 +21,12 @@ jobs:
           entrypoint: bash
           args: .github/workflows/build.sh
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      # actions/create-release and actions/upload-release-asset are archived;
+      # the preinstalled gh CLI does both in one step.
+      - name: Create release and upload archive
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload archive to release
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./sqlpad.tar.gz
-          asset_name: sqlpad.tar.gz
-          asset_content_type: application/gzip
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" sqlpad.tar.gz \
+            --title "Release $GITHUB_REF_NAME" \
+            --verify-tag
