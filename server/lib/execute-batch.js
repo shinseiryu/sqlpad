@@ -71,6 +71,10 @@ export async function executeBatch(config, models, webhooks, batchId) {
         stopTime - statementStartTime
       );
 
+      // Cancel remaining statements before the batch reports an error,
+      // so clients never see an errored batch with queued statements.
+      await models.statements.updateErrorQueuedToCancelled(batch.id);
+
       const updatedBatch = await models.batches.update(batch.id, {
         status: 'error',
         stopTime,
@@ -81,10 +85,6 @@ export async function executeBatch(config, models, webhooks, batchId) {
     }
   }
   stopTime = new Date();
-
-  if (statementError) {
-    await models.statements.updateErrorQueuedToCancelled(batchId);
-  }
 
   if (!statementError) {
     await models.batches.update(batch.id, {
@@ -147,7 +147,6 @@ export async function executeCancellableBatch(
   let executionId;
   let statementStartTime;
   let stopTime;
-  let statementError;
   for (const statement of batch.statements) {
     try {
       statementStartTime = new Date();
@@ -161,7 +160,6 @@ export async function executeCancellableBatch(
         await models.statements.updateExecutionId(statement.id, executionId);
       }
     } catch (error) {
-      statementError = error;
       stopTime = new Date();
 
       await models.statements.updateErrored(
@@ -173,6 +171,10 @@ export async function executeCancellableBatch(
         stopTime - statementStartTime
       );
 
+      // Cancel remaining statements before the batch reports an error,
+      // so clients never see an errored batch with queued statements.
+      await models.statements.updateErrorQueuedToCancelled(batch.id);
+
       const updatedBatch = await models.batches.update(batch.id, {
         status: 'error',
         stopTime,
@@ -181,9 +183,6 @@ export async function executeCancellableBatch(
       webhooks.statementFinished(user, connection, updatedBatch, statement.id);
       break;
     }
-  }
-  if (statementError) {
-    await models.statements.updateErrorQueuedToCancelled(batchId);
   }
   if (disconnectOnFinish) {
     await connectionClient.disconnect();
