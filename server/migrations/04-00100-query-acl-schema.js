@@ -14,7 +14,6 @@ import migrationUtils from '../lib/migration-utils.js';
  * @param {import('../lib/logger')} appLog
  * @param {object} sequelizeDb - sequelize instance
  */
-// eslint-disable-next-line no-unused-vars
 export async function up(queryInterface, config, appLog, sequelizeDb) {
   if (config.get('backendDatabaseUri').startsWith('mssql')) {
     await sequelizeDb.query(

@@ -190,7 +190,7 @@ function getSchema(connection) {
       };
       for (let table of tables) {
         const tableInfo = table[0];
-        if (tableInfo.kind !== 'bigquery#table') continue; // eslint-disable-line no-continue
+        if (tableInfo.kind !== 'bigquery#table') continue;  
         const datasetId = tableInfo.tableReference.datasetId;
         const tableId = tableInfo.tableReference.tableId;
         const fields = tableInfo.schema.fields;

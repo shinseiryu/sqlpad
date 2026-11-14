@@ -80,7 +80,6 @@
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
     "pino": "^9.3.2",
-    "prettier": "^2.6.2",
     "query-string": "^9.1.0",
     "redis": "^4.0.6",
     "rimraf": "^6.0.1",
@@ -101,16 +100,18 @@
     "sqlpad": "server.js"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "bytes": "^3.1.2",
-    "eslint": "^8.13.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^18.5.0",
+    "globals": "^17.14.0",
     "mocha": "^10.0.0",
     "ncp": "^2.0.0",
     "node-dev": "8.0.0",
     "parse-link-header": "^2.0.0",
     "pino-pretty": "^11.2.2",
+    "prettier": "^3.10.1",
     "supertest": "^7.0.0",
     "traverse": "^0.6.6"
   }

@@ -7,9 +7,10 @@ import url from 'url';
  * @param {import('../lib/logger')} appLog
  * @param {object} sequelizeDb - sequelize instance
  */
-// eslint-disable-next-line no-unused-vars
+ 
 export async function up(queryInterface, config, appLog, sequelizeDb) {
   const backendDatabaseUri = config.get('backendDatabaseUri');
+  // eslint-disable-next-line n/no-deprecated-api -- legacy migration, keep behavior unchanged
   const urlParts = url.parse(backendDatabaseUri);
   const dialect = backendDatabaseUri
     ? urlParts.protocol.replace(/:$/, '')

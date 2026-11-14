@@ -69,7 +69,6 @@ class Client {
         .filter((s) => s && s.trim() !== '');
 
       for (const query of queries) {
-        // eslint-disable-next-line no-await-in-loop
         await this.runQuery(query);
       }
     }

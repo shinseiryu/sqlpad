@@ -17,7 +17,7 @@ function StatementTableRow({ statement }: { statement: Statement }) {
   const { config } = useAppContext();
   const hasRows = statement.rowCount !== undefined && statement.rowCount > 0;
 
-  let statusContent = null;
+  let statusContent: React.ReactNode;
   if (statement.status === 'started') {
     statusContent = <SpinKitRow />;
   } else if (statement.status === 'error') {

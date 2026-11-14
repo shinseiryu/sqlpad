@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import appLog from '../app-log.js';
 
 import configItems from './config-items.js';

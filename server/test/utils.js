@@ -216,7 +216,6 @@ class TestUtils {
 
     if (withUsers) {
       for (const key of Object.keys(this.users)) {
-        // eslint-disable-next-line no-await-in-loop
         await this.addUserApiHelper(key, this.users[key]);
       }
     }

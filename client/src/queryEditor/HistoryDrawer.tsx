@@ -34,7 +34,7 @@ function HistoryDrawer({ onClose, visible }: Props) {
     if (visible && batchLength > 0) {
       // Without setTimeout this fires too soon? This is sort of hacky and could be fragile
       setTimeout(() => {
-        bottomEl && bottomEl.current && bottomEl.current.scrollIntoView(false);
+        bottomEl.current?.scrollIntoView(false);
       }, 50);
     }
   }, [batchLength, visible]);

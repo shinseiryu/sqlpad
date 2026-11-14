@@ -6,7 +6,6 @@ import Sequelize from 'sequelize';
  * @param {import('../lib/logger')} appLog
  * @param {object} sequelizeDb - sequelize instance
  */
-// eslint-disable-next-line no-unused-vars
 export async function up(queryInterface, config, appLog, sequelizeDb) {
   /**
    * Creates a query history view off of batches and statements tables

@@ -47,7 +47,7 @@ async function postJson(url, body) {
       .filter((line) => !line.startsWith('at '))
       .join('\n ');
 
-    throw new Error(cleanedText);
+    throw new Error(cleanedText, { cause: error });
   }
   return res;
 }

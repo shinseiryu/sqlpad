@@ -53,7 +53,6 @@ const SequelizeStore = SequelizeStoreFactory(session.Store);
 // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
 // If this is not done, then a JSON.stringify(BigInt) throws
 // "TypeError: Do not know how to serialize a BigInt"
-/* global BigInt:writable */
 /* eslint no-extend-native: ["error", { "exceptions": ["BigInt"] }] */
 BigInt.prototype.toJSON = function () {
   return this.toString();

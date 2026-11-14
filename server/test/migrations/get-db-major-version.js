@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import assert from 'assert';
 import path from 'path';
 import allNcp from 'ncp'; // not ESM, so we name this funky thing allNcp?

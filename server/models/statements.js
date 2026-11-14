@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import util from 'util';
 
 import path from 'path';

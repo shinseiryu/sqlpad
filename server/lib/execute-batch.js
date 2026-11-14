@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import ConnectionClient from './connection-client.js';
 
 /**

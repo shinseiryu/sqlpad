@@ -216,7 +216,6 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
             priorKeyword = mostRecentKeyword;
             wanted = 'TABLE';
           }
-          r = 0;
           break;
         }
       }

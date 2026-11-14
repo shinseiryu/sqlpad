@@ -81,7 +81,6 @@ async function getSchema(connection) {
   const { tables } = await pinot.getTables(connection.controllerUrl);
 
   for (const table of tables) {
-    // eslint-disable-next-line no-await-in-loop
     const schema = await pinot.getTableSchema(connection.controllerUrl, table);
     for (const dimension of schema.dimensionFieldSpecs) {
       columnRows.push({

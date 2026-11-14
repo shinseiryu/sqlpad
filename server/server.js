@@ -1,4 +1,4 @@
-#!/usr/bin/env nodeimport fs from 'fs';
+#!/usr/bin/env node
 import http from 'http';
 import https from 'https';
 import minimist from 'minimist';
@@ -37,13 +37,11 @@ function cliHas(value) {
 }
 
 if (argv.version || cliHas('version')) {
-  // eslint-disable-next-line no-console
   console.log('SQLPad version %s', packageJson.version);
   process.exit(0);
 }
 
 if (argv.help || cliHas('help')) {
-  // eslint-disable-next-line no-console
   console.log(helpText);
   process.exit(0);
 }

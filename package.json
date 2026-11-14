@@ -3,23 +3,22 @@
   "version": "7.5.7",
   "private": true,
   "devDependencies": {
-    "husky": "^9.0.6",
-    "lint-staged": "^15.2.0",
-    "prettier": "^2.6.2"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.10.1"
   },
   "prettier": {
     "singleQuote": true
   },
   "lint-staged": {
-    "*.{js,json,css}": [
+    "*.{js,mjs,ts,tsx,json,css}": [
       "prettier --write"
     ]
   },
   "scripts": {
     "fixlint": "pnpm --filter sqlpad-front-end fixlint && pnpm --filter sqlpad fixlint && prettier --write \"**/*.js\"",
     "lint": "pnpm --filter sqlpad-front-end lint && pnpm --filter sqlpad lint && prettier --check \"**/*.js\"",
-    "prepare": "husky",
-    "precommit": "lint-staged"
+    "prepare": "husky"
   },
   "packageManager": "pnpm@12.18.0"
 }

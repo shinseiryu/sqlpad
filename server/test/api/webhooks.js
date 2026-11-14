@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import assert from 'assert';
 import TestUtils from '../utils.js';
 import serverDirname from '../../server-dirname.cjs';
