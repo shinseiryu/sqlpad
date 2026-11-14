@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y \
     && ( \
     if [ "$ODBC_ENABLED" = "true" ] ; \
     then \
-    echo "Installing ODBC build dependencies." 1>&2 ;\
-    apt-get install -y unixodbc-dev ;\
+    echo "Installing ODBC build dependencies." 1>&2 &&\
+    apt-get install -y unixodbc-dev &&\
     npm install -g node-gyp ;\
     fi\
     ) \
@@ -64,8 +64,8 @@ RUN mkdir -p /etc/docker-entrypoint.d \
     && ( \
     if [ "$ODBC_ENABLED" = "true" ] ; \
     then \
-    echo "Installing ODBC runtime dependencies." 1>&2 ;\
-    apt-get install -y unixodbc libaio1t64 odbcinst libodbc1 ;\
+    echo "Installing ODBC runtime dependencies." 1>&2 &&\
+    apt-get install -y unixodbc libaio1t64 odbcinst libodbc2 &&\
     touch /etc/odbcinst.ini ;\
     fi\
     ) \
