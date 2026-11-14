@@ -1,4 +1,4 @@
-import sqlLimiter from 'sql-limiter';
+import sqlLimiter from '../lib/sql-limiter/index.cjs';
 import _ from 'lodash';
 import ensureJson from './ensure-json.js';
 

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import pg from 'pg';
-import sqlLimiter from 'sql-limiter';
+import sqlLimiter from '../../lib/sql-limiter/index.cjs';
 import appLog from '../../lib/app-log.js';
 import { formatSchemaQueryResults } from '../utils.js';
 

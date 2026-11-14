@@ -1,7 +1,7 @@
 import fs from 'fs';
 import mysql from 'mysql2/promise';
 import appLog from '../../lib/app-log.js';
-import sqlLimiter from 'sql-limiter';
+import sqlLimiter from '../../lib/sql-limiter/index.cjs';
 import { formatSchemaQueryResults } from '../utils.js';
 import { resolvePositiveNumber } from '../../lib/resolve-number.js';
 
