@@ -18,7 +18,7 @@ const CLAIMS = {
 
 /**
  * This should ne widely accaptable.
- * @param {import('passport-saml').Profile} p
+ * @param {import('@node-saml/passport-saml').Profile} p
  */
 function getSamlName(p) {
   // azure...
@@ -40,7 +40,7 @@ function getSamlName(p) {
 /**
  * Use claims to determine the role of the user instead of having it managed in SQLPad.
  *
- * @param {import('passport-saml').Profile} p
+ * @param {import('@node-saml/passport-saml').Profile} p
  */
 function isAdmin(p, samlAdminGroup) {
   // The saml api only gives an array if more then one value for an attribute is given otherwise a plain string.

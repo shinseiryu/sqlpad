@@ -30,10 +30,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4 # version from package.json packageManager
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: pnpm
 
       - name: Build for ${{ matrix.node-version }}
         run: scripts/build.sh
@@ -58,10 +61,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4 # version from package.json packageManager
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: pnpm
 
       - name: Start redis
         run: docker compose -f server/docker-compose.yml up -d redis &
@@ -74,7 +80,7 @@ jobs:
         run: docker compose -f server/docker-compose.yml up -d ${{ matrix.backendtype }} &
 
       - name: Install node modules
-        run: (cd server && yarn)
+        run: pnpm install --frozen-lockfile --filter sqlpad
 
       - name: Download built artifacts
         uses: actions/download-artifact@v4
