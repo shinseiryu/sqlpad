@@ -1,14 +1,14 @@
 # Need to remote into this image and debug some flow? 
-# docker run -it --rm node:20-slim /bin/ash
-FROM node:20-slim AS build
+# docker run -it --rm node:26-slim /bin/bash
+FROM node:26-slim AS build
 ARG ODBC_ENABLED=false
 RUN apt-get update && apt-get install -y \
     python3 make g++ python3-dev  \
     && ( \
     if [ "$ODBC_ENABLED" = "true" ] ; \
     then \
-    echo "Installing ODBC build dependencies." 1>&2 ;\
-    apt-get install -y unixodbc-dev ;\
+    echo "Installing ODBC build dependencies." 1>&2 &&\
+    apt-get install -y unixodbc-dev &&\
     npm install -g node-gyp ;\
     fi\
     ) \
@@ -29,6 +29,10 @@ COPY ./server/package* ./server/
 COPY ./yarn* ./
 COPY ./client/yarn* ./client/
 COPY ./server/yarn* ./server/
+
+# Node 25+ images no longer bundle Yarn or Corepack; install the version
+# pinned in the root package.json `packageManager` field.
+RUN npm install -g yarn@1.22.19
 
 # Install dependencies
 # Timeout increase necessary for mdi-react timeout
@@ -51,7 +55,7 @@ RUN npm run build --prefix client && \
 
 # Start another stage with a fresh node
 # Copy the server directory that has all the necessary node modules + front end build
-FROM node:20-slim as bundle
+FROM node:26-slim AS bundle
 ARG ODBC_ENABLED=false
 
 # Create a directory for the hooks and optionaly install ODBC
@@ -60,8 +64,8 @@ RUN mkdir -p /etc/docker-entrypoint.d \
     && ( \
     if [ "$ODBC_ENABLED" = "true" ] ; \
     then \
-    echo "Installing ODBC runtime dependencies." 1>&2 ;\
-    apt-get install -y unixodbc libaio1 odbcinst libodbc1 ;\
+    echo "Installing ODBC runtime dependencies." 1>&2 &&\
+    apt-get install -y unixodbc libaio1t64 odbcinst libodbc2 &&\
     touch /etc/odbcinst.ini ;\
     fi\
     ) \
@@ -71,9 +75,9 @@ WORKDIR /usr/app
 COPY --from=build /sqlpad/docker-entrypoint /
 COPY --from=build /sqlpad/server .
 
-ENV NODE_ENV production
-ENV SQLPAD_DB_PATH /var/lib/sqlpad
-ENV SQLPAD_PORT 3000
+ENV NODE_ENV=production
+ENV SQLPAD_DB_PATH=/var/lib/sqlpad
+ENV SQLPAD_PORT=3000
 EXPOSE 3000
 ENTRYPOINT ["/docker-entrypoint"]
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+- Node 24 or later required; Docker image now uses Node 26 (Debian 13)
+- Docker images published to ghcr.io/shinseiryu/sqlpad
+
 ## [7.5.7] - 2025-08-21
 
 - Revert client dependency updates
