@@ -26,7 +26,7 @@ const IconMenu = ({ children, icon, tooltip, variant, ...rest }: Props) => {
             {
               size: ICON_SIZE,
             },
-            null
+            null,
           )}
       </MenuButton>
       <MenuList className="slide-down">{children}</MenuList>

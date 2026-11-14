@@ -16,7 +16,7 @@ function EditUserForm({ userId }: any) {
   const [role, setRole] = useState(user?.role);
   const [passwordResetId, setPasswordResetId] = useState(user?.passwordResetId);
   const [syncAuthRole, setSyncAuthRole] = useState<boolean | undefined | null>(
-    user?.syncAuthRole
+    user?.syncAuthRole,
   );
 
   useEffect(() => {

@@ -19,7 +19,7 @@ describe('drivers/fake-redshift', function () {
     await redshift.runQuery('DROP TABLE IF EXISTS sqlpad_test;', connection);
     await redshift.runQuery(
       'CREATE TABLE sqlpad_test (id INT, name TEXT);',
-      connection
+      connection,
     );
   });
 
@@ -34,7 +34,7 @@ describe('drivers/fake-redshift', function () {
         'public',
         'sqlpad_test',
         'id',
-        'int4'
+        'int4',
       );
     });
   });
@@ -76,12 +76,12 @@ describe('drivers/fake-redshift', function () {
     await client.connect();
 
     const results1 = await client.runQuery(
-      'SELECT * FROM generate_series(1, 10) g1'
+      'SELECT * FROM generate_series(1, 10) g1',
     );
     assert.equal(results1.incomplete, false);
     assert.equal(results1.rows.length, 10);
     const results2 = await client.runQuery(
-      'SELECT * FROM generate_series(1, 10) g1'
+      'SELECT * FROM generate_series(1, 10) g1',
     );
     assert.equal(results2.incomplete, false);
     assert.equal(results2.rows.length, 10);
@@ -99,7 +99,7 @@ describe('drivers/fake-redshift', function () {
     assert(error);
     assert(
       error.message.includes('fake_table'),
-      'Error message has table reference'
+      'Error message has table reference',
     );
   });
 });

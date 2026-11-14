@@ -27,7 +27,7 @@ async function listConnectionAccesses(req, res) {
 router.get(
   '/api/connection-accesses',
   mustBeAuthenticated,
-  wrap(listConnectionAccesses)
+  wrap(listConnectionAccesses),
 );
 
 /**
@@ -37,7 +37,7 @@ router.get(
 async function getConnectionAccess(req, res) {
   const { models } = req;
   const connectionAccess = await models.connectionAccesses.findOneById(
-    req.params.id
+    req.params.id,
   );
   return res.utils.data(connectionAccess);
 }
@@ -45,7 +45,7 @@ async function getConnectionAccess(req, res) {
 router.get(
   '/api/connection-accesses/:id',
   mustBeAuthenticated,
-  wrap(getConnectionAccess)
+  wrap(getConnectionAccess),
 );
 
 /**
@@ -71,7 +71,7 @@ async function createConnectionAccess(req, res) {
     }
     if (user.role === 'admin') {
       return res.utils.error(
-        'User is admin and already has access to connection'
+        'User is admin and already has access to connection',
       );
     }
   }
@@ -84,7 +84,7 @@ async function createConnectionAccess(req, res) {
   let activeAccess =
     await models.connectionAccesses.findOneActiveByConnectionIdAndUserId(
       req.body.connectionId,
-      req.body.userId
+      req.body.userId,
     );
   if (activeAccess) {
     return res.utils.error('User has active access to connection');
@@ -102,7 +102,7 @@ async function createConnectionAccess(req, res) {
 router.post(
   '/api/connection-accesses',
   mustBeAdmin,
-  wrap(createConnectionAccess)
+  wrap(createConnectionAccess),
 );
 
 /**
@@ -112,7 +112,7 @@ router.post(
 async function updateConnectionAccess(req, res) {
   const { models } = req;
   const connectionAccess = await models.connectionAccesses.expire(
-    req.params.id
+    req.params.id,
   );
   return res.utils.data(connectionAccess);
 }
@@ -120,7 +120,7 @@ async function updateConnectionAccess(req, res) {
 router.put(
   '/api/connection-accesses/:id/expire',
   mustBeAdmin,
-  wrap(updateConnectionAccess)
+  wrap(updateConnectionAccess),
 );
 
 export default router;

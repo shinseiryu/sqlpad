@@ -105,7 +105,7 @@ export function parseConnectionsFromEnv(env) {
     ([id, connection]) => {
       connection.id = id;
       return connection;
-    }
+    },
   );
 
   return connectionsFromConfig;

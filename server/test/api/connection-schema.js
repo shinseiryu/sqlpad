@@ -57,7 +57,7 @@ describe('api/connections/<id>/schema', function () {
   it('Gets schema-info honoring connection templates', async function () {
     const body1 = await utils.get(
       'user1',
-      `/api/connections/${connection.id}/schema`
+      `/api/connections/${connection.id}/schema`,
     );
     assert(body1, 'body');
 
@@ -72,37 +72,37 @@ describe('api/connections/<id>/schema', function () {
     // Ensure proper access for user1
     assert(
       body1.schemas[0].tables.find((t) => t.name === 'user1'),
-      'user1 table exists'
+      'user1 table exists',
     );
     assert(
       !body1.schemas[0].tables.find((t) => t.name === 'user2'),
-      'user2 table does not exist'
+      'user2 table does not exist',
     );
 
     // Ensure proper access for user2
     const body2 = await utils.get(
       'user2',
-      `/api/connections/${connection.id}/schema`
+      `/api/connections/${connection.id}/schema`,
     );
     assert(
       !body2.schemas[0].tables.find((t) => t.name === 'user1'),
-      'user1 table does not exist'
+      'user1 table does not exist',
     );
     assert(
       body2.schemas[0].tables.find((t) => t.name === 'user2'),
-      'user2 table exists'
+      'user2 table exists',
     );
   });
 
   it('Read from cache is successful', async function () {
     const body1 = await utils.get(
       'user1',
-      `/api/connections/${connection.id}/schema`
+      `/api/connections/${connection.id}/schema`,
     );
     assert(body1, 'body');
     assert(
       body1.schemas[0].tables.find((t) => t.name === 'user1'),
-      'user1 table exists'
+      'user1 table exists',
     );
   });
 });

@@ -117,7 +117,7 @@ function QueryHistoryContent() {
         onClick={handleAddFilter}
       >
         Add Filter
-      </Button>
+      </Button>,
     );
   } else {
     filterForm = (

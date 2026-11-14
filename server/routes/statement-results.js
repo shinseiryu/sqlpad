@@ -69,11 +69,11 @@ async function handleDownload(req, res) {
   const name = batch.name || 'SQLPad Query Results';
   const simpleDate = moment().format('YYYY-MM-DD');
   const filename = encodeURIComponent(
-    sanitize(`${name} ${simpleDate}.${format}`)
+    sanitize(`${name} ${simpleDate}.${format}`),
   );
   res.setHeader(
     'Content-disposition',
-    'attachment; filename="' + filename + '"'
+    'attachment; filename="' + filename + '"',
   );
 
   // Convert row data to formats for exports
@@ -83,7 +83,7 @@ async function handleDownload(req, res) {
   // For example, sending a date object doesn't make it a date cell
   const rowsForExport = rows.map((row) => {
     const convertedRow = statement.columns.map((col, index) =>
-      renderValue(row[index], col)
+      renderValue(row[index], col),
     );
     return convertedRow;
   });
@@ -97,13 +97,13 @@ async function handleDownload(req, res) {
   if (format === 'xlsx') {
     res.setHeader(
       'Content-Type',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     );
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(
       workbook,
       XLSX.utils.aoa_to_sheet([columnNames].concat(rowsForExport)),
-      'query-results'
+      'query-results',
     );
     const xlsxBuffer = XLSX.write(workbook, {
       type: 'buffer',
@@ -131,7 +131,7 @@ async function handleDownload(req, res) {
 router.get(
   '/statement-results/:statementId.:format',
   mustBeAuthenticated,
-  wrap(handleDownload)
+  wrap(handleDownload),
 );
 
 export default router;

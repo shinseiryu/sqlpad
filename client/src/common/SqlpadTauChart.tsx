@@ -49,7 +49,7 @@ function SqlpadTauChart({
       const chartConfig = getTauChartConfig(
         chartConfiguration,
         columns,
-        dataRows
+        dataRows,
       );
       if (chartConfig) {
         chart = new Chart(chartConfig);

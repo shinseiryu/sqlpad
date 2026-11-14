@@ -14,7 +14,7 @@ async function addOrReplaceIndex(
   tableName,
   indexName,
   fields,
-  options = {}
+  options = {},
 ) {
   const indexes = await queryInterface.showIndex(tableName);
 

@@ -128,12 +128,12 @@ async function makeApp(config, models) {
   app.use(
     bodyParser.json({
       limit: config.get('bodyLimit'),
-    })
+    }),
   );
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    })
+    }),
   );
 
   const cookieMaxAgeMs = parseInt(config.get('sessionMinutes'), 10) * 60 * 1000;
@@ -281,7 +281,7 @@ async function makeApp(config, models) {
   const indexPath = path.join(serverDirname, 'public/index.html');
   const indexTemplatePath = path.join(
     serverDirname,
-    'public/index-template.html'
+    'public/index-template.html',
   );
 
   if (fs.existsSync(indexPath)) {

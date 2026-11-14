@@ -28,5 +28,5 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-function': 'off',
     },
   },
-  prettier
+  prettier,
 );

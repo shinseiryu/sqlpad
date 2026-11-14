@@ -72,7 +72,7 @@ function StatementsTable({ statements }: { statements: Statement[] }) {
   let errorRow = null;
   let filteredStatements = statements;
   const errorIndex = statements.findIndex(
-    (statement) => statement.status === 'error'
+    (statement) => statement.status === 'error',
   );
   if (errorIndex > -1) {
     filteredStatements = statements.slice(0, errorIndex + 1);

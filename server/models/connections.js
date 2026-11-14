@@ -26,7 +26,7 @@ class Connections {
       copy.isAsynchronous = false;
     } else {
       copy.supportsConnectionClient = Boolean(
-        drivers[connection.driver].Client
+        drivers[connection.driver].Client,
       );
       copy.isAsynchronous = Boolean(drivers[connection.driver].asynchronous);
     }

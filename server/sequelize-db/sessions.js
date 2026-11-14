@@ -26,7 +26,7 @@ export default function (sequelize) {
     {
       tableName: 'sessions',
       underscored: true,
-    }
+    },
   );
 
   return Sessions;

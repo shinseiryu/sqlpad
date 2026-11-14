@@ -58,7 +58,7 @@ export async function up(queryInterface, config, appLog) {
     queryInterface,
     'queries',
     'queries_created_by',
-    ['created_by']
+    ['created_by'],
   );
 
   await queryInterface.createTable(
@@ -84,21 +84,21 @@ export async function up(queryInterface, config, appLog) {
           fields: ['query_id', 'tag'],
         },
       },
-    }
+    },
   );
 
   await migrationUtils.addOrReplaceIndex(
     queryInterface,
     'query_tags',
     'query_tags_tag',
-    ['tag']
+    ['tag'],
   );
 
   await migrationUtils.addOrReplaceIndex(
     queryInterface,
     'query_tags',
     'query_tags_tag',
-    ['tag']
+    ['tag'],
   );
 
   /**
@@ -191,14 +191,14 @@ export async function up(queryInterface, config, appLog) {
     queryInterface,
     'connection_accesses',
     'connection_accesses_connection_id',
-    ['connection_id']
+    ['connection_id'],
   );
 
   await migrationUtils.addOrReplaceIndex(
     queryInterface,
     'connection_accesses',
     'connection_accesses_user_id',
-    ['user_id']
+    ['user_id'],
   );
 
   /**
@@ -253,7 +253,7 @@ export async function up(queryInterface, config, appLog) {
           fields: ['email'],
         },
       },
-    }
+    },
   );
 
   await migrationUtils.addOrReplaceIndex(
@@ -268,7 +268,7 @@ export async function up(queryInterface, config, appLog) {
           [Sequelize.Op.ne]: null,
         },
       },
-    }
+    },
   );
 
   /**
@@ -301,7 +301,7 @@ export async function up(queryInterface, config, appLog) {
     queryInterface,
     'cache',
     'cache_expiry_date',
-    ['expiry_date']
+    ['expiry_date'],
   );
 }
 

@@ -47,7 +47,7 @@ class SchemaInfo {
     } else {
       return this.sequelizeDb.Cache.update(
         { data: schema, expiryDate, name: 'schema cache' },
-        { where: { id } }
+        { where: { id } },
       );
     }
   }

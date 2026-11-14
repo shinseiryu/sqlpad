@@ -70,7 +70,7 @@ export default function (sequelize) {
     {
       tableName: 'statements',
       underscored: true,
-    }
+    },
   );
 
   return Statements;

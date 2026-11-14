@@ -142,7 +142,7 @@ async function main() {
 
   console.log('creating regions');
   await client.runQuery(
-    'CREATE TABLE regions (id INTEGER PRIMARY KEY, region TEXT)'
+    'CREATE TABLE regions (id INTEGER PRIMARY KEY, region TEXT)',
   );
 
   for (let i = 0; i < regions.length; i++) {
@@ -150,7 +150,7 @@ async function main() {
       `INSERT INTO regions 
         (id, region) 
         VALUES 
-        (${i + 1}, '${regions[i].region}')`
+        (${i + 1}, '${regions[i].region}')`,
     );
   }
 
@@ -162,7 +162,7 @@ async function main() {
       category TEXT, 
       color TEXT,
       price REAL
-    )`
+    )`,
   );
   for (let i = 0; i < products.length; i++) {
     const product = products[i];
@@ -179,7 +179,7 @@ async function main() {
           '${product.category}', 
           '${product.color}',
           ${product.price}
-        );`
+        );`,
     );
   }
 
@@ -193,7 +193,7 @@ async function main() {
       hype INT,
       cost REAL, 
       revenue REAL
-    );`
+    );`,
   );
 
   const NUM_BATCHES = 100;
@@ -201,7 +201,7 @@ async function main() {
   for (let batch = 0; batch < NUM_BATCHES; batch++) {
     if (batch % 10 === 0) {
       console.log(
-        ((batch / NUM_BATCHES) * 100).toFixed(1) + '% test db rows inserted'
+        ((batch / NUM_BATCHES) * 100).toFixed(1) + '% test db rows inserted',
       );
     }
 
@@ -257,7 +257,7 @@ async function main() {
         hype,
         cost, 
         revenue
-      ) VALUES ${values.join(', ')};`
+      ) VALUES ${values.join(', ')};`,
     );
   }
 

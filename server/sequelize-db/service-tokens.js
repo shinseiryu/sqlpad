@@ -44,7 +44,7 @@ export default function (sequelize) {
     {
       tableName: 'service_tokens',
       underscored: true,
-    }
+    },
   );
 
   return ServiceTokens;

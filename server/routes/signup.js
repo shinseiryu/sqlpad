@@ -58,7 +58,7 @@ router.post(
   passport.authenticate('local'),
   function (req, res) {
     res.utils.data('signup', {});
-  }
+  },
 );
 
 export default router;

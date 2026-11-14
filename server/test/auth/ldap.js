@@ -161,7 +161,7 @@ describe('auth/ldap', function () {
     await utils.init();
 
     const existingUser = await utils.models.users.findOneByEmail(
-      'hermes@planetexpress.com'
+      'hermes@planetexpress.com',
     );
 
     const agent = request.agent(utils.app);
@@ -277,7 +277,7 @@ describe('auth/ldap', function () {
     await utils.init();
 
     const existingUser = await utils.models.users.findOneByEmail(
-      'fry@planetexpress.com'
+      'fry@planetexpress.com',
     );
     assert.equal(existingUser.role, 'admin');
 
@@ -317,7 +317,7 @@ describe('auth/ldap', function () {
     await utils.init();
 
     const existingUser = await utils.models.users.findOneByEmail(
-      'fry@planetexpress.com'
+      'fry@planetexpress.com',
     );
     assert.equal(existingUser.role, 'admin');
 
@@ -357,7 +357,7 @@ describe('auth/ldap', function () {
     await utils.init();
 
     const initialUser = await utils.models.users.findOneByEmail(
-      'hermes@planetexpress.com'
+      'hermes@planetexpress.com',
     );
     assert.equal(initialUser.role, 'admin');
 
@@ -374,7 +374,7 @@ describe('auth/ldap', function () {
       .expect(200);
 
     const afterSignIn1 = await utils.models.users.findOneByEmail(
-      'hermes@planetexpress.com'
+      'hermes@planetexpress.com',
     );
 
     await agent
@@ -386,12 +386,12 @@ describe('auth/ldap', function () {
       .expect(200);
 
     const afterSignIn2 = await utils.models.users.findOneByEmail(
-      'hermes@planetexpress.com'
+      'hermes@planetexpress.com',
     );
 
     assert.equal(
       afterSignIn1.updatedAt.valueOf(),
-      afterSignIn2.updatedAt.valueOf()
+      afterSignIn2.updatedAt.valueOf(),
     );
   });
 });

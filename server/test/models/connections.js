@@ -39,13 +39,13 @@ describe('config.getConnections', function () {
     assert.strictEqual(
       connection.data.host,
       'localhost',
-      'connection.data.host'
+      'connection.data.host',
     );
     assert.strictEqual(connection.data.port, '5432', 'connection.data.port');
     assert.strictEqual(
       connection.data.postgresSsl,
       true,
-      'connection.data.postgresSsl'
+      'connection.data.postgresSsl',
     );
   });
 

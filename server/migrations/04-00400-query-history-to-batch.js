@@ -52,7 +52,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
     `,
     {
       type: Sequelize.QueryTypes.RAW,
-    }
+    },
   );
 }
 

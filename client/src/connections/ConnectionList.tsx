@@ -66,7 +66,7 @@ function ConnectionList() {
           onClick={() => editConnection(item)}
         >
           edit
-        </Button>
+        </Button>,
       );
       actions.push(
         <DeleteConfirmButton
@@ -78,7 +78,7 @@ function ConnectionList() {
           style={{ marginLeft: 8 }}
         >
           Delete
-        </DeleteConfirmButton>
+        </DeleteConfirmButton>,
       );
     }
 

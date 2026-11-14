@@ -31,14 +31,14 @@ async function testBatchToCompletion(config) {
 
   const statements = await utils.get(
     'admin',
-    `/api/batches/${batch.id}/statements`
+    `/api/batches/${batch.id}/statements`,
   );
 
   const statement1 = statements[0];
 
   let result1 = await utils.get(
     'admin',
-    `/api/statements/${statement1.id}/results`
+    `/api/statements/${statement1.id}/results`,
   );
   assert.deepEqual(result1, [[1, 'blue']], 'results as expected');
 

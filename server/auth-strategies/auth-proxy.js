@@ -22,7 +22,7 @@ async function authProxyStrategy(req, done) {
     // This shouldn't happen as the header deriving happens in middleware
     if (!headerUser) {
       appLog.warn(
-        'Auth proxy authentication attempted, but req.headerUser not populated'
+        'Auth proxy authentication attempted, but req.headerUser not populated',
       );
       return done(null, false);
     }

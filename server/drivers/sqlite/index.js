@@ -45,7 +45,7 @@ class Client {
               return reject(err);
             }
             return resolve();
-          }
+          },
         );
       });
     }
@@ -164,9 +164,9 @@ async function getSchema(connection) {
     const columnRows = [];
     for (const tableRow of queryResult.rows) {
       const { table_name } = tableRow;
-       
+
       const columnQueryResult = await db.runQuery(
-        `PRAGMA table_info(${table_name})`
+        `PRAGMA table_info(${table_name})`,
       );
       columnQueryResult.rows.forEach((row) => {
         columnRows.push({

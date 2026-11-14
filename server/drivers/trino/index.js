@@ -77,7 +77,7 @@ function testConnection(connection) {
 function getSchema(connection) {
   const schemaSql = getTrinoSchemaSql(connection.catalog, connection.schema);
   return runQuery(schemaSql, connection).then((queryResult) =>
-    formatSchemaQueryResults(queryResult)
+    formatSchemaQueryResults(queryResult),
   );
 }
 

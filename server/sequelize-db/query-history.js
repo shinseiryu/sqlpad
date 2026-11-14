@@ -53,7 +53,7 @@ export default function (sequelize) {
       underscored: true,
       updatedAt: false,
       createdAt: false,
-    }
+    },
   );
 
   return QueryHistory;

@@ -51,7 +51,7 @@ export default function (sequelize) {
     {
       tableName: 'connection_accesses',
       underscored: true,
-    }
+    },
   );
 
   return ConnectionAccesses;

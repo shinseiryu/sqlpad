@@ -74,7 +74,7 @@ function ServiceTokenList() {
             style={{ marginLeft: 8 }}
           >
             Delete
-          </DeleteConfirmButton>
+          </DeleteConfirmButton>,
         );
 
         return (

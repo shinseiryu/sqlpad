@@ -18,11 +18,11 @@ describe('api/drivers', function () {
     assert(Array.isArray(postgres.fields));
     assert(
       postgres.fields.find((field) => field.key === 'postgresSsl'),
-      'has postgres specific field'
+      'has postgres specific field',
     );
     assert(
       !postgres.fields.find((field) => field.key === 'sqlserverEncrypt'),
-      'Does not have a SQL Server field'
+      'Does not have a SQL Server field',
     );
 
     const mysql2 = drivers.find((i) => i.id === 'mysql2');

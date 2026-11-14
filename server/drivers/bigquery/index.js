@@ -16,7 +16,7 @@ function retry(
     // sig: (error: Error, retries: number) -> boolean
     check: () => false,
   },
-  retries = 0
+  retries = 0,
 ) {
   return new Promise((resolve, reject) => {
     fn()
@@ -114,7 +114,7 @@ function runQuery(queryString, connection = {}) {
           delay: 1000,
           // If not a request timeout, raise the error.
           check: (error) => error.type !== 'request-timeout',
-        }
+        },
       );
     })
     .then(([rows, nextPage]) => {
@@ -157,7 +157,7 @@ function getSchema(connection) {
   const bigquery = newBigQuery(connection);
 
   const queries = splitDatasets(connection.datasetName).map(
-    (name) => `SELECT * FROM \`${name}.__TABLES__\``
+    (name) => `SELECT * FROM \`${name}.__TABLES__\``,
   );
 
   const query = {
@@ -170,7 +170,7 @@ function getSchema(connection) {
     .createQueryJob(query)
     .then(([job]) =>
       // Waits for the query to finish
-      job.getQueryResults()
+      job.getQueryResults(),
     )
     .then(([tables]) =>
       Promise.all(
@@ -180,9 +180,9 @@ function getSchema(connection) {
             bigquery
               .dataset(table.dataset_id)
               .table(table.table_id)
-              .getMetadata()
-          )
-      )
+              .getMetadata(),
+          ),
+      ),
     )
     .then((tables) => {
       const tableSchema = {
@@ -190,7 +190,7 @@ function getSchema(connection) {
       };
       for (let table of tables) {
         const tableInfo = table[0];
-        if (tableInfo.kind !== 'bigquery#table') continue;  
+        if (tableInfo.kind !== 'bigquery#table') continue;
         const datasetId = tableInfo.tableReference.datasetId;
         const tableId = tableInfo.tableReference.tableId;
         const fields = tableInfo.schema.fields;

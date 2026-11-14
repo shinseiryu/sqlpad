@@ -13,7 +13,7 @@ const router = express.Router();
 async function testConnection(req, res) {
   const connectionClient = new ConnectionClient(
     { ...req.body, maxRows: 1 },
-    req.user
+    req.user,
   );
   // testConnection will throw if configuration is invalid
   // This is expected

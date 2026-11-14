@@ -27,7 +27,7 @@ function enableJwtServiceToken(config) {
           try {
             const { models } = req;
             const serviceToken = await models.serviceTokens.findOneByName(
-              jwt_payload.name
+              jwt_payload.name,
             );
             if (!serviceToken) {
               return done(null, false, { message: 'wrong service token' });
@@ -36,8 +36,8 @@ function enableJwtServiceToken(config) {
           } catch (error) {
             done(error);
           }
-        }
-      )
+        },
+      ),
     );
   }
 }

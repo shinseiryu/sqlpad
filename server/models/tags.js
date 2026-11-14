@@ -13,7 +13,7 @@ class Tags {
   async findDistinctTags() {
     const rows = await this.sequelizeDb.sequelize.query(
       'SELECT DISTINCT tag FROM query_tags ORDER BY tag',
-      { type: QueryTypes.SELECT }
+      { type: QueryTypes.SELECT },
     );
 
     return rows.map((row) => row.tag);

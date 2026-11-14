@@ -19,7 +19,7 @@ const scrollbarWidth = () => {
   const scrollDiv = document.createElement('div');
   scrollDiv.setAttribute(
     'style',
-    'width: 100px; height: 100px; overflow: scroll; position:absolute; top:-9999px;'
+    'width: 100px; height: 100px; overflow: scroll; position:absolute; top:-9999px;',
   );
   document.body.appendChild(scrollDiv);
   const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
@@ -283,7 +283,7 @@ class QueryResultDataTable extends React.PureComponent<
       },
       () => {
         this.recalc(columnIndex);
-      }
+      },
     );
   };
 
@@ -482,7 +482,7 @@ class QueryResultDataTable extends React.PureComponent<
                 {columns.map(({ name }, index) => {
                   const maxCharLength = columns.reduce(
                     (charLength, { name }) => Math.max(name.length, charLength),
-                    0
+                    0,
                   );
                   const value = r[index];
                   return (

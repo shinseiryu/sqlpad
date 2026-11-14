@@ -37,7 +37,7 @@ describe('drivers/bigquery', function () {
         });
     } else {
       console.log(
-        'Define BIGQUERY_TEST_GCP_PROJECT_ID, BIGQUERY_TEST_DATASET_NAME, BIGQUERY_TEST_CREDENTIALS_FILE, and BIGQUERY_TEST_DATASET_LOCATION to run the bigquery driver tests'
+        'Define BIGQUERY_TEST_GCP_PROJECT_ID, BIGQUERY_TEST_DATASET_NAME, BIGQUERY_TEST_CREDENTIALS_FILE, and BIGQUERY_TEST_DATASET_LOCATION to run the bigquery driver tests',
       );
       this.skip();
     }
@@ -57,7 +57,7 @@ describe('drivers/bigquery', function () {
         connection.datasetName,
         testTable,
         'id',
-        'INTEGER'
+        'INTEGER',
       );
     });
   });
@@ -66,7 +66,7 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT id FROM ${connection.datasetName}.${testTable} WHERE id = 1`,
-        connection
+        connection,
       )
       .then((results) => {
         assert(!results.incomplete, 'results should be marked complete');
@@ -80,7 +80,7 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT * FROM ${connection.datasetName}.${testTable}`,
-        limitedConnection
+        limitedConnection,
       )
       .then((results) => {
         assert(results.incomplete, 'results should be marked incomplete');
@@ -95,7 +95,7 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT * FROM ${connection.datasetName}.${testTable}`,
-        connectionWithoutMaxRows
+        connectionWithoutMaxRows,
       )
       .then((results) => {
         assert(!results.incomplete, 'results should be marked complete');
@@ -107,7 +107,7 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT CAST(id AS INT64) FROM ${connection.datasetName}.${testTable} WHERE id = 1`,
-        connection
+        connection,
       )
       .then((results) => {
         assert(results, 'returns results');
@@ -119,7 +119,7 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT CAST(id AS INTEGER) FROM ${connection.datasetName}.${testTable} WHERE id = 1`,
-        connection
+        connection,
       )
       .then(() => {
         assert.fail('An error should have been thrown for Legacy SQL.');
@@ -130,7 +130,7 @@ describe('drivers/bigquery', function () {
       .then(() => {
         assert(
           error.toString().includes('Type not found'),
-          'throws an exception'
+          'throws an exception',
         );
       });
   });
@@ -140,11 +140,11 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT * FROM ${connection.datasetName}.missing_table`,
-        connection
+        connection,
       )
       .then(() => {
         assert.fail(
-          'An error should have been thrown when referencing a missing table.'
+          'An error should have been thrown when referencing a missing table.',
         );
       })
       .catch((e) => {
@@ -153,7 +153,7 @@ describe('drivers/bigquery', function () {
       .then(() => {
         assert(
           error.toString().includes('was not found'),
-          'throws the correct error'
+          'throws the correct error',
         );
       });
   });
@@ -164,7 +164,7 @@ describe('drivers/bigquery', function () {
     return bigquery
       .runQuery(
         `SELECT * FLARB ${connection.datasetName}.${testTable}`,
-        connection
+        connection,
       )
       .then(() => {
         assert.fail('An error should have been thrown for bad syntax.');
@@ -176,7 +176,7 @@ describe('drivers/bigquery', function () {
         assert(error, 'An error is thrown for bad syntax');
         assert(
           error.toString().includes('Syntax error'),
-          'throws the correct error'
+          'throws the correct error',
         );
       });
   });

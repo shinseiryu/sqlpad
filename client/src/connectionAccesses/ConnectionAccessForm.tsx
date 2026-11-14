@@ -73,7 +73,7 @@ function ConnectionAccessForm({ onConnectionAccessSaved }: Props) {
     setCreating(true);
     const json = await api.post(
       '/api/connection-accesses',
-      connectionAccessEdits
+      connectionAccessEdits,
     );
     if (json.error) {
       setCreating(false);
@@ -94,15 +94,15 @@ function ConnectionAccessForm({ onConnectionAccessSaved }: Props) {
     connectionSelectOptions.push(
       <option key="loading" value="">
         Loading...
-      </option>
+      </option>,
     );
   } else {
     sortBy(connections, ['name']).forEach((connection) =>
       connectionSelectOptions.push(
         <option key={connection.id} value={connection.id}>
           {connection.name}
-        </option>
-      )
+        </option>,
+      ),
     );
   }
 
@@ -112,15 +112,15 @@ function ConnectionAccessForm({ onConnectionAccessSaved }: Props) {
     userSelectOptions.push(
       <option key="loading" value="">
         Loading...
-      </option>
+      </option>,
     );
   } else {
     sortBy(users, ['email']).forEach((user) =>
       userSelectOptions.push(
         <option key={user.id} value={user.id}>
           {user.email || user.name || user.ldapId}
-        </option>
-      )
+        </option>,
+      ),
     );
   }
 

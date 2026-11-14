@@ -82,7 +82,7 @@ async function updateUser(req, res) {
 
     if (Object.keys(rest).length > 0) {
       return res.utils.error(
-        'Only name, email, and password fields may be updated for self'
+        'Only name, email, and password fields may be updated for self',
       );
     }
 

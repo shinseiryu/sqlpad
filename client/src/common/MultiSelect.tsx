@@ -28,7 +28,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>(
     return (
       <ul ref={ref} className={classNames.join(' ')} style={style} {...rest} />
     );
-  }
+  },
 );
 
 /**
@@ -47,7 +47,7 @@ const MenuItem = React.forwardRef<MenuItemRef, MenuItemProps>(
       classNames.push(styles.itemActive);
     }
     return <li ref={ref} className={classNames.join(' ')} {...rest} />;
-  }
+  },
 );
 
 /**
@@ -59,7 +59,7 @@ const MenuItem = React.forwardRef<MenuItemRef, MenuItemProps>(
 function getMatchSorterItems(
   allItems: MultiSelectItem[],
   selectedItems: MultiSelectItem[],
-  inputValue: string
+  inputValue: string,
 ) {
   const selectedById: { [key: string]: MultiSelectItem } = {};
   selectedItems.forEach((item) => (selectedById[item.id] = item));
@@ -117,17 +117,17 @@ function MultiSelect(props: Props) {
     const filteredItems = getMatchSorterItems(
       options,
       propSelectedItems,
-      inputValue
+      inputValue,
     );
 
     // If input isn't in options or selected items, add it as an item
     const existingOption = options.find(
       (option) =>
-        option.name?.trim().toLowerCase() === inputValue.trim().toLowerCase()
+        option.name?.trim().toLowerCase() === inputValue.trim().toLowerCase(),
     );
     const existingSelection = propSelectedItems.find(
       (item) =>
-        item.name?.trim().toLowerCase() === inputValue.trim().toLowerCase()
+        item.name?.trim().toLowerCase() === inputValue.trim().toLowerCase(),
     );
 
     if (

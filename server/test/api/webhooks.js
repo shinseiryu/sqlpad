@@ -13,7 +13,7 @@ function logBody(body) {
   fs.writeFileSync(
     path.join(serverDirname, 'test/artifacts/webhook.json'),
     JSON.stringify(body, null, 2),
-    'utf8'
+    'utf8',
   );
 }
 
@@ -182,7 +182,7 @@ describe('api/webhooks', function () {
 
     const statements = await utils.get(
       'admin',
-      `/api/batches/${batch.id}/statements`
+      `/api/batches/${batch.id}/statements`,
     );
     assert.equal(statements.length, 1);
 
@@ -192,19 +192,19 @@ describe('api/webhooks', function () {
     await hookServer.close();
 
     const { body: batchCreatedBody } = hookServer.responses.find(
-      (r) => r.body.action === 'batch_created'
+      (r) => r.body.action === 'batch_created',
     );
     assert.equal(batchCreatedBody.batch.id, batch.id);
     assert.equal(batchCreatedBody.user.id, utils.users.admin.id);
 
     const { body: batchFinishedBody } = hookServer.responses.find(
-      (r) => r.body.action === 'batch_finished'
+      (r) => r.body.action === 'batch_finished',
     );
     assert.equal(batchFinishedBody.batch.id, batch.id);
     assert.equal(batchFinishedBody.user.id, utils.users.admin.id);
 
     const { body: statementCreatedBody } = hookServer.responses.find(
-      (r) => r.body.action === 'statement_created'
+      (r) => r.body.action === 'statement_created',
     );
     assert.equal(statementCreatedBody.statement.id, statement1.id);
     assert.equal(statementCreatedBody.user.id, utils.users.admin.id);
@@ -212,7 +212,7 @@ describe('api/webhooks', function () {
     assert.equal(statementCreatedBody.connection.id, connection.id);
 
     const { body: statementFinishedBody } = hookServer.responses.find(
-      (r) => r.body.action === 'statement_finished'
+      (r) => r.body.action === 'statement_finished',
     );
     assert.equal(statementFinishedBody.statement.id, statement1.id);
     assert.deepEqual(statementFinishedBody.results, [

@@ -24,7 +24,7 @@ describe('api/test-connection', function () {
         driver: 'not-real-driver',
         filename: './test/fixtures/not-real-db',
       },
-      500
+      500,
     );
   });
 });

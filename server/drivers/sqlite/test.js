@@ -33,21 +33,21 @@ describe('drivers/sqlite', function () {
       'main',
       'sqlpad_test',
       'id',
-      'INTEGER'
+      'INTEGER',
     );
     testUtils.hasColumnDataType(
       schemaInfo,
       'main',
       'sqlpad_test',
       'name',
-      'TEXT'
+      'TEXT',
     );
   });
 
   it('runQuery under limit', async function () {
     const results = await sqlite3.runQuery(
       'SELECT * FROM sqlpad_test WHERE id = 1;',
-      connection
+      connection,
     );
     assert(!results.incomplete, 'not incomplete');
     assert.equal(results.rows.length, 1, 'row length');
@@ -57,7 +57,7 @@ describe('drivers/sqlite', function () {
     const connectionWithMaxRows = { ...connection, maxRows: 2 };
     const results = await sqlite3.runQuery(
       'SELECT * FROM sqlpad_test;',
-      connectionWithMaxRows
+      connectionWithMaxRows,
     );
     assert(results.incomplete, 'incomplete');
     assert.equal(results.rows.length, 2, 'row length');
@@ -73,7 +73,7 @@ describe('drivers/sqlite', function () {
     assert(error);
     assert(
       error.message.includes('fake_table'),
-      'Error message has table reference'
+      'Error message has table reference',
     );
   });
 

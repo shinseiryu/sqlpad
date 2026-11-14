@@ -32,7 +32,7 @@ describe('api/connection-clients', function () {
   it('creator is allowed to get client', async function () {
     const body = await utils.get(
       'editor',
-      `/api/connection-clients/${connectionClient1.id}`
+      `/api/connection-clients/${connectionClient1.id}`,
     );
     assert.equal(body.id, connectionClient1.id);
   });
@@ -40,7 +40,7 @@ describe('api/connection-clients', function () {
   it('admin is allowed to get client', async function () {
     const body = await utils.get(
       'admin',
-      `/api/connection-clients/${connectionClient1.id}`
+      `/api/connection-clients/${connectionClient1.id}`,
     );
     assert.equal(body.id, connectionClient1.id);
   });
@@ -49,7 +49,7 @@ describe('api/connection-clients', function () {
     await utils.get(
       'editor2',
       `/api/connection-clients/${connectionClient1.id}`,
-      403
+      403,
     );
   });
 
@@ -70,13 +70,13 @@ describe('api/connection-clients', function () {
   it('Creator can keepAlive', async function () {
     const connectionClient = await utils.put(
       'editor',
-      `/api/connection-clients/${connectionClient1.id}`
+      `/api/connection-clients/${connectionClient1.id}`,
     );
     assert.equal(connectionClient.name, 'test connection 1');
     assert(connectionClient.id);
     assert(connectionClient.connectedAt);
     assert(
-      connectionClient.lastKeepAliveAt > connectionClient1.lastKeepAliveAt
+      connectionClient.lastKeepAliveAt > connectionClient1.lastKeepAliveAt,
     );
   });
 
@@ -85,7 +85,7 @@ describe('api/connection-clients', function () {
       'admin',
       `/api/connection-clients/${connectionClient1.id}`,
       null,
-      403
+      403,
     );
   });
 
@@ -94,7 +94,7 @@ describe('api/connection-clients', function () {
       'editor2',
       `/api/connection-clients/${connectionClient1.id}`,
       null,
-      403
+      403,
     );
   });
 
@@ -102,14 +102,14 @@ describe('api/connection-clients', function () {
     await utils.del(
       'editor2',
       `/api/connection-clients/${connectionClient1.id}`,
-      403
+      403,
     );
   });
 
   it('Creator can disconnect client', async function () {
     await utils.del(
       'editor',
-      `/api/connection-clients/${connectionClient1.id}`
+      `/api/connection-clients/${connectionClient1.id}`,
     );
 
     // connection client should now be removed
@@ -123,14 +123,14 @@ describe('api/connection-clients', function () {
       '/api/connection-clients',
       {
         connectionId: connection1.id,
-      }
+      },
     );
     await utils.del('admin', `/api/connection-clients/${connectionClient.id}`);
 
     await utils.get(
       'admin',
       `/api/connection-clients/${connectionClient.id}`,
-      404
+      404,
     );
   });
 });

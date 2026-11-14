@@ -26,7 +26,7 @@ const Tag = React.forwardRef<Ref, Props>(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default Tag;

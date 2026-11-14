@@ -36,7 +36,7 @@ function ToolbarConnectionClientButton() {
   }
 
   const connection = connections.find(
-    (connection) => connection.id === selectedConnectionId
+    (connection) => connection.id === selectedConnectionId,
   );
 
   const supportedAndEnabled =

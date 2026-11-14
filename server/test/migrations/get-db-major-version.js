@@ -9,7 +9,7 @@ ncp.limit = 16;
 
 const sourceDir = path.join(
   serverDirname,
-  'test/fixtures/v4.2.0-test-db/testdb'
+  'test/fixtures/v4.2.0-test-db/testdb',
 );
 
 function copyDbFiles(source, destination) {

@@ -60,7 +60,7 @@ export default function (sequelize) {
     {
       tableName: 'queries',
       underscored: true,
-    }
+    },
   );
 
   return Queries;

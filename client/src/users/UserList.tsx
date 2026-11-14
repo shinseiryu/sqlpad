@@ -83,7 +83,7 @@ function UserList() {
               onClick={() => setEditUser(user)}
             >
               Edit
-            </Button>
+            </Button>,
           );
           actions.push(
             <Button
@@ -93,7 +93,7 @@ function UserList() {
               onClick={() => handleDisableToggle(user)}
             >
               {user.disabled ? 'Enable' : 'Disable'}
-            </Button>
+            </Button>,
           );
           actions.push(
             <DeleteConfirmButton
@@ -103,7 +103,7 @@ function UserList() {
               style={{ marginLeft: 8 }}
             >
               Delete
-            </DeleteConfirmButton>
+            </DeleteConfirmButton>,
           );
         }
 

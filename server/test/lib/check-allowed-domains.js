@@ -13,7 +13,7 @@ describe('lib/check-allowed-domains', function () {
     assert.equal(checkAllowedDomains(allowedDomains, 'user@bar.com'), false);
     assert.equal(
       checkAllowedDomains(allowedDomains, 'user@123.baz.com'),
-      false
+      false,
     );
   });
 
@@ -25,7 +25,7 @@ describe('lib/check-allowed-domains', function () {
       // quotes. We need to make sure that we only treat the last @-delimited as
       // the domain.
       checkAllowedDomains(allowedDomains, '"user@baz.com@"@not-allowed.com'),
-      false
+      false,
     );
   });
 });

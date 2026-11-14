@@ -39,7 +39,7 @@ function ChartInputs() {
 
   const changeChartConfigurationField = (
     chartFieldId: string,
-    queryResultField: string | boolean | number
+    queryResultField: string | boolean | number,
   ) => {
     handleChartConfigurationFieldsChange(chartFieldId, queryResultField);
   };
@@ -47,7 +47,7 @@ function ChartInputs() {
   const columnNames = (columns || []).map((c) => c.name);
 
   const chartDefinition = chartDefinitions.find(
-    (def) => def.chartType === chartType
+    (def) => def.chartType === chartType,
   );
 
   if (!chartDefinition || !chartDefinition.fields) {
@@ -74,7 +74,7 @@ function ChartInputs() {
             value={selectedQueryResultField}
           >
             {selectedQueryResultField}
-          </option>
+          </option>,
         );
       }
       return (

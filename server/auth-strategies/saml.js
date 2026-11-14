@@ -139,7 +139,7 @@ function enableSaml(config) {
           const samlAssignedRole = getSamlRole(
             p,
             samlAdminGroup,
-            samlDefaultRole
+            samlDefaultRole,
           );
 
           if (user) {
@@ -148,7 +148,7 @@ function enableSaml(config) {
             }
             if (samlEnforcedRole && user.role !== samlAssignedRole) {
               appLog.debug(
-                `User '${email}' role changed to '${samlAssignedRole}' based on SAML attributes`
+                `User '${email}' role changed to '${samlAssignedRole}' based on SAML attributes`,
               );
               user = await models.users.update(user.id, {
                 name,
@@ -162,7 +162,7 @@ function enableSaml(config) {
           // If auto sign up is turned on create user
           if (config.get('samlAutoSignUp')) {
             appLog.debug(
-              `User '${email}' created with role '${samlAssignedRole}' based on SAML attributes`
+              `User '${email}' created with role '${samlAssignedRole}' based on SAML attributes`,
             );
             const newUser = await models.users.create({
               name,
@@ -175,8 +175,8 @@ function enableSaml(config) {
           }
 
           return done(null, false);
-        }
-      )
+        },
+      ),
     );
   }
 }

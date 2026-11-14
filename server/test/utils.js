@@ -37,14 +37,14 @@ class TestUtils {
         queryResultStore: 'memory',
         appLogLevel: 'error',
         backendDatabaseUri: TestUtils.randomize_dbname(
-          process.env.SQLPAD_BACKEND_DB_URI
+          process.env.SQLPAD_BACKEND_DB_URI,
         ),
         webLogLevel: 'error',
         authProxyEnabled: true,
         authProxyHeaders: 'email:X-WEBAUTH-EMAIL',
         ...args,
       },
-      {}
+      {},
     );
 
     // TODO - this is problematic because multiple TestUtils are created all at once in describe()
@@ -168,7 +168,7 @@ class TestUtils {
     this.migrator = makeMigrator(
       this.config,
       this.appLog,
-      this.sequelizeDb.sequelize
+      this.sequelizeDb.sequelize,
     );
   }
 

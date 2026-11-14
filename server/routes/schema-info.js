@@ -85,7 +85,7 @@ async function getSchemaInfo(req, res) {
 router.get(
   '/api/schema-info/:connectionId',
   mustHaveConnectionAccess,
-  wrap(getSchemaInfo)
+  wrap(getSchemaInfo),
 );
 
 export default router;

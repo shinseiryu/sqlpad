@@ -87,7 +87,7 @@ describe('api/batches', function () {
   it('gets list for query id including statements', async function () {
     const batches = await utils.get(
       'admin',
-      `/api/batches?queryId=${query.id}&includeStatements=true`
+      `/api/batches?queryId=${query.id}&includeStatements=true`,
     );
     const foundBatch = batches.find((b) => b.id === batch.id);
     assert.strictEqual(foundBatch.statements.length, 2);
@@ -96,7 +96,7 @@ describe('api/batches', function () {
   it('gets list for query id without statements', async function () {
     const batches = await utils.get(
       'admin',
-      `/api/batches?queryId=${query.id}&includeStatements=false`
+      `/api/batches?queryId=${query.id}&includeStatements=false`,
     );
     const foundBatch = batches.find((b) => b.id === batch.id);
     assert(!foundBatch.statements);
@@ -105,7 +105,7 @@ describe('api/batches', function () {
   it('gets list for no queryId including statements', async function () {
     const batches = await utils.get(
       'admin',
-      `/api/batches?queryId=null&includeStatements=true`
+      `/api/batches?queryId=null&includeStatements=true`,
     );
     const foundBatch = batches.find((b) => b.id === batchWithoutQueryId.id);
     assert.strictEqual(foundBatch.statements.length, 2);
@@ -114,7 +114,7 @@ describe('api/batches', function () {
   it('gets list for no query id without statements', async function () {
     const batches = await utils.get(
       'admin',
-      `/api/batches?queryId=null&includeStatements=false`
+      `/api/batches?queryId=null&includeStatements=false`,
     );
     const foundBatch = batches.find((b) => b.id === batchWithoutQueryId.id);
     assert(!foundBatch.statements);
@@ -133,7 +133,7 @@ describe('api/batches', function () {
 
     const statements = await utils.get(
       'admin',
-      `/api/batches/${batch.id}/statements`
+      `/api/batches/${batch.id}/statements`,
     );
     assert.equal(statements.length, 2);
 
@@ -181,13 +181,13 @@ describe('api/batches', function () {
   it('Gets statement result', async function () {
     const result1 = await utils.get(
       'admin',
-      `/api/statements/${statement1.id}/results`
+      `/api/statements/${statement1.id}/results`,
     );
     assert.deepEqual(result1, [[1, 'blue']]);
 
     const result2 = await utils.get(
       'admin',
-      `/api/statements/${statement2.id}/results`
+      `/api/statements/${statement2.id}/results`,
     );
     assert.deepEqual(result2, [
       [1, 'blue'],
@@ -198,7 +198,7 @@ describe('api/batches', function () {
     let res = await utils.getResponse(
       'admin',
       `/statement-results/${statement1.id}.csv`,
-      200
+      200,
     );
     assert.equal(res.type, 'text/csv');
     assert.equal(res.text, 'id,color\r\n1,blue');
@@ -206,7 +206,7 @@ describe('api/batches', function () {
     res = await utils.getResponse(
       'admin',
       `/statement-results/${statement1.id}.json`,
-      200
+      200,
     );
     assert.equal(res.type, 'application/json');
     assert.equal(res.text, '[{"id":1,"color":"blue"}]');
@@ -223,7 +223,7 @@ describe('api/batches', function () {
       .expect(200);
     assert.equal(
       res.type,
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     );
     const workbook = XLSX.read(res.body, { type: 'buffer' });
     assert.deepEqual(workbook.SheetNames, ['query-results']);
@@ -234,7 +234,7 @@ describe('api/batches', function () {
       [
         ['id', 'color'],
         [1, 'blue'],
-      ]
+      ],
     );
   });
 
@@ -267,7 +267,7 @@ describe('api/batches', function () {
     await utils.get(
       'admin',
       `/api/statements/${b.statements[0].id}/results`,
-      404
+      404,
     );
 
     assert.equal(b.statements[1].status, 'cancelled');
@@ -279,7 +279,7 @@ describe('api/batches', function () {
     await utils.get(
       'admin',
       `/api/statements/${b.statements[1].id}/results`,
-      404
+      404,
     );
   });
 
@@ -389,7 +389,7 @@ describe('api/batches', function () {
         connectionId: connection.id,
         batchText: massiveQuery,
       },
-      413
+      413,
     );
   });
 
@@ -406,7 +406,7 @@ describe('api/batches', function () {
       {
         connectionId: connection.id,
       },
-      400
+      400,
     );
     assert(response);
   });

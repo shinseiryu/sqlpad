@@ -76,14 +76,14 @@ export async function up(queryInterface, config, appLog) {
     queryInterface,
     'batches',
     'batches_user_id',
-    ['user_id']
+    ['user_id'],
   );
 
   await migrationUtils.addOrReplaceIndex(
     queryInterface,
     'batches',
     'batches_query_id',
-    ['query_id']
+    ['query_id'],
   );
 
   /**
@@ -149,14 +149,14 @@ export async function up(queryInterface, config, appLog) {
     queryInterface,
     'statements',
     'statements_batch_id',
-    ['batch_id']
+    ['batch_id'],
   );
 
   await migrationUtils.addOrReplaceIndex(
     queryInterface,
     'statements',
     'statements_created_at',
-    ['created_at']
+    ['created_at'],
   );
 }
 

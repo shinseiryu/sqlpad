@@ -31,7 +31,7 @@ interface FetchResponse<DataT> {
 async function fetchJson<DataT = any>(
   method: any,
   url: any,
-  body?: any
+  body?: any,
 ): Promise<FetchResponse<DataT>> {
   const BASE_URL = apiBaseUrl();
   const opts: RequestInit = {
@@ -137,7 +137,7 @@ export const api = {
 
   useQueryBatchHistory(queryId: string) {
     return useSWR<BatchHistoryItem[]>(
-      `/api/batches?queryId=${queryId}&includeStatements=true`
+      `/api/batches?queryId=${queryId}&includeStatements=true`,
     );
   },
 
@@ -215,14 +215,14 @@ export const api = {
   getConnectionSchema(connectionId: string, reload?: boolean) {
     const qs = reload ? '?reload=true' : '';
     return api.get<ConnectionSchema>(
-      `/api/connections/${connectionId}/schema${qs}`
+      `/api/connections/${connectionId}/schema${qs}`,
     );
   },
 
   useConnectionSchema(connectionId: string, reload?: boolean) {
     const qs = reload ? '?reload=true' : '';
     return useSWR<ConnectionSchema>(
-      `/api/connections/${connectionId}/schema${qs}`
+      `/api/connections/${connectionId}/schema${qs}`,
     );
   },
 

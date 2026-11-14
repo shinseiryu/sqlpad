@@ -12,7 +12,7 @@ const router = express.Router();
 async function handlePasswordReset(req, res) {
   const { models } = req;
   const user = await models.users.findOneByPasswordResetId(
-    req.params.passwordResetId
+    req.params.passwordResetId,
   );
 
   if (!user) {

@@ -66,7 +66,7 @@ export default function (sequelize) {
     {
       tableName: 'users',
       underscored: true,
-    }
+    },
   );
 
   return Users;

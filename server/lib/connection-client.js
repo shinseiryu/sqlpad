@@ -38,7 +38,7 @@ class ConnectionClient {
         renderedConnection: this.connection,
         user,
       },
-      'Rendered connection for user'
+      'Rendered connection for user',
     );
   }
 
@@ -121,7 +121,7 @@ class ConnectionClient {
             sinceLastKeepAliveMs,
             sinceLastActivityMs,
           },
-          msg
+          msg,
         );
         this.disconnect().catch((error) => appLog.error(error));
       }
@@ -160,7 +160,7 @@ class ConnectionClient {
       const driver = this.getConnectionDriver();
       appLog.debug(
         { connectionClientId: this.id, connectionName, driver },
-        'Disconnecting client connection'
+        'Disconnecting client connection',
       );
       await client.disconnect();
     }
@@ -215,7 +215,7 @@ class ConnectionClient {
       // It could just be a bad query
       appLog.info(
         { ...queryContext, error: error.toString() },
-        'Error running query'
+        'Error running query',
       );
 
       // Rethrow the error
@@ -234,7 +234,7 @@ class ConnectionClient {
           query,
         },
         'Expected rows to be an array but received %s.',
-        typeof rows
+        typeof rows,
       );
       rows = [];
     }
@@ -257,7 +257,7 @@ class ConnectionClient {
         rowCount: rows.length,
         incomplete: Boolean(incomplete),
       },
-      'Query finished'
+      'Query finished',
     );
 
     return queryResult;
@@ -314,7 +314,7 @@ class ConnectionClient {
       // It could just be a bad query
       appLog.info(
         { ...queryContext, error: error.toString() },
-        'Error running query'
+        'Error running query',
       );
 
       // Rethrow the error
@@ -330,7 +330,7 @@ class ConnectionClient {
         stopTime,
         queryRunTime,
       },
-      'Query started'
+      'Query started',
     );
     return executionId;
   }
@@ -368,7 +368,7 @@ class ConnectionClient {
     try {
       if (!connection.isAsynchronous) {
         throw new Error(
-          `Driver ${driver.name} does not support cancellation of queries`
+          `Driver ${driver.name} does not support cancellation of queries`,
         );
       }
 
@@ -389,7 +389,7 @@ class ConnectionClient {
       // It could just be a bad query
       appLog.info(
         { ...queryContext, error: error.toString() },
-        'Error cancelling query'
+        'Error cancelling query',
       );
 
       // Rethrow the error
@@ -405,7 +405,7 @@ class ConnectionClient {
         stopTime,
         queryRunTime,
       },
-      'Cancellation finished'
+      'Cancellation finished',
     );
     return true;
   }

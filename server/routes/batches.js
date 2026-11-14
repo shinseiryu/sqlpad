@@ -53,11 +53,11 @@ async function create(req, res) {
         config,
         models,
         webhooks,
-        newBatch.id
+        newBatch.id,
       ).catch((error) => appLog.error(error));
     }
     executeBatch(config, models, webhooks, newBatch.id).catch((error) =>
-      appLog.error(error)
+      appLog.error(error),
     );
   }
 
@@ -68,7 +68,7 @@ router.post(
   '/api/batches',
   mustBeAuthenticated,
   mustHaveConnectionAccess,
-  wrap(create)
+  wrap(create),
 );
 
 /**
@@ -93,7 +93,7 @@ async function list(req, res) {
     batches = await models.batches.findAllForUserQuery(
       user,
       cleanedQueryId,
-      cleanedIncludeStatements
+      cleanedIncludeStatements,
     );
   } else {
     batches = await models.batches.findAllForUser(user);
@@ -145,7 +145,7 @@ router.get(
   '/api/batches/:batchId',
   mustBeAuthenticated,
   batchToReq,
-  wrap(getBatch)
+  wrap(getBatch),
 );
 
 /**
@@ -165,7 +165,7 @@ router.get(
   '/api/batches/:batchId/statements',
   mustBeAuthenticated,
   batchToReq,
-  wrap(getBatchStatements)
+  wrap(getBatchStatements),
 );
 
 /**
@@ -186,12 +186,12 @@ async function cancel(req, res) {
   if (batch.status !== 'error') {
     if (!connection.isAsynchronous) {
       return res.utils.error(
-        'Cancel batch is only available to drivers that support cancellation'
+        'Cancel batch is only available to drivers that support cancellation',
       );
     }
 
     await cancelBatch(models, webhooks, batch.id).catch((error) =>
-      appLog.error(error)
+      appLog.error(error),
     );
   }
   const updatedBatch = await models.batches.findOneById(id);
@@ -204,7 +204,7 @@ router.put(
   mustBeAuthenticated,
   mustHaveConnectionAccess,
   batchToReq,
-  wrap(cancel)
+  wrap(cancel),
 );
 
 export default router;

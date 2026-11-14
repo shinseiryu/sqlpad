@@ -142,7 +142,7 @@ async function listQueries(req, res) {
   if (search) {
     params.search = `%${search.toLowerCase()}%`;
     whereSqls.push(
-      `( LOWER(queries.name) LIKE :search OR LOWER(queries.query_text) LIKE :search )`
+      `( LOWER(queries.name) LIKE :search OR LOWER(queries.query_text) LIKE :search )`,
     );
   }
 
@@ -239,7 +239,7 @@ async function listQueries(req, res) {
   });
 
   const decorated = queries.map((query) =>
-    decorateQueryUserAccess(query, user)
+    decorateQueryUserAccess(query, user),
   );
 
   const link = {};
@@ -250,7 +250,7 @@ async function listQueries(req, res) {
       rel: 'prev',
       url: `/api/queries?${queryString.stringify(
         { ...req.query, limit, offset: offsetNum - limitNum },
-        { arrayFormat: 'bracket' }
+        { arrayFormat: 'bracket' },
       )}`,
     };
   }
@@ -259,7 +259,7 @@ async function listQueries(req, res) {
       rel: 'next',
       url: `/api/queries?${queryString.stringify(
         { ...req.query, limit, offset: offsetNum + limitNum },
-        { arrayFormat: 'bracket' }
+        { arrayFormat: 'bracket' },
       )}`,
     };
   }

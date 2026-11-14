@@ -29,7 +29,7 @@ async function runQuery(query, connection) {
 
   const { resultTable, exceptions } = await pinot.postSql(
     connection.controllerUrl,
-    limitedQuery
+    limitedQuery,
   );
 
   if (exceptions && exceptions.length > 0) {

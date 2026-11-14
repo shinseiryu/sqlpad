@@ -14,7 +14,7 @@ describe('api/format-sql', function () {
     });
     assert.equal(
       body.query,
-      'SELECT\n  column_one,\n  column_two\nFROM\n  sometable'
+      'SELECT\n  column_one,\n  column_two\nFROM\n  sometable',
     );
   });
 });

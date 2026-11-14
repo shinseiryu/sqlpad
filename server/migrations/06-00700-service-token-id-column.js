@@ -7,7 +7,7 @@ import url from 'url';
  * @param {import('../lib/logger')} appLog
  * @param {object} sequelizeDb - sequelize instance
  */
- 
+
 export async function up(queryInterface, config, appLog, sequelizeDb) {
   const backendDatabaseUri = config.get('backendDatabaseUri');
   // eslint-disable-next-line n/no-deprecated-api -- legacy migration, keep behavior unchanged
@@ -23,7 +23,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
     } catch (error) {
       appLog.error(
         error,
-        `Error alter id column from integer to string under postgres`
+        `Error alter id column from integer to string under postgres`,
       );
     }
   } else if (dialect === 'mssql') {
@@ -53,7 +53,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
     } catch (error) {
       appLog.error(
         error,
-        `Error alter id column from integer to string under mssql`
+        `Error alter id column from integer to string under mssql`,
       );
     }
   } else {

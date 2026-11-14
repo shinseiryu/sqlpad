@@ -122,13 +122,13 @@ class Client {
     // Check to see if a custom maxrows is set, otherwise use default
     const maxRows = resolvePositiveNumber(
       this.connection.maxrows_override,
-      this.connection.maxRows
+      this.connection.maxRows,
     );
     const maxRowsPlusOne = maxRows + 1;
     const limitedQuery = sqlLimiter.limit(
       query,
       ['limit', 'fetch'],
-      maxRowsPlusOne
+      maxRowsPlusOne,
     );
 
     // TODO - use fields from driver to return columns
@@ -177,7 +177,7 @@ function testConnection(connection) {
 function getSchema(connection) {
   const schemaSql = getSchemaSql(connection.database);
   return runQuery(schemaSql, connection).then((queryResult) =>
-    formatSchemaQueryResults(queryResult)
+    formatSchemaQueryResults(queryResult),
   );
 }
 

@@ -151,7 +151,7 @@ function QueryResultHeader({ rows }: { rows: StatementResults | undefined }) {
                       const maxCharLength = columns.reduce(
                         (charLength, { name }) =>
                           Math.max(name.length, charLength),
-                        0
+                        0,
                       );
                       const value = row[colIndex];
                       return `${name.padStart(maxCharLength)}: ${value}`;
@@ -167,7 +167,7 @@ function QueryResultHeader({ rows }: { rows: StatementResults | undefined }) {
                   return Math.max(
                     result[colIndex],
                     String(value).length,
-                    columns[colIndex].name.length
+                    columns[colIndex].name.length,
                   );
                 });
               }, Array(columns.length).fill(0));
@@ -176,8 +176,8 @@ function QueryResultHeader({ rows }: { rows: StatementResults | undefined }) {
                 colWidthsByIndex.reduce(
                   (rowLength, colWidth) =>
                     rowLength + colWidth + cellSeperator.length,
-                  0
-                )
+                  0,
+                ),
               );
               const tableHeader = columns
                 .map(({ name }, colIndex) => {

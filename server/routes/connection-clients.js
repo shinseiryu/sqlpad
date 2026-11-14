@@ -39,7 +39,7 @@ async function getConnectionClient(req, res) {
   const { models, params, user } = req;
 
   const connectionClient = models.connectionClients.getOneById(
-    params.connectionClientId
+    params.connectionClientId,
   );
 
   if (!connectionClient) {
@@ -64,7 +64,7 @@ async function getConnectionClient(req, res) {
 router.get(
   '/api/connection-clients/:connectionClientId',
   mustBeAuthenticated,
-  wrap(getConnectionClient)
+  wrap(getConnectionClient),
 );
 
 /**
@@ -91,7 +91,7 @@ async function createConnectionClient(req, res) {
   try {
     connectionClient = await models.connectionClients.createNew(
       connection,
-      user
+      user,
     );
   } catch (error) {
     appLog.error(error, 'Error creating connection client');
@@ -109,7 +109,7 @@ async function createConnectionClient(req, res) {
 router.post(
   '/api/connection-clients',
   mustBeAuthenticated,
-  wrap(createConnectionClient)
+  wrap(createConnectionClient),
 );
 
 /**
@@ -121,7 +121,7 @@ async function keepAliveConnectionClient(req, res) {
   const { models, params, user } = req;
 
   const connectionClient = models.connectionClients.getOneById(
-    params.connectionClientId
+    params.connectionClientId,
   );
 
   // If no connection client it was already closed
@@ -156,7 +156,7 @@ async function keepAliveConnectionClient(req, res) {
 router.put(
   '/api/connection-clients/:connectionClientId',
   mustBeAuthenticated,
-  wrap(keepAliveConnectionClient)
+  wrap(keepAliveConnectionClient),
 );
 
 /**
@@ -169,7 +169,7 @@ async function disconnectConnectionClient(req, res) {
   const { connectionClientId } = params;
 
   const connectionClient = models.connectionClients.getOneById(
-    params.connectionClientId
+    params.connectionClientId,
   );
 
   // Only the owner of the connection or admin can disconnect the client
@@ -186,7 +186,7 @@ async function disconnectConnectionClient(req, res) {
 router.delete(
   '/api/connection-clients/:connectionClientId',
   mustBeAuthenticated,
-  wrap(disconnectConnectionClient)
+  wrap(disconnectConnectionClient),
 );
 
 export default router;

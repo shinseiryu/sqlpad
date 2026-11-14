@@ -74,7 +74,7 @@ export default function (sequelize) {
     {
       tableName: 'batches',
       underscored: true,
-    }
+    },
   );
 
   return Batches;

@@ -22,7 +22,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
         BEGIN
           CREATE TYPE [dbo].[JSON] FROM [NVARCHAR](MAX) NULL;
         END 
-      `
+      `,
     );
   }
 
@@ -74,7 +74,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
           [Sequelize.Op.ne]: null,
         },
       },
-    }
+    },
   );
 
   await migrationUtils.addOrReplaceIndex(
@@ -89,7 +89,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
           [Sequelize.Op.ne]: null,
         },
       },
-    }
+    },
   );
 }
 

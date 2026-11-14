@@ -94,8 +94,8 @@ async function enableOidc(config) {
             scope: config.get('oidcScope') || 'openid profile email roles',
           },
         },
-        openidClientHandler
-      )
+        openidClientHandler,
+      ),
     );
   }
 }
