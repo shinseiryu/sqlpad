@@ -394,4 +394,55 @@ describe('auth/ldap', function () {
       afterSignIn2.updatedAt.valueOf(),
     );
   });
+  describe('credentials', function () {
+    let utils;
+    before(async function () {
+      utils = new TestUtil({
+        ldapAuthEnabled: true,
+        ldapAutoSignUp: true,
+        ldapDefaultRole: 'editor',
+        ldapUrl: 'ldap://localhost:10389',
+        ldapBindDN: 'cn=admin,dc=planetexpress,dc=com',
+        ldapPassword: 'GoodNewsEveryone',
+        ldapSearchFilter: '(uid={{username}})',
+        ldapSearchBase: 'dc=planetexpress,dc=com',
+        ldapRoleAdminFilter: '',
+        ldapRoleEditorFilter: '',
+      });
+      await utils.init();
+    });
+
+    it('401 for wrong password', async function () {
+      await request(utils.app)
+        .post('/api/signin')
+        .send({ email: 'hermes', password: 'wrong' })
+        .expect(401);
+    });
+
+    it('401 for unknown LDAP user', async function () {
+      await request(utils.app)
+        .post('/api/signin')
+        .send({ email: 'nobody', password: 'nobody' })
+        .expect(401);
+    });
+
+    it('Escapes filter characters in username', async function () {
+      // Unescaped, (uid=*) would match every user
+      await request(utils.app)
+        .post('/api/signin')
+        .send({ email: '*', password: 'hermes' })
+        .expect(401);
+      await request(utils.app)
+        .post('/api/signin')
+        .send({ email: 'herm*', password: 'hermes' })
+        .expect(401);
+    });
+
+    it('escapeFilterValue escapes RFC 4515 characters', function () {
+      assert.equal(
+        ldapUtils.escapeFilterValue('a*b(c)d\\e\0'),
+        'a\\2ab\\28c\\29d\\5ce\\00',
+      );
+    });
+  });
 });

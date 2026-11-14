@@ -1,25 +1,9 @@
 import passport from 'passport';
-import LdapStrategy from 'passport-ldapauth';
+import passportCustom from 'passport-custom';
 import appLog from '../lib/app-log.js';
 import ldapUtils from '../lib/ldap-utils.js';
 
-/**
- * ldapjs 2 only accepts a logger whose Object.prototype.toString is
- * "[object Object]". pino >= 9.14 reports "[object Pino]", so pass a plain
- * object that forwards to pino. Remove with the ldapjs replacement (#8).
- * @param {import('pino').Logger} logger
- */
-function ldapLogger(logger) {
-  return {
-    trace: (...args) => logger.trace(...args),
-    debug: (...args) => logger.debug(...args),
-    info: (...args) => logger.info(...args),
-    warn: (...args) => logger.warn(...args),
-    error: (...args) => logger.error(...args),
-    fatal: (...args) => logger.fatal(...args),
-    child: (bindings) => ldapLogger(logger.child(bindings)),
-  };
-}
+const CustomStrategy = passportCustom.Strategy;
 
 async function enableLdap(config) {
   if (!config.get('ldapAuthEnabled')) {
@@ -55,27 +39,19 @@ async function enableLdap(config) {
   }
 
   passport.use(
-    new LdapStrategy(
-      {
-        passReqToCallback: true,
-        integrated: false,
-        // email field from local auth is used for username when using LDAP
-        usernameField: 'email',
-        passwordField: 'password',
-        server: {
-          url: config.get('ldapUrl'),
-          searchBase,
-          bindDN,
-          bindCredentials,
-          searchFilter: config.get('ldapSearchFilter'),
-          groupSearchBase: config.get('ldapSearchBase'),
-          groupSearchFilter: '(cn={{dn}})',
-          log: ldapLogger(appLog.logger),
-        },
-      },
-      async function passportLdapStrategyHandler(req, profile, done) {
+    'ldapauth',
+    new CustomStrategy(
+      // email field from local auth is used for username when using LDAP
+      async function passportLdapStrategyHandler(req, done) {
         try {
           const { models } = req;
+          const { email: username, password } = req.body || {};
+
+          const profile = await ldapUtils.authenticate(
+            config,
+            username,
+            password,
+          );
 
           if (!profile) {
             appLog.debug(`No LDAP profile found for user ${req.body.email}`);
@@ -105,9 +81,11 @@ async function enableLdap(config) {
           // ActiveDirectory will have sAMAccountName, while OpenLDAP will have uid
           let userIdFilter = '';
           if (profile.sAMAccountName) {
-            userIdFilter = `(sAMAccountName=${profile.sAMAccountName})`;
+            userIdFilter = `(sAMAccountName=${ldapUtils.escapeFilterValue(
+              profile.sAMAccountName,
+            )})`;
           } else if (profile.uid) {
-            userIdFilter = `(uid=${profile.uid})`;
+            userIdFilter = `(uid=${ldapUtils.escapeFilterValue(profile.uid)})`;
           }
 
           // Mail may not always be available on profile
@@ -137,9 +115,9 @@ async function enableLdap(config) {
             // Establish LDAP client to make additional queries
             const client = ldapUtils.getClient(config);
 
-            await ldapUtils.bindClient(client, bindDN, bindCredentials);
-
             try {
+              await ldapUtils.bindClient(client, bindDN, bindCredentials);
+
               if (adminRoleFilter) {
                 const filter = `(&${userIdFilter}${adminRoleFilter})`;
                 const results = await ldapUtils.queryLdap(
@@ -172,13 +150,9 @@ async function enableLdap(config) {
                   role = 'editor';
                 }
               }
-
+            } finally {
               // Close connection to LDAP server
-              client.unbind();
-            } catch (error) {
-              // If an error happened, make sure LDAP connection is closed then rethrow error
-              client.unbind();
-              throw error;
+              await ldapUtils.unbindClient(client);
             }
           }
 
