@@ -8,44 +8,36 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /sqlpad
 
-# By copying just the package files and installing node layers, 
-# we can take advantage of caching
-# SQLPad is really 3 node projects though
-# * root directory for linting
-# * client/ for web front end
-# * server/ for server (and what eventually holds built front end)
-COPY ./package* ./
-COPY ./client/package* ./client/
-COPY ./server/package* ./server/
-COPY ./yarn* ./
-COPY ./client/yarn* ./client/
-COPY ./server/yarn* ./server/
+# Copy only the package manifests first so the dependency install layer
+# is cached until dependencies change.
+# The repo is a pnpm workspace: server/ (API + built front end),
+# client/ (web front end) and docs/ (not needed here).
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY client/package.json ./client/
+COPY server/package.json ./server/
+COPY docs/package.json ./docs/
 
-# Node 25+ images no longer bundle Yarn or Corepack; install the version
+# Node 25+ images no longer bundle Corepack; install the pnpm version
 # pinned in the root package.json `packageManager` field.
-RUN npm install -g yarn@1.22.19
+RUN npm install -g pnpm@12.18.0
 
-# Install dependencies
-# Timeout increase necessary for mdi-react timeout
-RUN yarn config set network-timeout 600000 -g
-RUN yarn
-WORKDIR /sqlpad/client
-RUN yarn
-WORKDIR /sqlpad/server
-RUN yarn --production
-WORKDIR /sqlpad
+RUN pnpm install --frozen-lockfile --filter sqlpad --filter sqlpad-front-end
 
 # Copy rest of the project into docker
 COPY . .
 
 # Build front-end and copy files into server public dir
-RUN npm run build --prefix client && \
+RUN pnpm --filter sqlpad-front-end build && \
     rm -rf server/public && \
     mkdir server/public && \
     cp -r client/build/* server/public
 
+# Self-contained production copy of the server (prod deps only,
+# files selected by server/.npmignore)
+RUN pnpm --filter sqlpad deploy --prod /deploy
+
 # Start another stage with a fresh node
-# Copy the server directory that has all the necessary node modules + front end build
+# Copy the deployed server (node modules + front end build)
 FROM node:26-slim AS bundle
 
 # Create a directory for the hooks
@@ -55,7 +47,7 @@ RUN mkdir -p /etc/docker-entrypoint.d \
 
 WORKDIR /usr/app
 COPY --from=build /sqlpad/docker-entrypoint /
-COPY --from=build /sqlpad/server .
+COPY --from=build /deploy .
 
 ENV NODE_ENV=production
 ENV SQLPAD_DB_PATH=/var/lib/sqlpad
