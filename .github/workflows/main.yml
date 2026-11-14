@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build
-        uses: docker://node:20-slim
+        uses: docker://node:26-slim
         with:
           entrypoint: bash
           args: .github/workflows/build.sh
