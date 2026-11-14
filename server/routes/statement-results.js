@@ -1,6 +1,6 @@
 import '../typedefs.js';
 import papa from 'papaparse';
-import xlsx from 'node-xlsx';
+import * as XLSX from 'xlsx';
 import mustBeAuthenticated from '../middleware/must-be-authenticated.js';
 import wrap from '../lib/wrap.js';
 import moment from 'moment';
@@ -81,8 +81,6 @@ async function handleDownload(req, res) {
   // and strips the T and Z from JSON stringified date strings
   // TODO - for xlsx export, we should see if possible to get values formatted correctly in file
   // For example, sending a date object doesn't make it a date cell
-  // Unsure if node-xlsx (https://www.npmjs.com/package/node-xlsx) supports this.
-  // May need to use xlsx package directly (https://www.npmjs.com/package/xlsx)
   const rowsForExport = rows.map((row) => {
     const convertedRow = statement.columns.map((col, index) =>
       renderValue(row[index], col)
@@ -101,9 +99,16 @@ async function handleDownload(req, res) {
       'Content-Type',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
-    const xlsxBuffer = xlsx.build([
-      { name: 'query-results', data: [columnNames].concat(rowsForExport) },
-    ]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.aoa_to_sheet([columnNames].concat(rowsForExport)),
+      'query-results'
+    );
+    const xlsxBuffer = XLSX.write(workbook, {
+      type: 'buffer',
+      bookType: 'xlsx',
+    });
     return res.send(xlsxBuffer);
   }
 

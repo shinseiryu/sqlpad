@@ -5,6 +5,8 @@ import bytes from 'bytes';
 import fs from 'fs';
 import util from 'util';
 import path from 'path';
+import request from 'supertest';
+import * as XLSX from 'xlsx';
 import TestUtils from '../utils.js';
 const access = util.promisify(fs.access);
 
@@ -210,16 +212,31 @@ describe('api/batches', function () {
     assert.equal(res.type, 'application/json');
     assert.equal(res.text, '[{"id":1,"color":"blue"}]');
 
-    res = await utils.getResponse(
-      'admin',
-      `/statement-results/${statement1.id}.xlsx`,
-      200
-    );
+    res = await request(utils.app)
+      .get(`/statement-results/${statement1.id}.xlsx`)
+      .set('X-WEBAUTH-EMAIL', utils.users.admin.email)
+      .buffer(true)
+      .parse((response, callback) => {
+        const chunks = [];
+        response.on('data', (chunk) => chunks.push(chunk));
+        response.on('end', () => callback(null, Buffer.concat(chunks)));
+      })
+      .expect(200);
     assert.equal(
       res.type,
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
-    // For xlsx, we'll assume generated file is as expected
+    const workbook = XLSX.read(res.body, { type: 'buffer' });
+    assert.deepEqual(workbook.SheetNames, ['query-results']);
+    assert.deepEqual(
+      XLSX.utils.sheet_to_json(workbook.Sheets['query-results'], {
+        header: 1,
+      }),
+      [
+        ['id', 'color'],
+        [1, 'blue'],
+      ]
+    );
   });
 
   it('Only batch creator can view batch', async function () {

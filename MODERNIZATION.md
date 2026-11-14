@@ -6,8 +6,8 @@ This fork continues [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad), which was
 
 ## Status (2026-11-14)
 
-- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7).
-- **Next:** pnpm (#2).
+- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7); pnpm workspaces (#2).
+- **Next:** in-range dependency updates against the audit baseline below, then lint/format (#4).
 
 Tables below are the original snapshot; removed packages are marked.
 
@@ -27,11 +27,11 @@ SQLPad is four separate Node projects, each with its own `yarn.lock`:
 | Item | Current | Target | Notes |
 |---|---|---|---|
 | Node | 20 (`.nvmrc`, `node:20-slim` in Dockerfile) | 26 LTS, 24 minimum | ✅ Done (#1). Node 26 became LTS in Oct 2026 |
-| Package manager | Yarn 1.22 (classic) | pnpm workspaces | Yarn 1 is frozen; one lockfile instead of four (#2) |
+| Package manager | Yarn 1.22 (classic) | pnpm workspaces | ✅ Done (#2): pnpm 12, one `pnpm-lock.yaml` |
 | CI | none in fork | GitHub Actions | ✅ Done (#3) |
 | Lint/format | ESLint 8 + airbnb-base, Prettier 2 | ESLint flat config, Prettier 3 | airbnb-base never supported ESLint 9+ (#4) |
 
-No vulnerability audit has been run: Yarn 1's `yarn audit` relies on a retired npm endpoint. Run `pnpm audit` after #2 to get a baseline.
+**Audit baseline** (`pnpm audit`, 2026-11-14, after #2): 202 advisories across the workspace (3 critical, 102 high, 74 moderate, 23 low). Server production dependencies alone: 2 critical, 51 high, 29 moderate, 4 low, mostly via `sqlite3` (tar), `sequelize`, `express`, and `jws` (jsonwebtoken, mssql, bigquery). Many are fixable with in-range updates.
 
 ## Packages held back upstream
 

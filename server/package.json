@@ -69,7 +69,6 @@
     "mustache": "^4.2.0",
     "mysql2": "^3.10.1",
     "node-fetch": "^3.3.2",
-    "node-xlsx": "^0.24.0",
     "openid-client": "^5.3.1",
     "papaparse": "^5.3.2",
     "passport": "^0.7.0",
@@ -94,7 +93,8 @@
     "sql-limiter": "^3.0.0",
     "sqlite3": "^5.0.8",
     "umzug": "^2.3.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "main": "./app.js",
   "bin": {
@@ -113,9 +113,5 @@
     "pino-pretty": "^11.2.2",
     "supertest": "^7.0.0",
     "traverse": "^0.6.6"
-  },
-  "resolutions": {
-    "supertest/**/cookiejar": "^2.1.4",
-    "ip": "^2.0.1"
   }
 }

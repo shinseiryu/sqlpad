@@ -3,13 +3,13 @@
 ## Prerequisites
 
 - [Node](https://nodejs.org) v24 or later (v26 recommended, see `.nvmrc`)
-- [Yarn 1 (classic yarn)](https://classic.yarnpkg.com/lang/en/)
+- [pnpm](https://pnpm.io) (version pinned in `package.json` `packageManager`; `npm install -g pnpm@12.18.0`)
 - Some dependencies may require compilation. On macOS, the Xcode Command Line Tools should be installed. On Ubuntu, `apt-get install build-essential` will install the required packages. Similar commands should work on other Linux distros. Windows will require some additional steps, see the [`node-gyp` installation instructions](https://github.com/nodejs/node-gyp#installation) for details.
 
 ## Style Guide
 
 SQLPad uses an automatic code formatter called [Prettier](https://prettier.io/) and a linting tool called ESLint.
-Run `yarn run lint` after making any changes to code to check formatting and lint. Some formatting and lint may be fixed automatically by running `yarn run fixlint`.
+Run `pnpm lint` after making any changes to code to check formatting and lint. Some formatting and lint may be fixed automatically by running `pnpm fixlint`.
 
 If using Visual Studio Code, Prettier and ESLint extensions can be installed to assist in detecting and fixing issues during development.
 
@@ -25,16 +25,11 @@ If using Visual Studio Code, Prettier and ESLint extensions can be installed to 
   The gist of this script is:
 
   ```sh
-  # install root level dependencies using package-lock.json as reference
-  yarn
-  # install front-end dependencies using package-lock.json
-  cd client
-  yarn
+  # install dependencies for all workspace projects (server, client, docs)
+  pnpm install
   # build front-end
-  yarn build
-  # install back-end dependencies
-  cd ../server
-  yarn
+  cd client
+  pnpm build
   cd ..
   # copy client build to server directory
   mkdir server/public
@@ -71,14 +66,14 @@ In one session run the back end in development mode
 
 ```sh
 cd server
-yarn start
+pnpm start
 ```
 
 In the other start the development server for the front end.
 
 ```sh
 cd client
-yarn start
+pnpm start
 ```
 
 At this point you should have both back end and front end development servers running.
@@ -94,10 +89,10 @@ ESLint and Prettier are used to enforce code patterns and formatting in this pro
 
 ```sh
 # To check lint
-yarn run lint
+pnpm lint
 
 # To fix (some) errors and formatting automatically
-yarn run fixlint
+pnpm fixlint
 ```
 
 ## Developing on Windows
@@ -116,16 +111,22 @@ It can be used within SQLPad by creating a connection using the SQLite driver, a
 
 The data in the database is somewhat nonsensical. It is also not randomized so that the results can be predictable. If you'd like to expand on this database, feel free.
 
+## Dependencies
+
+The repo is a pnpm workspace (`pnpm-workspace.yaml`) with a single `pnpm-lock.yaml`. Add a dependency to one project with `pnpm --filter <name> add <pkg>` (names: `sqlpad` for server, `sqlpad-front-end` for client). pnpm only exposes declared dependencies, so import only packages listed in that project's `package.json`.
+
+Install scripts only run for packages listed under `allowBuilds` in `pnpm-workspace.yaml`.
+
 ## Running Tests
 
 SQLPad's test cases focus on the API server, with majority of tests being integration tests, with some unit tests sprinkled throughout.
 
-Tests are located under `server/test` directory, and use `mocha` as a test runner. Tests may be run by running `yarn test` within the server directory. For tests to run successfully, dependencies must be installed and the test database fixture generated.
+Tests are located under `server/test` directory, and use `mocha` as a test runner. Tests may be run by running `pnpm test` within the server directory. For tests to run successfully, dependencies must be installed and the test database fixture generated.
 
 ```sh
 cd server
 # if dependencies have not yet been installed (build.sh will do this)
-yarn
+pnpm install
 
 # If test fixture has not yet been generated (build.sh will do this)
 node generate-test-db-fixture.js
@@ -135,12 +136,12 @@ docker-compose up -d redis
 docker-compose up -d ldap
 
 # Run tests
-yarn test
+pnpm test
 
 # If you are aiming to run a specific test case,
-# you may do so using npx to call mocha,
+# you may do so using pnpm exec to call mocha,
 # specifying the path to the test file and --exit to exit after tests have run
-npx mocha test/path/to/file.js --exit
+pnpm exec mocha test/path/to/file.js --exit
 ```
 
 ## Building local docker images

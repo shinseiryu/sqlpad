@@ -10,13 +10,11 @@ if [ ! -d $SCRIPTS_DIR ] ||
     exit 1
 fi
 
-# Install node modules per package-lock.json
-yarn
-(cd $SQLPAD_CLIENT_DIR && yarn)
-(cd $SQLPAD_SERVER_DIR && yarn)
+# Install node modules for all workspace projects per pnpm-lock.yaml
+pnpm install --frozen-lockfile
 
 # Build front-end
-(cd $SQLPAD_CLIENT_DIR && yarn build)
+(cd $SQLPAD_CLIENT_DIR && pnpm build)
 
 # Copy front-end build to server directory
 rm -rf ${SQLPAD_SERVER_DIR}/public
