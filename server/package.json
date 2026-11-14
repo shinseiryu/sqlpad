@@ -29,7 +29,7 @@
   },
   "scripts": {
     "prepublishOnly": "cd .. && ./scripts/build.sh",
-    "start": "node-dev server.js -- --config \"./config.dev.env\" | pino-pretty",
+    "start": "node --watch server.js --config ./config.dev.env | pino-pretty",
     "test": "mocha test --timeout 20000 --recursive --exit --bail",
     "testmssql": "env SQLPAD_BACKEND_DB_URI='mssql://sa:SuperP4ssw0rd!@localhost:1433/dbname' npm run test",
     "testmysql": "env SQLPAD_BACKEND_DB_URI='mysql://root:root@localhost:23306/db2' npm run test",
@@ -106,11 +106,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-n": "^18.5.0",
     "globals": "^17.14.0",
-    "mocha": "^10.8.2",
-    "ncp": "^2.0.0",
-    "node-dev": "8.0.0",
+    "mocha": "^12.0.3",
     "parse-link-header": "^2.0.0",
-    "pino-pretty": "^11.3.0",
+    "pino-pretty": "^13.2.0",
     "prettier": "^3.10.1",
     "supertest": "^7.3.2",
     "traverse": "^0.6.14"

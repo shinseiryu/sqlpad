@@ -1,27 +1,13 @@
 import assert from 'assert';
+import fs from 'fs/promises';
 import path from 'path';
-import allNcp from 'ncp'; // not ESM, so we name this funky thing allNcp?
 import TestUtils from '../utils.js';
 import serverDirname from '../../server-dirname.cjs';
-
-const { ncp } = allNcp;
-ncp.limit = 16;
 
 const sourceDir = path.join(
   serverDirname,
   'test/fixtures/v4.2.0-test-db/testdb',
 );
-
-function copyDbFiles(source, destination) {
-  return new Promise((resolve, reject) => {
-    ncp(source, destination, function (err) {
-      if (err) {
-        return reject(err);
-      }
-      return resolve();
-    });
-  });
-}
 
 describe('migrations/get-db-major-version', function () {
   /**
@@ -40,7 +26,7 @@ describe('migrations/get-db-major-version', function () {
     const destination = utils.config.get('dbPath');
 
     await utils.prepDbDir();
-    await copyDbFiles(sourceDir, destination);
+    await fs.cp(sourceDir, destination, { recursive: true });
 
     await utils.initDbs();
   });

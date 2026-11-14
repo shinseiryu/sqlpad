@@ -9,6 +9,7 @@
 - Lint/format: ESLint 10 flat config (airbnb-base dropped), Prettier 3 (codebase reformatted)
 - Dependencies updated to the latest versions within their existing ranges
 - `sqlite3` 5 → 6 (SQLite 3.52; removes the vulnerable `tar` 6 install-time dependency)
+- Dev/test tooling: mocha 12, `node --watch` replaces `node-dev`, `fs.cp` replaces `ncp`, pino-pretty 13
 - Fix: `sqlpad` CLI shebang was malformed, so the globally installed command failed to start
 - Fix: batch could report an error while later statements were still queued
 - Removed drivers: `athena`, `cassandra`, `crate`, `mysql` (legacy; use `mysql2`), `unixodbc` (ODBC) and `vertica`. Saved connections using them still load but report that the driver is no longer supported. The `ODBC_ENABLED` Docker build option is gone.
