@@ -6,6 +6,8 @@
 - Docker images published to ghcr.io/shinseiryu/sqlpad
 - Package manager: Yarn 1 → pnpm workspaces (single `pnpm-lock.yaml`)
 - xlsx export uses SheetJS `xlsx` directly (replaces `node-xlsx`)
+- Lint/format: ESLint 10 flat config (airbnb-base dropped), Prettier 3 (codebase reformatted)
+- Fix: `sqlpad` CLI shebang was malformed, so the globally installed command failed to start
 - Fix: batch could report an error while later statements were still queued
 - Removed drivers: `athena`, `cassandra`, `crate`, `mysql` (legacy; use `mysql2`), `unixodbc` (ODBC) and `vertica`. Saved connections using them still load but report that the driver is no longer supported. The `ODBC_ENABLED` Docker build option is gone.
 
