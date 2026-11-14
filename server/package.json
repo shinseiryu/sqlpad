@@ -90,7 +90,7 @@
     "socksjs": "^0.5.0",
     "sql-formatter": "^2.3.4",
     "sql-limiter": "^3.1.0",
-    "sqlite3": "^5.1.7",
+    "sqlite3": "^6.0.1",
     "umzug": "^2.3.0",
     "uuid": "^10.0.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
