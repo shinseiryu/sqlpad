@@ -4,6 +4,13 @@ This fork continues [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad), which was
 
 **Plan and progress are tracked in [#23 Modernization roadmap](https://github.com/shinseiryu/sqlpad/issues/23)** and its sub-issues (#1–#22). This file is the reference analysis behind those issues. Snapshot date: **2026-11-13**, at upstream commit `57cc866b` (v7.5.7).
 
+## Status (2026-11-14)
+
+- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7).
+- **Next:** pnpm (#2).
+
+Tables below are the original snapshot; removed packages are marked.
+
 ## Project layout
 
 SQLPad is four separate Node projects, each with its own `yarn.lock`:
@@ -19,9 +26,9 @@ SQLPad is four separate Node projects, each with its own `yarn.lock`:
 
 | Item | Current | Target | Notes |
 |---|---|---|---|
-| Node | 20 (`.nvmrc`, `node:20-slim` in Dockerfile) | 24 LTS | Node 20 reached end of life in April 2026 (#1) |
+| Node | 20 (`.nvmrc`, `node:20-slim` in Dockerfile) | 26 LTS, 24 minimum | ✅ Done (#1). Node 26 became LTS in Oct 2026 |
 | Package manager | Yarn 1.22 (classic) | pnpm workspaces | Yarn 1 is frozen; one lockfile instead of four (#2) |
-| CI | none in fork | GitHub Actions | #3 |
+| CI | none in fork | GitHub Actions | ✅ Done (#3) |
 | Lint/format | ESLint 8 + airbnb-base, Prettier 2 | ESLint flat config, Prettier 3 | airbnb-base never supported ESLint 9+ (#4) |
 
 No vulnerability audit has been run: Yarn 1's `yarn audit` relies on a retired npm endpoint. Run `pnpm audit` after #2 to get a baseline.
@@ -60,12 +67,12 @@ Runtime package footprint per driver (server has 582 runtime packages). "Removed
 | drill, presto, trino, pinot | none (HTTP) | 0 | 0 | Code only |
 | **All of the above** | | 345 | **270** | |
 
-Recommended minimum: postgres (+redshift), mysql2, sqlite. Recommended removals: `mysql`, `vertica`, `crate`, and `athena` unless it's needed. In an existing installation, saved connections that use a removed driver need a clear "driver not available" error.
+**Decision (#6):** keep postgres, redshift, mysql2, sqlite, sqlserver, bigquery, clickhouse, trino, presto, drill, pinot and hdb. Removed: athena, cassandra, crate, mysql (legacy), odbc and vertica (#28). Saved connections using a removed driver report that it is no longer supported.
 
 ## Suggested order
 
-1. **Foundation** (#1–#5): Node 24, pnpm, CI, lint/format, test tooling.
-2. **Server deprecations and driver cleanup** (#6–#11): pick drivers, aws-sdk v3, ldapts, pino-http, dead packages, Node built-ins.
+1. **Foundation** (#1–#5): Node 26, pnpm, CI, lint/format, test tooling.
+2. **Server deprecations and driver cleanup** (#6–#11): pick drivers, drop Athena, ldapts, pino-http, dead packages, Node built-ins.
 3. **Server major upgrades** (#12–#16): Express 5, redis + connect-redis, auth libraries, umzug + sql-formatter, kept drivers.
 4. **Client** (#17–#22), in stages: Vite / TypeScript / React 19 first, then react-router 7, then Reach UI and icons, and charting last (the largest single piece of work).
 
@@ -80,12 +87,12 @@ Locked = version resolved in the upstream `yarn.lock`. Latest = npm `latest` tag
 | `@clickhouse/client` | 1.12.0 | 1.25.0 | 2026-11-04 | 🟢 current major |  |
 | `@google-cloud/bigquery` | 8.1.1 | 9.6.1 | 2026-11-09 | 🟠 major behind | #16 |
 | `@node-saml/passport-saml` | 5.1.0 | 5.1.1 | 2026-09-28 | 🟢 current major |  |
-| `athena-express` | 7.1.5 | 7.1.5 | 2022-03-22 | 🔴 no release since 2022 | Abandoned; requires aws-sdk v2. Drop (#7) |
-| `aws-sdk` | 2.1692.0 | 2.1693.0 | 2025-12-09 | 🔴 deprecated | v2 out of support. Athena only. → `@aws-sdk/client-athena` v3 (#7) |
+| `athena-express` | 7.1.5 | 7.1.5 | 2022-03-22 | 🔴 no release since 2022 | Removed (#28) |
+| `aws-sdk` | 2.1692.0 | 2.1693.0 | 2025-12-09 | 🔴 deprecated | Removed (#28) |
 | `bcryptjs` | 2.4.3 | 3.0.3 | 2025-11-02 | 🟠 major behind | Verify existing hashes (#14) |
 | `body-parser` | 1.20.3 | 2.4.0 | 2026-10-22 | 🟠 major behind | Use Express built-ins (#11, #12) |
 | `bytes` (dev) | 3.1.2 | 3.1.2 | 2022-01-28 | 🔴 no release since 2022 | Small and complete; fine |
-| `cassandra-driver` | 4.8.0 | 4.10.0 | 2026-09-23 | 🟢 current major |  |
+| `cassandra-driver` | 4.8.0 | 4.10.0 | 2026-09-23 | 🟢 current major | Removed (#28) |
 | `compression` | 1.8.1 | 1.8.2 | 2026-09-11 | 🟢 current major |  |
 | `connect-redis` | 7.1.1 | 10.0.0 | 2026-07-24 | 🟠 major behind | Must move with redis (#13) |
 | `connect-session-sequelize` | 7.1.7 | 8.0.6 | 2026-03-11 | 🟠 major behind | #13 |
@@ -114,14 +121,14 @@ Locked = version resolved in the upstream `yarn.lock`. Latest = npm `latest` tag
 | `moment` | 2.30.1 | 2.31.0 | 2026-09-15 | 🟢 current major | 3 uses → `Intl` / date-fns (#11) |
 | `mssql` | 11.0.1 | 12.7.14 | 2026-11-04 | 🟠 major behind | Also a backend storage option (#16) |
 | `mustache` | 4.2.0 | 4.2.0 | 2021-03-28 | 🔴 no release since 2021 | Small and complete; fine |
-| `mysql` | 2.18.1 | 2.18.1 | 2020-01-23 | 🔴 no release since 2020 | Duplicates mysql2. Drop (#6) |
+| `mysql` | 2.18.1 | 2.18.1 | 2020-01-23 | 🔴 no release since 2020 | Removed (#28) |
 | `mysql2` | 3.14.2 | 3.24.6 | 2026-10-13 | 🟢 current major | Also a backend storage option (#16) |
 | `ncp` (dev) | 2.0.0 | 2.0.0 | 2015-02-22 | 🔴 no release since 2015 | → `fs.cp` (#5) |
-| `node-crate` | 3.0.0 | 3.0.0 | 2023-03-27 | 🟢 current major | CrateDB speaks Postgres protocol; consider `pg` (#6) |
+| `node-crate` | 3.0.0 | 3.0.0 | 2023-03-27 | 🟢 current major | Removed (#28) |
 | `node-dev` (dev) | 8.0.0 | 8.0.0 | 2022-12-30 | 🔴 no release since 2022 | → `node --watch` (#5) |
 | `node-fetch` | 3.3.2 | 3.3.2 | 2023-07-25 | 🟢 current major | → global `fetch` (#11) |
 | `node-xlsx` | 0.24.0 | 0.25.0 | 2026-11-09 | 🟠 major behind |  |
-| `odbc` (optional) | 2.4.9 | 2.6.0 | 2026-09-23 | 🟢 current major |  |
+| `odbc` (optional) | 2.4.9 | 2.6.0 | 2026-09-23 | 🟢 current major | Removed (#28) |
 | `openid-client` | 5.7.1 | 6.9.0 | 2026-11-13 | 🟠 major behind | v6 is a full API rewrite (#14) |
 | `papaparse` | 5.5.3 | 5.7.1 | 2026-11-11 | 🟢 current major |  |
 | `parse-link-header` (dev) | 2.0.0 | 2.0.0 | 2021-12-16 | 🔴 no release since 2021 | Small and complete; fine |
@@ -151,7 +158,7 @@ Locked = version resolved in the upstream `yarn.lock`. Latest = npm `latest` tag
 | `traverse` (dev) | 0.6.11 | 0.6.14 | 2026-10-05 | 🟢 current major |  |
 | `umzug` | 2.3.0 | 3.8.3 | 2026-05-01 | 🟠 major behind | Held back upstream; v3 API changes (#15) |
 | `uuid` | 10.0.0 | 14.0.3 | 2026-10-10 | 🟠 major behind | → `crypto.randomUUID()` (#11, #22) |
-| `vertica` | 0.5.5 | 0.5.5 | 2016-12-01 | 🔴 no release since 2016 | Dead. → `vertica-nodejs` or drop (#6, #10) |
+| `vertica` | 0.5.5 | 0.5.5 | 2016-12-01 | 🔴 no release since 2016 | Removed (#28) |
 
 ### Client
 
