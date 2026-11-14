@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import ConnectionClient from './connection-client.js';
 
 import appLog from './app-log.js';
@@ -23,7 +22,7 @@ export async function cancelBatch(models, webhooks, batchId) {
   let disconnectOnFinish = false;
   if (batch.connectionClientId) {
     connectionClient = models.connectionClients.getOneById(
-      batch.connectionClientId
+      batch.connectionClientId,
     );
     if (!connectionClient) {
       throw new Error('Connection client disconnected');
@@ -46,7 +45,7 @@ export async function cancelBatch(models, webhooks, batchId) {
     statementStartTime = new Date();
     try {
       appLog.trace(
-        `Cancelling statement ${statement.executionId} by ${user.email} - ${statement.statementText}`
+        `Cancelling statement ${statement.executionId} by ${user.email} - ${statement.statementText}`,
       );
 
       await connectionClient.cancelQuery(statement.executionId);
@@ -64,7 +63,7 @@ export async function cancelBatch(models, webhooks, batchId) {
           title: error.message,
         },
         stopTime,
-        stopTime - statementStartTime
+        stopTime - statementStartTime,
       );
 
       const updatedBatch = await models.batches.update(batch.id, {

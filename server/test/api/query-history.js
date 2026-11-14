@@ -159,7 +159,7 @@ describe('api/query-history', function () {
     // Check if filters applied correctly
     const body = await utils.get(
       'admin',
-      '/api/query-history?filter=queryText|like|%25QUERY2%25'
+      '/api/query-history?filter=queryText|like|%25QUERY2%25',
     );
     assert.equal(body.length, 2, '2 length');
   });

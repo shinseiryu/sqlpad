@@ -62,7 +62,7 @@ setInterval(async () => {
     if (connectionClient) {
       const updateJson = await api.put(
         `/api/connection-clients/${connectionClient.id}`,
-        {}
+        {},
       );
 
       const currentConnectionClient =
@@ -122,7 +122,7 @@ function setBatch(sessionId: string, batchId: string, batch: Batch) {
 
 export const initEditor = async (
   config: AppInfo['config'],
-  connections: Connection[]
+  connections: Connection[],
 ) => {
   try {
     let [selectedConnectionId] = await Promise.all([
@@ -137,7 +137,7 @@ export const initEditor = async (
       const { defaultConnectionId } = config || {};
       if (defaultConnectionId) {
         const foundDefault = connections.find(
-          (c) => c.id === defaultConnectionId
+          (c) => c.id === defaultConnectionId,
         );
         if (foundDefault) {
           initialConnectionId = defaultConnectionId;
@@ -146,7 +146,7 @@ export const initEditor = async (
 
       if (typeof selectedConnectionId === 'string') {
         const selectedConnection = connections.find(
-          (c) => c.id === selectedConnectionId
+          (c) => c.id === selectedConnectionId,
         );
         if (selectedConnection) {
           initialConnectionId = selectedConnectionId;
@@ -157,7 +157,7 @@ export const initEditor = async (
       const qsConnectionName = qs.connectionName;
       if (qsConnectionName) {
         const selectedConnection = connections.find(
-          (c) => c.name === qsConnectionName
+          (c) => c.name === qsConnectionName,
         );
         if (selectedConnection?.id) {
           initialConnectionId = selectedConnection?.id;
@@ -167,7 +167,7 @@ export const initEditor = async (
       const qsConnectionId = qs.connectionId;
       if (qsConnectionId) {
         const selectedConnection = connections.find(
-          (c) => c.id === qsConnectionId
+          (c) => c.id === qsConnectionId,
         );
         if (selectedConnection?.id) {
           initialConnectionId = selectedConnection?.id;
@@ -223,7 +223,7 @@ export async function connectConnectionClient() {
   // May want to store selected connection instead of just id
   const { data: connections } = await api.getConnections();
   const connection = (connections || []).find(
-    (connection) => connection.id === connectionId
+    (connection) => connection.id === connectionId,
   );
 
   if (connection) {
@@ -531,7 +531,7 @@ export const cancelQuery = async () => {
 };
 
 export const setEditorBatchHistoryItem = async (
-  batchHistoryItem: BatchHistoryItem
+  batchHistoryItem: BatchHistoryItem,
 ) => {
   const { focusedSessionId } = getState();
 
@@ -750,7 +750,7 @@ export const setChartFields = (chartFields: ChartFields) => {
 
 export const handleChartConfigurationFieldsChange = (
   chartFieldId: string,
-  queryResultField: string | boolean | number
+  queryResultField: string | boolean | number,
 ) => {
   const { focusedSessionId } = getState();
   const { chartFields } = getState().getFocusedSession();

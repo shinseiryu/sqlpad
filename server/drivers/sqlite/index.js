@@ -45,7 +45,7 @@ class Client {
               return reject(err);
             }
             return resolve();
-          }
+          },
         );
       });
     }
@@ -89,9 +89,8 @@ class Client {
    */
   async runQuery(query) {
     let incomplete = false;
-    let rows = [];
     const { maxRows } = this.connection;
-    rows = await dbAllAsync(this.db, query);
+    let rows = await dbAllAsync(this.db, query);
 
     if (rows.length > maxRows) {
       rows = rows.slice(0, maxRows);
@@ -165,9 +164,9 @@ async function getSchema(connection) {
     const columnRows = [];
     for (const tableRow of queryResult.rows) {
       const { table_name } = tableRow;
-      // eslint-disable-next-line no-await-in-loop
+
       const columnQueryResult = await db.runQuery(
-        `PRAGMA table_info(${table_name})`
+        `PRAGMA table_info(${table_name})`,
       );
       columnQueryResult.rows.forEach((row) => {
         columnRows.push({

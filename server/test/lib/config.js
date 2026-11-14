@@ -45,24 +45,24 @@ describe('lib/config/from-cli', function () {
 describe('lib/config', function () {
   it('Error: Unknown session store', function () {
     configHasError({ sessionStore: 'not-real-store' }, (error) =>
-      error.includes('SQLPAD_SESSION_STORE must be one of')
+      error.includes('SQLPAD_SESSION_STORE must be one of'),
     );
   });
 
   it('Error: Unknown query result store', function () {
     configHasError({ queryResultStore: 'not-real-store' }, (error) =>
-      error.includes('SQLPAD_QUERY_RESULT_STORE must be one of')
+      error.includes('SQLPAD_QUERY_RESULT_STORE must be one of'),
     );
   });
 
   it('Error: redis store requires redis URI', function () {
     configHasError({ sessionStore: 'redis' }, (error) =>
-      error.includes('Redis session store requires SQLPAD_REDIS_URI to be set')
+      error.includes('Redis session store requires SQLPAD_REDIS_URI to be set'),
     );
     configHasError({ queryResultStore: 'redis' }, (error) =>
       error.includes(
-        'Redis query result store requires SQLPAD_REDIS_URI to be set'
-      )
+        'Redis query result store requires SQLPAD_REDIS_URI to be set',
+      ),
     );
   });
 
@@ -71,7 +71,7 @@ describe('lib/config', function () {
     const validations = config.getValidations();
     assert(validations.errors);
     const found = validations.errors.find(
-      (error) => error.includes('debug') && error.includes('NOT RECOGNIZED')
+      (error) => error.includes('debug') && error.includes('NOT RECOGNIZED'),
     );
     assert(found, 'has error about old key');
   });
@@ -82,7 +82,7 @@ describe('lib/config', function () {
     assert(validations.errors);
     const found = validations.errors.find(
       (error) =>
-        error.includes('SQLPAD_DEBUG') && error.includes('NOT RECOGNIZED')
+        error.includes('SQLPAD_DEBUG') && error.includes('NOT RECOGNIZED'),
     );
     assert(found, 'has error about old key');
   });
@@ -94,7 +94,7 @@ describe('lib/config', function () {
     const found = validations.warnings.find(
       (warning) =>
         warning.includes('SQLPAD_UNKNOWN_VAR') &&
-        warning.includes('NOT RECOGNIZED')
+        warning.includes('NOT RECOGNIZED'),
     );
     assert(found, 'has warning about unknown key');
   });
@@ -102,12 +102,12 @@ describe('lib/config', function () {
   it('Errors env connection missing name', function () {
     const config = new Config(
       {},
-      { SQLPAD_CONNECTIONS__test__driver: 'postgres' }
+      { SQLPAD_CONNECTIONS__test__driver: 'postgres' },
     );
     const validations = config.getValidations();
     assert(validations.errors);
     const found = validations.errors.find((error) =>
-      error.includes('SQLPAD_CONNECTIONS__test__name missing')
+      error.includes('SQLPAD_CONNECTIONS__test__name missing'),
     );
     assert(found, 'has error');
   });
@@ -115,12 +115,12 @@ describe('lib/config', function () {
   it('Errors env connection missing driver', function () {
     const config = new Config(
       {},
-      { SQLPAD_CONNECTIONS__test__name: 'My test' }
+      { SQLPAD_CONNECTIONS__test__name: 'My test' },
     );
     const validations = config.getValidations();
     assert(validations.errors);
     const found = validations.errors.find((error) =>
-      error.includes('SQLPAD_CONNECTIONS__test__driver missing')
+      error.includes('SQLPAD_CONNECTIONS__test__driver missing'),
     );
     assert(found, 'has error');
   });
@@ -131,14 +131,14 @@ describe('lib/config', function () {
       {
         SQLPAD_CONNECTIONS__test__name: 'My test',
         SQLPAD_CONNECTIONS__test__driver: 'foo',
-      }
+      },
     );
     const validations = config.getValidations();
     assert(validations.errors);
     const found = validations.errors.find((error) =>
       error.includes(
-        'Environment config SQLPAD_CONNECTIONS__test__driver invalid. Driver "foo" is not available.'
-      )
+        'Environment config SQLPAD_CONNECTIONS__test__driver invalid. Driver "foo" is not available.',
+      ),
     );
     assert(found, 'has error');
   });
@@ -149,14 +149,14 @@ describe('lib/config', function () {
       {
         SQLPAD_CONNECTIONS__test__name: 'My test',
         SQLPAD_CONNECTIONS__test__driver: 'athena',
-      }
+      },
     );
     const validations = config.getValidations();
     assert(validations.errors);
     const found = validations.errors.find((error) =>
       error.includes(
-        'Driver "athena" (Athena) is no longer supported by this version of SQLPad.'
-      )
+        'Driver "athena" (Athena) is no longer supported by this version of SQLPad.',
+      ),
     );
     assert(found, 'has error');
   });
@@ -168,14 +168,14 @@ describe('lib/config', function () {
         SQLPAD_CONNECTIONS__test__name: 'My test',
         SQLPAD_CONNECTIONS__test__driver: 'postgres',
         SQLPAD_CONNECTIONS__test__wrongField: 'localhost',
-      }
+      },
     );
     const validations = config.getValidations();
     assert(validations.errors);
     const found = validations.errors.find((error) =>
       error.includes(
-        'Environment config SQLPAD_CONNECTIONS__test__wrongField invalid. "wrongField" not a known field for postgres.'
-      )
+        'Environment config SQLPAD_CONNECTIONS__test__wrongField invalid. "wrongField" not a known field for postgres.',
+      ),
     );
     assert(found, 'has error');
   });
@@ -187,7 +187,7 @@ describe('lib/config', function () {
     const found = validations.warnings.find(
       (warning) =>
         warning.includes('deprecatedTestConfig') &&
-        warning.includes('DEPRECATED')
+        warning.includes('DEPRECATED'),
     );
     assert(found, 'has deprecated key warning');
   });
@@ -209,7 +209,7 @@ describe('lib/config', function () {
       },
       {
         SQLPAD_APP_LOG_LEVEL: 'silent',
-      }
+      },
     );
     assert.equal(config.get('appLogLevel'), 'warn');
   });
@@ -222,7 +222,7 @@ describe('lib/config', function () {
       {
         SQLPAD_APP_LOG_LEVEL: 'silent',
         SQLPAD_WEB_LOG_LEVEL: 'silent',
-      }
+      },
     );
     assert.equal(config.get('webLogLevel'), 'silent');
   });

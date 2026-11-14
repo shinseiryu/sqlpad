@@ -66,7 +66,7 @@ class Client {
     const limitedQuery = sqlLimiter.limit(
       query,
       ['limit', 'fetch'],
-      maxRowsPlusOne
+      maxRowsPlusOne,
     );
 
     // Run query without try/catch here

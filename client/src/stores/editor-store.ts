@@ -249,7 +249,7 @@ export function useBatchError() {
       const batch = s.batches[batchId];
       if (batch?.statements) {
         const errored = batch.statements.find(
-          (statement) => statement.status === 'error'
+          (statement) => statement.status === 'error',
         );
         if (errored) {
           return errored.error?.title;
@@ -361,7 +361,7 @@ export function useSessionStatementIdBySequence(sequence?: number) {
       const batch = s.batches[batchId];
       if (batch && batch.statements) {
         const statementBySequence = batch.statements.find(
-          (s) => s.sequence === sequence
+          (s) => s.sequence === sequence,
         );
         if (statementBySequence) {
           return statementBySequence.id;

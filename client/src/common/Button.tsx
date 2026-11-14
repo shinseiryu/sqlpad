@@ -26,7 +26,7 @@ const Button = React.forwardRef<Ref, Props>(
       menuItems,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const classNames = [styles.btn];
 
@@ -77,7 +77,7 @@ const Button = React.forwardRef<Ref, Props>(
         )}
       </>
     );
-  }
+  },
 );
 
 export default Button;

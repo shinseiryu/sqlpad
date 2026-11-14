@@ -23,8 +23,8 @@ export default function urlFilterToDbFilter(urlFilter) {
 
               // Transform only if every required component available
             } else if (key && operator && value) {
-              let dbOperator = operator;
-              let dbValue = value;
+              let dbOperator;
+              let dbValue;
               switch (operator) {
                 case 'contains':
                   // SQLite's LIKE is case insensitive

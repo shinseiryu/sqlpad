@@ -3,7 +3,7 @@ import TestUtils from '../utils.js';
 
 function expectKeys(data, expectedKeys) {
   Object.keys(data).forEach((key) =>
-    assert(expectedKeys.includes(key), `expected key ${key}`)
+    assert(expectedKeys.includes(key), `expected key ${key}`),
   );
 }
 
@@ -40,7 +40,7 @@ describe('api/app', function () {
     assert.equal(
       Object.keys(body.config).length,
       expectedConfigKeys.length,
-      'config should only have keys specified'
+      'config should only have keys specified',
     );
   });
 

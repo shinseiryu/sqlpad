@@ -8,15 +8,14 @@ import IconMenu from './IconMenu';
 
 type Ref = HTMLAnchorElement;
 
-interface NavigationLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface NavigationLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
 }
 
 const NavigationLink = React.forwardRef<Ref, NavigationLinkProps>(
   (props, ref) => {
     return <Link {...props} innerRef={ref} />;
-  }
+  },
 );
 
 function ExportButton({
@@ -40,7 +39,7 @@ function ExportButton({
     items.push(
       <MenuItem key="png" onSelect={onSaveImageClick}>
         png
-      </MenuItem>
+      </MenuItem>,
     );
   }
 
@@ -54,7 +53,7 @@ function ExportButton({
         rel="noopener noreferrer"
       >
         csv
-      </MenuLink>
+      </MenuLink>,
     );
     items.push(
       <MenuLink
@@ -65,7 +64,7 @@ function ExportButton({
         rel="noopener noreferrer"
       >
         xlsx
-      </MenuLink>
+      </MenuLink>,
     );
     items.push(
       <MenuLink
@@ -76,7 +75,7 @@ function ExportButton({
         rel="noopener noreferrer"
       >
         json
-      </MenuLink>
+      </MenuLink>,
     );
   }
 

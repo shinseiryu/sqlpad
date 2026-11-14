@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import assert from 'assert';
 import path from 'path';
 import allNcp from 'ncp'; // not ESM, so we name this funky thing allNcp?
@@ -10,7 +9,7 @@ ncp.limit = 16;
 
 const sourceDir = path.join(
   serverDirname,
-  'test/fixtures/v4.2.0-test-db/testdb'
+  'test/fixtures/v4.2.0-test-db/testdb',
 );
 
 function copyDbFiles(source, destination) {

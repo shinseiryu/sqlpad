@@ -37,7 +37,7 @@ class ConnectionAccesses {
 
     return this.findOneActiveByConnectionIdAndUserId(
       data.connectionId,
-      data.userId
+      data.userId,
     );
   }
 
@@ -50,7 +50,7 @@ class ConnectionAccesses {
     }
     await this.sequelizeDb.ConnectionAccesses.update(
       { expiryDate: new Date() },
-      { where: { id } }
+      { where: { id } },
     );
     return this.findOneById(id);
   }

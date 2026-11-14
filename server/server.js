@@ -1,4 +1,4 @@
-#!/usr/bin/env nodeimport fs from 'fs';
+#!/usr/bin/env node
 import http from 'http';
 import https from 'https';
 import minimist from 'minimist';
@@ -37,13 +37,11 @@ function cliHas(value) {
 }
 
 if (argv.version || cliHas('version')) {
-  // eslint-disable-next-line no-console
   console.log('SQLPad version %s', packageJson.version);
   process.exit(0);
 }
 
 if (argv.help || cliHas('help')) {
-  // eslint-disable-next-line no-console
   console.log(helpText);
   process.exit(0);
 }
@@ -115,7 +113,7 @@ function detectPortOrSystemd(port) {
     } else {
       appLog.warn(
         'Warning: Systemd socket asked but not found. Trying to bind port %d manually',
-        port
+        port,
       );
     }
   }
@@ -142,7 +140,7 @@ async function startServer() {
 
   if (incompatibleDbVersion) {
     appLog.error(
-      'SQLPad database not compatible with this version of SQLPad. Migrate to version 5 prior to running version 6 or later.'
+      'SQLPad database not compatible with this version of SQLPad. Migrate to version 5 prior to running version 6 or later.',
     );
     process.exit(1);
   }
@@ -153,7 +151,7 @@ async function startServer() {
 
   if (!isUpToDate && !runMigrations) {
     appLog.error(
-      'SQLPad schema not up to date. Turn on automigration or use --migrate'
+      'SQLPad schema not up to date. Turn on automigration or use --migrate',
     );
     process.exit(1);
   }
@@ -193,7 +191,7 @@ async function startServer() {
       appLog.info(
         'Port %d already occupied. Using port %d instead.',
         port,
-        _port
+        _port,
       );
       // TODO FIXME XXX  Persist the new port to the in-memory store.
       // config.set('port', _port)
@@ -221,7 +219,7 @@ async function startServer() {
       appLog.info(
         'Port %d already occupied. Using port %d instead.',
         port,
-        _port
+        _port,
       );
 
       // TODO FIXME XXX  Persist the new port to the in-memory store.

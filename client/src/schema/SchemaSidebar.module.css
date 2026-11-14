@@ -1,8 +1,8 @@
 .schemaItem {
   font-size: 12px;
   line-height: 22px;
-  font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro,
-    monospace;
+  font-family:
+    Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
   cursor: default;
   white-space: nowrap;
   overflow: hidden;

@@ -94,7 +94,7 @@ function testConnection(connection) {
 function getSchema(connection) {
   const schemaSql = getClickHouseSchemaSql(connection.database);
   return runQuery(schemaSql, connection).then((queryResult) =>
-    formatSchemaQueryResults(queryResult)
+    formatSchemaQueryResults(queryResult),
   );
 }
 

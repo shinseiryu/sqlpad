@@ -8,7 +8,7 @@ async function passportGoogleStrategyHandler(
   accessToken,
   refreshToken,
   profile,
-  done
+  done,
 ) {
   const { models, config, webhooks } = req;
   const email = profile && profile._json && profile._json.email;
@@ -90,8 +90,8 @@ function enableGoogle(config) {
           userProfileURL:
             'https://www.googleapis.com/oauth2/v3/userinfo?alt=json',
         },
-        passportGoogleStrategyHandler
-      )
+        passportGoogleStrategyHandler,
+      ),
     );
   }
 }

@@ -32,7 +32,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
           [Sequelize.Op.ne]: null,
         },
       },
-    }
+    },
   );
 
   await queryInterface.addColumn('users', 'ldap_id', {
@@ -51,7 +51,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
           [Sequelize.Op.ne]: null,
         },
       },
-    }
+    },
   );
 }
 

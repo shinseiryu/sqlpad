@@ -36,7 +36,7 @@ async function getApp(req, res) {
       samlLinkHtml: config.get('samlLinkHtml'),
       ldapConfigured: config.get('ldapAuthEnabled'),
       ldapRolesConfigured: Boolean(
-        config.get('ldapRoleAdminFilter') || config.get('ldapRoleEditorFilter')
+        config.get('ldapRoleAdminFilter') || config.get('ldapRoleEditorFilter'),
       ),
       oidcConfigured: config.oidcConfigured(),
       oidcLinkHtml: config.get('oidcLinkHtml'),

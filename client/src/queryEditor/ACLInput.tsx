@@ -39,7 +39,7 @@ function ACLInput({ acl, onChange, disabled }: Props) {
           value: user.id,
           label: user.name || user.email || user.ldapId || '',
         };
-      })
+      }),
   );
 
   // Index selected values for optimized selected checks
@@ -57,7 +57,7 @@ function ACLInput({ acl, onChange, disabled }: Props) {
     return options
       .filter(
         (option) =>
-          option.value === selectedValue || !selectedByValue[option.value]
+          option.value === selectedValue || !selectedByValue[option.value],
       )
       .map((o) => {
         return (

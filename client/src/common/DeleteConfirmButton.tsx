@@ -5,8 +5,7 @@ import Button from './Button';
 import styles from './DeleteConfirmButton.module.css';
 import IconButton from './IconButton';
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onConfirm: () => void;
   confirmMessage: string;
   icon?: boolean;
@@ -24,7 +23,7 @@ const DeleteConfirmButton = React.forwardRef<Ref, ButtonProps>(
       icon,
       ...rest
     }: ButtonProps,
-    ref
+    ref,
   ) => {
     const [visible, setVisible] = useState(false);
     const cancelEl = useRef(null);
@@ -83,7 +82,7 @@ const DeleteConfirmButton = React.forwardRef<Ref, ButtonProps>(
         )}
       </>
     );
-  }
+  },
 );
 
 export default DeleteConfirmButton;

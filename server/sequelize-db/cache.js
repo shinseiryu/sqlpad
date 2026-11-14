@@ -28,7 +28,7 @@ export default function (sequelize) {
       tableName: 'cache',
       underscored: true,
       updatedAt: false,
-    }
+    },
   );
 
   return Cache;

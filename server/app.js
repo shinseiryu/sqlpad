@@ -53,7 +53,6 @@ const SequelizeStore = SequelizeStoreFactory(session.Store);
 // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
 // If this is not done, then a JSON.stringify(BigInt) throws
 // "TypeError: Do not know how to serialize a BigInt"
-/* global BigInt:writable */
 /* eslint no-extend-native: ["error", { "exceptions": ["BigInt"] }] */
 BigInt.prototype.toJSON = function () {
   return this.toString();
@@ -129,12 +128,12 @@ async function makeApp(config, models) {
   app.use(
     bodyParser.json({
       limit: config.get('bodyLimit'),
-    })
+    }),
   );
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    })
+    }),
   );
 
   const cookieMaxAgeMs = parseInt(config.get('sessionMinutes'), 10) * 60 * 1000;
@@ -282,7 +281,7 @@ async function makeApp(config, models) {
   const indexPath = path.join(serverDirname, 'public/index.html');
   const indexTemplatePath = path.join(
     serverDirname,
-    'public/index-template.html'
+    'public/index-template.html',
   );
 
   if (fs.existsSync(indexPath)) {

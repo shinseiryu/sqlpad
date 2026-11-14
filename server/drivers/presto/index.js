@@ -83,10 +83,10 @@ function testConnection(connection) {
 function getSchema(connection) {
   const schemaSql = getPrestoSchemaSql(
     connection.prestoCatalog,
-    connection.prestoSchema
+    connection.prestoSchema,
   );
   return runQuery(schemaSql, connection).then((queryResult) =>
-    formatSchemaQueryResults(queryResult)
+    formatSchemaQueryResults(queryResult),
   );
 }
 

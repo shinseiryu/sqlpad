@@ -37,7 +37,7 @@ describe('api/password-reset', function () {
         password: 'admin',
         passwordConfirmation: 'admin',
       },
-      400
+      400,
     );
   });
 
@@ -51,7 +51,7 @@ describe('api/password-reset', function () {
         password: 'admin',
         passwordConfirmation: 'admin',
       },
-      400
+      400,
     );
     assert.equal(body.title, 'Incorrect email address');
   });
@@ -66,7 +66,7 @@ describe('api/password-reset', function () {
         password: 'admin2',
         passwordConfirmation: 'admin',
       },
-      400
+      400,
     );
     assert.equal(body.title, 'Passwords do not match');
   });

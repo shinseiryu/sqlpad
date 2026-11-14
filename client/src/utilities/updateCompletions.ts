@@ -107,7 +107,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
               score: 0,
               meta: `${column.dataType} ${column.description || ''}`.trim(),
             };
-          }
+          },
         );
 
         const tableCompletion: AceCompletion = {
@@ -185,7 +185,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
       session: any,
       pos: any,
       prefix: any,
-      callback: any
+      callback: any,
     ) {
       // get tokens leading up to the cursor to figure out context
       // depending on where we are we either want tables or we want columns
@@ -216,7 +216,6 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
             priorKeyword = mostRecentKeyword;
             wanted = 'TABLE';
           }
-          r = 0;
           break;
         }
       }
@@ -236,7 +235,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
       if (precedingToken.indexOf('.') >= 0) {
         dottedIdentifier = precedingToken.substring(
           0,
-          precedingToken.length - 1
+          precedingToken.length - 1,
         );
       }
 
@@ -249,7 +248,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
       // Try and derive based on basic matching
       // figure out if there are any schemas/tables referenced in query
       const allTokens: Set<string> = new Set(
-        session.getValue().toLowerCase().match(tableRegex)
+        session.getValue().toLowerCase().match(tableRegex),
       );
 
       // First find any references of schemas or tables in tokens
@@ -306,7 +305,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
         }
         if (table.columnCompletions) {
           columnDotMatches[table.name] = columnDotMatches[table.name].concat(
-            table.columnCompletions
+            table.columnCompletions,
           );
         }
       });
@@ -326,7 +325,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
         let acCompletions = (columnDotMatches[dottedIdentifier] || []).map(
           (c) => {
             return { value: c.value, meta: c.meta, score: 1 };
-          }
+          },
         );
 
         // user might be trying for a table prior to using it in SELECT
@@ -335,7 +334,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
           acCompletions = acCompletions.concat(
             (tablesBySchema[dottedIdentifier] || []).map((c) => {
               return { value: c.value, meta: c.meta, score: 0 };
-            })
+            }),
           );
         }
 
@@ -371,7 +370,7 @@ function updateCompletions(connectionSchema: ConnectionSchema) {
                 meta: c.meta,
                 score: 0,
               };
-            })
+            }),
           );
         }
 

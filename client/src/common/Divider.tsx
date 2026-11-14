@@ -5,7 +5,7 @@ const Divider = ({ style, ...rest }: React.HTMLAttributes<HTMLElement>) => {
     {
       height: 16,
     },
-    style
+    style,
   );
 
   return (

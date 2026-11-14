@@ -27,7 +27,7 @@ export async function up(queryInterface, config, appLog, sequelizeDb) {
           [Sequelize.Op.ne]: null,
         },
       },
-    }
+    },
   );
 }
 

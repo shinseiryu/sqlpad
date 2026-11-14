@@ -34,7 +34,7 @@ async function getStatement(req, res) {
 router.get(
   '/api/statements/:statementId',
   mustBeAuthenticated,
-  wrap(getStatement)
+  wrap(getStatement),
 );
 
 /**
@@ -72,7 +72,7 @@ async function getStatementResults(req, res) {
 router.get(
   '/api/statements/:statementId/results',
   mustBeAuthenticated,
-  wrap(getStatementResults)
+  wrap(getStatementResults),
 );
 
 export default router;

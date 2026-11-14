@@ -103,7 +103,7 @@ describe('api/connections', function () {
           password: 'password',
         },
       },
-      403
+      403,
     );
   });
 

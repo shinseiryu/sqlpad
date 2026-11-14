@@ -22,7 +22,7 @@ export default function (sequelize) {
       tableName: 'query_tags',
       underscored: true,
       timestamps: false,
-    }
+    },
   );
 
   return QueryTags;

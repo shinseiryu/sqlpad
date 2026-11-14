@@ -32,7 +32,7 @@ async function enableLdap(config) {
     appLog.debug('LDAP bind successful');
   } else {
     appLog.warn(
-      'LDAP bind attempt failed. LDAP auth will still be configured.'
+      'LDAP bind attempt failed. LDAP auth will still be configured.',
     );
   }
 
@@ -76,7 +76,7 @@ async function enableLdap(config) {
           if (!profileUsername) {
             appLog.warn(
               profile,
-              `Found LDAP profile, but uid or sAMAccountName fields are missing. SQLPad's LDAP auth implementation requires enhancements to support your environment.`
+              `Found LDAP profile, but uid or sAMAccountName fields are missing. SQLPad's LDAP auth implementation requires enhancements to support your environment.`,
             );
             return done(null, false, {
               message: 'wrong LDAP username or password',
@@ -128,11 +128,11 @@ async function enableLdap(config) {
                   client,
                   searchBase,
                   'sub',
-                  filter
+                  filter,
                 );
                 if (results.length > 0) {
                   appLog.debug(
-                    `${profileUsername} successfully logged in with role admin`
+                    `${profileUsername} successfully logged in with role admin`,
                   );
                   role = 'admin';
                 }
@@ -145,11 +145,11 @@ async function enableLdap(config) {
                   client,
                   searchBase,
                   'sub',
-                  filter
+                  filter,
                 );
                 if (results.length > 0) {
                   appLog.debug(
-                    `${profileUsername} successfully logged in with role editor`
+                    `${profileUsername} successfully logged in with role editor`,
                   );
                   role = 'editor';
                 }
@@ -236,8 +236,8 @@ async function enableLdap(config) {
         } catch (error) {
           done(error);
         }
-      }
-    )
+      },
+    ),
   );
 }
 

@@ -29,7 +29,7 @@ function ConnectionAccessList() {
   const expireConnectionAccess = async (connectionAccessId: any) => {
     const json = await api.put(
       `/api/connection-accesses/${connectionAccessId}/expire`,
-      {}
+      {},
     );
     const updated = showInactives
       ? connectionAccesses.map((item: any) => {
@@ -40,7 +40,7 @@ function ConnectionAccessList() {
           }
         })
       : connectionAccesses.filter(
-          (item: any) => item.id !== connectionAccessId
+          (item: any) => item.id !== connectionAccessId,
         );
     mutate(updated);
     if (json.error) {
@@ -88,7 +88,7 @@ function ConnectionAccessList() {
               style={{ marginLeft: 8 }}
             >
               Expire
-            </DeleteConfirmButton>
+            </DeleteConfirmButton>,
           );
         }
 

@@ -17,13 +17,7 @@ export type StatementResults = Array<Array<any>>;
 
 export interface StatementColumn {
   datatype:
-    | 'date'
-    | 'datetime'
-    | 'object'
-    | 'number'
-    | 'boolean'
-    | 'string'
-    | null;
+    'date' | 'datetime' | 'object' | 'number' | 'boolean' | 'string' | null;
   max?: number | string | Date | boolean;
   min?: number | string | Date | boolean;
   /**

@@ -40,7 +40,7 @@ interface DataRow {
 
 const getUnmetFields = (chartType: string, selectedFieldMap: StringMap) => {
   const chartDefinition = chartDefinitions.find(
-    (def) => def.chartType === chartType
+    (def) => def.chartType === chartType,
   );
   if (!chartDefinition) {
     throw new Error(`Unknown chartType ${chartType}`);
@@ -59,7 +59,7 @@ const getUnmetFields = (chartType: string, selectedFieldMap: StringMap) => {
 export default function getTauChartConfig(
   chartConfiguration: ChartConfiguration,
   columns: StatementColumn[] = [],
-  rows: any[] = []
+  rows: any[] = [],
 ) {
   if (!chartConfiguration) {
     return null;
@@ -74,7 +74,7 @@ export default function getTauChartConfig(
   }
 
   const chartDefinition = chartDefinitions.find(
-    (def) => def.chartType === chartType
+    (def) => def.chartType === chartType,
   );
 
   if (!dataRows.length || !chartDefinition) {
@@ -123,12 +123,12 @@ export default function getTauChartConfig(
     // Here we'll convert a number to a string,
     // to trick tauCharts into thinking its a dimension
     const forceDimensionFields = chartDefinition.fields.filter(
-      (field) => field.forceDimension === true
+      (field) => field.forceDimension === true,
     );
     forceDimensionFields.forEach((fieldDefinition) => {
       const columnName = selectedFields[fieldDefinition.fieldId];
       const column = columns.find(
-        (column: StatementColumn) => column.name === columnName
+        (column: StatementColumn) => column.name === columnName,
       );
       const colDatatype = column ? column.datatype : null;
       if (columnName && colDatatype === 'number' && newRow[columnName]) {
@@ -142,10 +142,10 @@ export default function getTauChartConfig(
   // Remove them from a copy of chartConfigurationFields
   // Unless they aren't column mapping fields (like trendline, quickfilter)
   const cleanedChartConfigurationFields = Object.keys(
-    chartConfiguration.fields
+    chartConfiguration.fields,
   ).reduce((fieldsMap: StringMap, fieldColName) => {
     const fieldDefinition = chartDefinition.fields.find(
-      (f) => f.fieldId === fieldColName
+      (f) => f.fieldId === fieldColName,
     );
     const columnName = chartConfiguration.fields[fieldColName];
 
@@ -161,7 +161,7 @@ export default function getTauChartConfig(
   // Validate that the chart required fields are provided
   const unmetFields = getUnmetFields(
     chartType,
-    cleanedChartConfigurationFields
+    cleanedChartConfigurationFields,
   );
 
   if (unmetFields.length) {

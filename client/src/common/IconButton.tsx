@@ -5,8 +5,7 @@ import Tooltip from './Tooltip';
 
 const ICON_SIZE = 18;
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: string;
   to?: string;
   tooltip?: string;
@@ -34,7 +33,7 @@ const IconButton = React.forwardRef<Ref, ButtonProps & LinkProps>(
       type,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const classNames = [styles.btn];
 
@@ -97,7 +96,7 @@ const IconButton = React.forwardRef<Ref, ButtonProps & LinkProps>(
     }
 
     return <Tooltip label={tooltip}>{button}</Tooltip>;
-  }
+  },
 );
 
 export default IconButton;

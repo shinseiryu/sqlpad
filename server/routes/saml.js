@@ -10,7 +10,7 @@ router.post(
   }),
   function (req, res) {
     res.redirect('/');
-  }
+  },
 );
 
 router.get(
@@ -21,7 +21,7 @@ router.get(
   }),
   function (req, res) {
     res.redirect('/');
-  }
+  },
 );
 
 export default router;

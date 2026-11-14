@@ -29,7 +29,7 @@ describe('api/service-tokens', function () {
         name: 'Test Service Token - Infinite',
         role: 'admin',
       },
-      403
+      403,
     );
   });
 
@@ -47,7 +47,7 @@ describe('api/service-tokens', function () {
 
     const decodedTokenPayload = jwt.verify(
       editorServiceToken.token,
-      serviceTokenSecret
+      serviceTokenSecret,
     );
     assert.equal(decodedTokenPayload.name, 'Test Service Token - Infinite');
     assert.equal(decodedTokenPayload.role, 'editor');
@@ -71,7 +71,7 @@ describe('api/service-tokens', function () {
 
     const decodedTokenPayload = jwt.verify(
       adminServiceToken.token,
-      serviceTokenSecret
+      serviceTokenSecret,
     );
     assert.equal(decodedTokenPayload.name, 'Test Service Token');
     assert.equal(decodedTokenPayload.role, 'admin');
@@ -88,7 +88,7 @@ describe('api/service-tokens', function () {
         role: 'admin',
         duration: 168,
       },
-      400
+      400,
     );
     assert.equal(body.title, 'Service token already exists');
   });

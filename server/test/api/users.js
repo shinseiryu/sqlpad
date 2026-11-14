@@ -116,7 +116,7 @@ describe('api/users', function () {
         role: 'editor',
         name: 'test',
       },
-      400
+      400,
     );
 
     const body = await utils.put(
@@ -124,7 +124,7 @@ describe('api/users', function () {
       `/api/users/${utils.users.admin.id}`,
       {
         name: 'test',
-      }
+      },
     );
 
     assert.equal(body.name, 'test');
@@ -141,7 +141,7 @@ describe('api/users', function () {
         role: 'editor',
         name: 'test',
       },
-      400
+      400,
     );
 
     const body = await utils.put(
@@ -149,7 +149,7 @@ describe('api/users', function () {
       `/api/users/${utils.users.editor.id}`,
       {
         name: 'test',
-      }
+      },
     );
 
     assert.equal(body.name, 'test');
@@ -163,7 +163,7 @@ describe('api/users', function () {
       {
         name: 'test',
       },
-      403
+      403,
     );
   });
 
@@ -179,7 +179,7 @@ describe('api/users', function () {
         email: 'user2@test.com',
         role: 'editor',
       },
-      403
+      403,
     );
   });
 

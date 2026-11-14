@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import util from 'util';
 
 import path from 'path';
@@ -144,7 +143,7 @@ class Statements {
   async updateErrorQueuedToCancelled(batchId) {
     await this.sequelizeDb.Statements.update(
       { status: 'cancelled' },
-      { where: { batchId, status: 'queued' } }
+      { where: { batchId, status: 'queued' } },
     );
   }
 
@@ -191,7 +190,7 @@ class Statements {
         await this.redisClient.setEx(
           redisDbKey(id),
           seconds,
-          JSON.stringify(arrOfArr)
+          JSON.stringify(arrOfArr),
         );
       }
 

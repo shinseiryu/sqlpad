@@ -27,7 +27,7 @@ function enableLocal(config) {
           }
           const isMatch = await passhash.comparePassword(
             password,
-            user.passhash
+            user.passhash,
           );
           if (isMatch) {
             return done(null, {
@@ -40,8 +40,8 @@ function enableLocal(config) {
         } catch (error) {
           done(error);
         }
-      }
-    )
+      },
+    ),
   );
 }
 

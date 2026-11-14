@@ -75,7 +75,7 @@ function validateConnection(connection) {
     if (driverFields.hasOwnProperty(fieldKey)) {
       let value = driverFields[fieldKey];
       const fieldDefinition = driverImplementation.fields.find(
-        (field) => field.key === fieldKey
+        (field) => field.key === fieldKey,
       );
 
       if (fieldDefinition) {

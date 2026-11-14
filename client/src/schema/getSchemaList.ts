@@ -20,7 +20,7 @@ interface SchemaListItem {
  */
 export default function getSchemaList(
   connectionSchema: ConnectionSchema,
-  expanded: ExpandedMap
+  expanded: ExpandedMap,
 ) {
   const schemaList: SchemaListItem[] = [];
 

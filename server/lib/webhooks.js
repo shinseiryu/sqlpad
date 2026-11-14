@@ -82,7 +82,7 @@ class Webhooks {
             status: res.status,
             statusText: res.statusText,
           },
-          `Error sending webhook`
+          `Error sending webhook`,
         );
       }
     } catch (error) {
@@ -186,9 +186,8 @@ class Webhooks {
       const { statements, ...batchWithoutStatements } = batch;
 
       const statement = await this.models.statements.findOneById(statementId);
-      const results = await this.models.statements.getStatementResults(
-        statementId
-      );
+      const results =
+        await this.models.statements.getStatementResults(statementId);
 
       const body = {
         statement,

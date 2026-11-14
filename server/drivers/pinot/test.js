@@ -22,7 +22,7 @@ describe('drivers/pinot', function () {
       schemaInfo,
       'main',
       'baseballStats',
-      'playerID'
+      'playerID',
     );
     assert(column.hasOwnProperty('dataType'));
   });
@@ -35,7 +35,7 @@ describe('drivers/pinot', function () {
         WHERE playerID = 'aardsda01' 
         LIMIT 1
       `,
-      connection
+      connection,
     );
 
     assert(!results.incomplete, 'not incomplete');
@@ -46,7 +46,7 @@ describe('drivers/pinot', function () {
     const limitedConnection = { ...connection, maxRows: 2 };
     const results = await pinot.runQuery(
       'SELECT * FROM baseballStats LIMIT 10',
-      limitedConnection
+      limitedConnection,
     );
 
     assert(results.incomplete, 'incomplete');

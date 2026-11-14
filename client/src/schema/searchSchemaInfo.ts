@@ -20,7 +20,7 @@ function searchTables(tables: SchemaTable[], searchRegEx: RegExp) {
  */
 export default function searchSchemaInfo(
   connectionSchema: ConnectionSchema,
-  search: string
+  search: string,
 ) {
   const filteredSchemas: Schema[] = [];
   const searchRegEx = new RegExp(search, 'i');

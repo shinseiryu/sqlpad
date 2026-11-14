@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import ConnectionClient from './connection-client.js';
 
 /**
@@ -21,7 +20,7 @@ export async function executeBatch(config, models, webhooks, batchId) {
   let disconnectOnFinish = false;
   if (batch.connectionClientId) {
     connectionClient = models.connectionClients.getOneById(
-      batch.connectionClientId
+      batch.connectionClientId,
     );
     if (!connectionClient) {
       throw new Error('Connection client disconnected');
@@ -55,7 +54,7 @@ export async function executeBatch(config, models, webhooks, batchId) {
         statement.id,
         queryResult,
         stopTime,
-        stopTime - statementStartTime
+        stopTime - statementStartTime,
       );
       webhooks.statementFinished(user, connection, batch, statement.id);
     } catch (error) {
@@ -68,7 +67,7 @@ export async function executeBatch(config, models, webhooks, batchId) {
           title: error.message,
         },
         stopTime,
-        stopTime - statementStartTime
+        stopTime - statementStartTime,
       );
 
       // Cancel remaining statements before the batch reports an error,
@@ -114,7 +113,7 @@ export async function executeCancellableBatch(
   config,
   models,
   webhooks,
-  batchId
+  batchId,
 ) {
   const batch = await models.batches.findOneById(batchId);
   const user = await models.users.findOneById(batch.userId);
@@ -127,7 +126,7 @@ export async function executeCancellableBatch(
   let disconnectOnFinish = false;
   if (batch.connectionClientId) {
     connectionClient = models.connectionClients.getOneById(
-      batch.connectionClientId
+      batch.connectionClientId,
     );
     if (!connectionClient) {
       throw new Error('Connection client disconnected');
@@ -154,7 +153,7 @@ export async function executeCancellableBatch(
       if (connectionClient.driver['asynchronous']) {
         // Set execution ID ASAP to enable cancellation
         executionId = await connectionClient.startQueryExecution(
-          statement.statementText
+          statement.statementText,
         );
 
         await models.statements.updateExecutionId(statement.id, executionId);
@@ -168,7 +167,7 @@ export async function executeCancellableBatch(
           title: error.message,
         },
         stopTime,
-        stopTime - statementStartTime
+        stopTime - statementStartTime,
       );
 
       // Cancel remaining statements before the batch reports an error,

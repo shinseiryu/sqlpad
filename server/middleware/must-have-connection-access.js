@@ -14,7 +14,7 @@ export default [
       const connectionAccess =
         await models.connectionAccesses.findOneActiveByConnectionIdAndUserId(
           connectionId,
-          req.user.id
+          req.user.id,
         );
       if (connectionAccess) {
         return next();

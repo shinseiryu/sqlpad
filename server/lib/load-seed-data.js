@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import fs from 'fs';
 
 import path from 'path';
@@ -19,7 +18,7 @@ async function getItemDirectoryData(appLog, seedDataPath, dir) {
   if (dirExists(dirPath)) {
     const fileNames = fs.readdirSync(dirPath);
     const jsonFileNames = fileNames.filter(
-      (name) => path.extname(name.toLowerCase()) === '.json'
+      (name) => path.extname(name.toLowerCase()) === '.json',
     );
     for (const jsonFileName of jsonFileNames) {
       const filePath = path.join(dirPath, jsonFileName);
@@ -84,7 +83,7 @@ async function loadSeedData(appLog, config, models) {
     // query.createdBy could be email or user id
     let createdByUser = await findOrCreateUserReference(
       models,
-      query.createdBy
+      query.createdBy,
     );
     let updatedByUser = createdByUser;
     if (query.updatedBy) {
@@ -105,14 +104,14 @@ async function loadSeedData(appLog, config, models) {
         }
         if (fieldCount > 1) {
           throw new Error(
-            'Query seed import - only specify one of userId, userEmail, or groupId'
+            'Query seed import - only specify one of userId, userEmail, or groupId',
           );
         }
 
         if (acl.userEmail) {
           const aclUser = await findOrCreateUserReference(
             models,
-            acl.userEmail
+            acl.userEmail,
           );
           delete acl.userEmail;
           acl.userId = aclUser.id;
@@ -140,7 +139,7 @@ async function loadSeedData(appLog, config, models) {
   const connections = await getItemDirectoryData(
     appLog,
     seedDataPath,
-    'connections'
+    'connections',
   );
   for (const connection of connections) {
     const existing = await models.connections.findOneById(connection.id);

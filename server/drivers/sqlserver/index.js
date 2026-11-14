@@ -69,7 +69,7 @@ function runQuery(query, connection) {
       // Check to see if a custom maxrows is set, otherwise use default
       const maxRows = resolvePositiveNumber(
         connection.maxrows_override,
-        connection.maxRows
+        connection.maxRows,
       );
 
       const request = new mssql.Request(pool);
@@ -134,7 +134,7 @@ function testConnection(connection) {
  */
 function getSchema(connection) {
   return runQuery(SCHEMA_SQL, connection).then((queryResult) =>
-    formatSchemaQueryResults(queryResult)
+    formatSchemaQueryResults(queryResult),
   );
 }
 

@@ -120,7 +120,7 @@ describe('api/queries', function () {
           { userId: utils.users.editor2.id, write: false },
         ],
       },
-      403
+      403,
     );
 
     // Add write access for editor 2
@@ -152,7 +152,7 @@ describe('api/queries', function () {
       'editor2',
       `/api/queries/${query.id}`,
       createQueryBody,
-      403
+      403,
     );
 
     await utils.put('editor', `/api/queries/${query.id}`, {
@@ -194,7 +194,7 @@ describe('api/queries', function () {
           { userId: utils.users.editor2.id, write: false },
         ],
       },
-      403
+      403,
     );
 
     // Now use editor to give access, editor 2 should be able to update
@@ -358,13 +358,13 @@ describe('api/queries', function () {
     let params;
     body = await utils.get(
       'editor',
-      `/api/queries?connectionId=${connection1.id}`
+      `/api/queries?connectionId=${connection1.id}`,
     );
     assert.equal(body.length, 1);
     assert(body.find((c) => c.id === query1.id));
     body = await utils.get(
       'editor',
-      `/api/queries?connectionId=${connection2.id}`
+      `/api/queries?connectionId=${connection2.id}`,
     );
     assert.equal(body.length, 1);
     assert(body.find((c) => c.id === query2.id));
@@ -394,21 +394,21 @@ describe('api/queries', function () {
     // tags
     params = queryString.stringify(
       { tags: ['one'] },
-      { arrayFormat: 'bracket' }
+      { arrayFormat: 'bracket' },
     );
     body = await utils.get('editor', `/api/queries?${params}`);
     assert.equal(body.length, 1);
     assert.equal(body[0].id, query1.id);
     params = queryString.stringify(
       { tags: ['one', 'two'] },
-      { arrayFormat: 'bracket' }
+      { arrayFormat: 'bracket' },
     );
     body = await utils.get('editor', `/api/queries?${params}`);
     assert.equal(body.length, 1);
     assert.equal(body[0].id, query1.id);
     params = queryString.stringify(
       { tags: ['two'] },
-      { arrayFormat: 'bracket' }
+      { arrayFormat: 'bracket' },
     );
     body = await utils.get('editor', `/api/queries?${params}`);
     assert.equal(body.length, 2);
@@ -416,7 +416,7 @@ describe('api/queries', function () {
     // createdBy
     params = queryString.stringify(
       { createdBy: utils.users.editor2.id },
-      { arrayFormat: 'bracket' }
+      { arrayFormat: 'bracket' },
     );
     body = await utils.get('editor', `/api/queries?${params}`);
     assert.equal(body.length, 1);
@@ -425,14 +425,14 @@ describe('api/queries', function () {
     // search
     params = queryString.stringify(
       { search: 'query2' },
-      { arrayFormat: 'bracket' }
+      { arrayFormat: 'bracket' },
     );
     body = await utils.get('editor', `/api/queries?${params}`);
     assert.equal(body.length, 1);
     assert.equal(body[0].id, query2.id);
     params = queryString.stringify(
       { search: 'select-query2' },
-      { arrayFormat: 'bracket' }
+      { arrayFormat: 'bracket' },
     );
     body = await utils.get('editor', `/api/queries?${params}`);
     assert.equal(body.length, 1);
@@ -448,7 +448,7 @@ describe('api/queries', function () {
     res = await utils.getResponse(
       'admin',
       `/api/queries?limit=1&offset=1`,
-      200
+      200,
     );
     links = parseLinkHeader(res.header.link);
     assert.equal(links.next.limit, 1);

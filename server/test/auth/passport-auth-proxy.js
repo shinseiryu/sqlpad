@@ -259,7 +259,7 @@ describe('auth/passport-proxy-auth', function () {
       .expect(200);
 
     const user1 = response1.body.find(
-      (user) => user.email === 'admin@test.com'
+      (user) => user.email === 'admin@test.com',
     );
     assert.equal(user1.name, 'New admin name');
 
@@ -271,7 +271,7 @@ describe('auth/passport-proxy-auth', function () {
       .set('X-WEBAUTH-NAME', 'New admin name')
       .expect(200);
     const user2 = response2.body.find(
-      (user) => user.email === 'admin@test.com'
+      (user) => user.email === 'admin@test.com',
     );
 
     assert.equal(user1.updatedAt, user2.updatedAt);

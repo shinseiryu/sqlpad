@@ -45,7 +45,7 @@ export default function (sequelize) {
     {
       tableName: 'query_acl',
       underscored: true,
-    }
+    },
   );
 
   return QueryAcl;

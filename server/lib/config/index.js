@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import appLog from '../app-log.js';
 
 import configItems from './config-items.js';
@@ -107,19 +106,19 @@ class Config {
     const allowedStores = ['redis', 'database', 'file', 'memory'];
     if (!allowedStores.includes(this.all.sessionStore)) {
       errors.push(
-        `SQLPAD_SESSION_STORE must be one of ${allowedStores.join(', ')}`
+        `SQLPAD_SESSION_STORE must be one of ${allowedStores.join(', ')}`,
       );
     }
 
     if (!allowedStores.includes(this.all.queryResultStore)) {
       errors.push(
-        `SQLPAD_QUERY_RESULT_STORE must be one of ${allowedStores.join(', ')}`
+        `SQLPAD_QUERY_RESULT_STORE must be one of ${allowedStores.join(', ')}`,
       );
     }
 
     if (this.all.queryResultStore === 'redis' && !this.all.redisUri) {
       errors.push(
-        `Redis query result store requires SQLPAD_REDIS_URI to be set`
+        `Redis query result store requires SQLPAD_REDIS_URI to be set`,
       );
     }
 
@@ -141,11 +140,11 @@ class Config {
           const foundRemoved = REMOVED_ENVS.find((removed) => removed === key);
           if (foundRemoved) {
             errors.push(
-              `CONFIG NOT RECOGNIZED: Environment variable "${key}" no longer used`
+              `CONFIG NOT RECOGNIZED: Environment variable "${key}" no longer used`,
             );
           } else {
             warnings.push(
-              `CONFIG NOT RECOGNIZED: Environment variable "${key}"`
+              `CONFIG NOT RECOGNIZED: Environment variable "${key}"`,
             );
           }
         }
@@ -167,20 +166,20 @@ class Config {
       } = parsedConnection;
       if (!name) {
         errors.push(
-          `Environment config SQLPAD_CONNECTIONS__${id}__name missing`
+          `Environment config SQLPAD_CONNECTIONS__${id}__name missing`,
         );
       }
       if (!driver) {
         errors.push(
-          `Environment config SQLPAD_CONNECTIONS__${id}__driver missing`
+          `Environment config SQLPAD_CONNECTIONS__${id}__driver missing`,
         );
       } else {
         const driverImplementation = drivers[driver];
         if (!driverImplementation) {
           errors.push(
             `Environment config SQLPAD_CONNECTIONS__${id}__driver invalid. ${driverNotAvailableMessage(
-              driver
-            )}`
+              driver,
+            )}`,
           );
         } else {
           const validDriverFieldMap = {};
@@ -190,7 +189,7 @@ class Config {
           Object.keys(driverSpecificFields).forEach((driverField) => {
             if (!validDriverFieldMap[driverField]) {
               errors.push(
-                `Environment config SQLPAD_CONNECTIONS__${id}__${driverField} invalid. "${driverField}" not a known field for ${driver}.`
+                `Environment config SQLPAD_CONNECTIONS__${id}__${driverField} invalid. "${driverField}" not a known field for ${driver}.`,
               );
             }
           });
@@ -205,7 +204,7 @@ class Config {
             errors.push(
               `Environment connection configuration failed for ${
                 parsedConnection.id
-              }. ${error.toString()}`
+              }. ${error.toString()}`,
             );
           }
         }
@@ -218,7 +217,7 @@ class Config {
     Object.keys(this.argv).forEach((key) => {
       const inAdditional = additionalCliFlags.includes(key);
       const inConfigItems = Boolean(
-        configItems.find((item) => item.key === key)
+        configItems.find((item) => item.key === key),
       );
       if (!inAdditional && !inConfigItems) {
         errors.push(`CONFIG NOT RECOGNIZED: cli flag "${key}"`);
@@ -236,7 +235,7 @@ class Config {
         const configItem = configItems.find((item) => item.key === key);
         if (configItem && configItem.deprecated) {
           warnings.push(
-            `DEPRECATED CONFIG: ${configItem.key} / ${configItem.envVar}. ${configItem.deprecated}`
+            `DEPRECATED CONFIG: ${configItem.key} / ${configItem.envVar}. ${configItem.deprecated}`,
           );
         }
       });
@@ -270,9 +269,9 @@ class Config {
   oidcConfigured() {
     return Boolean(
       this.all.publicUrl &&
-        this.all.oidcClientId &&
-        this.all.oidcClientSecret &&
-        this.all.oidcIssuer
+      this.all.oidcClientId &&
+      this.all.oidcClientSecret &&
+      this.all.oidcIssuer,
       // TODO map these to oidc implementation if necessary
       // These were used for passport-openidconnect, but not openid-client
       // this.all.oidcAuthorizationUrl &&
@@ -304,7 +303,7 @@ class Config {
         appLog.error(
           error,
           'Environment connection configuration failed for %s',
-          connection.id
+          connection.id,
         );
       }
     });

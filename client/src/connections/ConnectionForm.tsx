@@ -109,7 +109,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
     // connectionEdits.idleTimeoutMinutes needs to be converted to seconds
     const idleTimeoutMinutes = parseInt(
       connectionEdits.idleTimeoutMinutes || '0',
-      10
+      10,
     );
     if (idleTimeoutMinutes) {
       connectionEdits.idleTimeoutSeconds = idleTimeoutMinutes * 60;
@@ -137,7 +137,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
     if (connectionEdits.driver && drivers?.length) {
       // NOTE connection.driver is driverId
       const driver = drivers.find(
-        (driver: any) => driver.id === connectionEdits.driver
+        (driver: any) => driver.id === connectionEdits.driver,
       );
 
       if (!driver) {
@@ -169,7 +169,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
               used for query executions, allowing things like opening
               transactions and creating temp tables across query executions.
             </FormExplain>
-          </HorizontalFormItem>
+          </HorizontalFormItem>,
         );
 
         fieldsJsx.push(
@@ -188,7 +188,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
             <FormExplain>
               Number of minutes to allow a connection to be idle before closing.
             </FormExplain>
-          </HorizontalFormItem>
+          </HorizontalFormItem>,
         );
       }
 
@@ -302,7 +302,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
     driverSelectOptions.push(
       <option key="loading" value="">
         Loading...
-      </option>
+      </option>,
     );
   } else {
     drivers
@@ -318,8 +318,8 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
         driverSelectOptions.push(
           <option key={driver.id} value={driver.id}>
             {driver.name}
-          </option>
-        )
+          </option>,
+        ),
       );
   }
 

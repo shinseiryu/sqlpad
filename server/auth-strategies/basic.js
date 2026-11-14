@@ -26,7 +26,7 @@ function enableBasic(config) {
           }
           const isMatch = await passhash.comparePassword(
             password,
-            user.passhash
+            user.passhash,
           );
           if (!isMatch) {
             return callback(null, false);
@@ -35,8 +35,8 @@ function enableBasic(config) {
         } catch (error) {
           callback(error);
         }
-      }
-    )
+      },
+    ),
   );
 }
 

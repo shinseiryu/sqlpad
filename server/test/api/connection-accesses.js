@@ -66,7 +66,7 @@ describe('api/connection-accesses', function () {
         userId: user1.id,
         duration: 3600,
       },
-      400
+      400,
     );
 
     assert.equal(body.title, 'User has active access to connection');
@@ -75,7 +75,7 @@ describe('api/connection-accesses', function () {
   it('Expire default access on every connection to every user', function () {
     return utils.put(
       'admin',
-      `/api/connection-accesses/${defeaultConnectionAccess.id}/expire`
+      `/api/connection-accesses/${defeaultConnectionAccess.id}/expire`,
     );
   });
 
@@ -94,12 +94,12 @@ describe('api/connection-accesses', function () {
         userId: admin2.id,
         duration: 3600,
       },
-      400
+      400,
     );
 
     assert.equal(
       body.title,
-      'User is admin and already has access to connection'
+      'User is admin and already has access to connection',
     );
   });
 
@@ -150,7 +150,7 @@ describe('api/connection-accesses', function () {
         userId: user2.id,
         duration: 3600,
       },
-      403
+      403,
     );
   });
 
@@ -159,14 +159,14 @@ describe('api/connection-accesses', function () {
       'editor',
       `/api/connection-accesses/${connectionAccess1}/expire`,
       {},
-      403
+      403,
     );
   });
 
   it('Expire active connection', function () {
     return utils.put(
       'admin',
-      `/api/connection-accesses/${connectionAccess1.id}/expire`
+      `/api/connection-accesses/${connectionAccess1.id}/expire`,
     );
   });
 
@@ -178,7 +178,7 @@ describe('api/connection-accesses', function () {
   it('Gets array of 3 accesses including inactives', async function () {
     const body = await utils.get(
       'editor',
-      '/api/connection-accesses?includeInactives=true'
+      '/api/connection-accesses?includeInactives=true',
     );
     assert.equal(body.length, 3, '3 length');
   });

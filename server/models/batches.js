@@ -53,7 +53,7 @@ class Batches {
     user,
     queryId = null,
     includeStatements = false,
-    limit = 40
+    limit = 40,
   ) {
     let batches = await this.sequelizeDb.Batches.findAll({
       where: { userId: user.id, queryId },

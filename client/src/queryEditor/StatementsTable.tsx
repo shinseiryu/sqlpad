@@ -17,7 +17,7 @@ function StatementTableRow({ statement }: { statement: Statement }) {
   const { config } = useAppContext();
   const hasRows = statement.rowCount !== undefined && statement.rowCount > 0;
 
-  let statusContent = null;
+  let statusContent: React.ReactNode;
   if (statement.status === 'started') {
     statusContent = <SpinKitRow />;
   } else if (statement.status === 'error') {
@@ -72,7 +72,7 @@ function StatementsTable({ statements }: { statements: Statement[] }) {
   let errorRow = null;
   let filteredStatements = statements;
   const errorIndex = statements.findIndex(
-    (statement) => statement.status === 'error'
+    (statement) => statement.status === 'error',
   );
   if (errorIndex > -1) {
     filteredStatements = statements.slice(0, errorIndex + 1);

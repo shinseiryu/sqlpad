@@ -69,7 +69,6 @@ class Client {
         .filter((s) => s && s.trim() !== '');
 
       for (const query of queries) {
-        // eslint-disable-next-line no-await-in-loop
         await this.runQuery(query);
       }
     }
@@ -95,14 +94,14 @@ class Client {
     // Check to see if a custom maxrows is set, otherwise use default
     const maxRows = resolvePositiveNumber(
       this.connection.maxrows_override,
-      this.connection.maxRows
+      this.connection.maxRows,
     );
     const maxRowsPlusOne = maxRows + 1;
 
     const limitedQuery = sqlLimiter.limit(
       query,
       ['limit', 'fetch'],
-      maxRowsPlusOne
+      maxRowsPlusOne,
     );
 
     // Run query without try/catch here
@@ -131,7 +130,7 @@ function createSocksConnection(connection) {
         port: connection.socksPort,
         user: connection.socksUsername,
         pass: connection.socksPassword,
-      }
+      },
     );
   }
 }

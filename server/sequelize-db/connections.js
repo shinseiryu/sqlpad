@@ -41,7 +41,7 @@ export default function (sequelize) {
     {
       tableName: 'connections',
       underscored: true,
-    }
+    },
   );
 
   return Connections;

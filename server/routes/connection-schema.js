@@ -51,7 +51,7 @@ router.get(
   '/api/connections/:connectionId/schema',
   compression(),
   mustHaveConnectionAccess,
-  wrap(getConnectionSchema)
+  wrap(getConnectionSchema),
 );
 
 export default router;

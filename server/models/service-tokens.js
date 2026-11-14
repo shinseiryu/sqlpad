@@ -18,7 +18,7 @@ class ServiceTokens {
     const secret = this.config.get('serviceTokenSecret');
     if (!secret) {
       return Promise.reject(
-        'Service Token (JWT) Secret not defined in server config'
+        'Service Token (JWT) Secret not defined in server config',
       );
     }
 
@@ -26,7 +26,7 @@ class ServiceTokens {
     // Duration received in hour, we convert JWT sign requires it in seconds
     if (data.duration > 0) {
       data.expiryDate = new Date(
-        new Date().getTime() + data.duration * 1000 * 60 * 60
+        new Date().getTime() + data.duration * 1000 * 60 * 60,
       );
       signOpts.expiresIn = data.duration * 60 * 60;
     }
@@ -38,7 +38,7 @@ class ServiceTokens {
         role: data.role,
       },
       secret,
-      signOpts
+      signOpts,
     );
 
     // Save only the masked token in the database

@@ -84,7 +84,7 @@ const QueryHistoryFilterItem = ({
         onClick={() => onRemoveFilter(index)}
       >
         -
-      </Button>
+      </Button>,
     );
   }
   if (onAddFilter) {
@@ -96,7 +96,7 @@ const QueryHistoryFilterItem = ({
         onClick={onAddFilter}
       >
         +
-      </Button>
+      </Button>,
     );
   }
 

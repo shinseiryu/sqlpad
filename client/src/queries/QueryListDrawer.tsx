@@ -108,7 +108,7 @@ function QueryListDrawer({ onClose, visible }: Props) {
         }
       });
     },
-    [initialUrl]
+    [initialUrl],
   );
 
   // (re)fetch queries when visible

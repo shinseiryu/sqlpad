@@ -62,7 +62,7 @@ class ConnectionClients {
     this.connectionClients = this.connectionClients.filter(
       (connectionClient) => {
         return connectionClient.id !== id;
-      }
+      },
     );
 
     if (connectionClient) {

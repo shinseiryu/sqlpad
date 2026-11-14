@@ -30,5 +30,5 @@ root.render(
   >
     <Routes />
     <MessageDisplayer />
-  </SWRConfig>
+  </SWRConfig>,
 );
