@@ -17,7 +17,7 @@ import passport from 'passport';
 import authStrategies from './auth-strategies/index.js';
 import sessionlessAuth from './middleware/sessionless-auth.js';
 import ResponseUtils from './lib/response-utils.js';
-import expressPinoLogger from 'express-pino-logger';
+import { pinoHttp } from 'pino-http';
 import serverDirname from './server-dirname.cjs';
 import routePasswordReset from './routes/password-reset.js';
 import routeSignout from './routes/signout.js';
@@ -72,11 +72,11 @@ async function makeApp(config, models) {
 
   const webhooks = new Webhooks(config, models, appLog);
 
-  const expressPino = expressPinoLogger({
+  const httpLogger = pinoHttp({
     level: config.get('webLogLevel'),
     timestamp: pino.stdTimeFunctions.isoTime,
     name: 'sqlpad-web',
-    // express-pino-logger logs all the headers by default
+    // pino-http logs all the headers by default
     // Removing these for now but open to adding them back in based on feedback
     redact: {
       paths: [
@@ -116,7 +116,7 @@ async function makeApp(config, models) {
     next();
   });
 
-  app.use(expressPino);
+  app.use(httpLogger);
 
   // Use favicon middleware if favicon exists
   // Thist just loads it and serves from memory
