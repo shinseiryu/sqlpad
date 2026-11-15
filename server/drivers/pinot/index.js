@@ -1,4 +1,4 @@
-import sqlLimiter from 'sql-limiter';
+import sqlLimiter from '../../lib/sql-limiter/index.cjs';
 import pinot from './_pinot.js';
 import { formatSchemaQueryResults } from '../utils.js';
 

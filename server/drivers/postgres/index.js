@@ -1,7 +1,7 @@
 import fs from 'fs';
 import pg from 'pg';
-import sqlLimiter from 'sql-limiter';
-import SocksConnection from 'socksjs';
+import sqlLimiter from '../../lib/sql-limiter/index.cjs';
+import { SocksClient } from 'socks';
 import appLog from '../../lib/app-log.js';
 import { formatSchemaQueryResults } from '../utils.js';
 import { resolvePositiveNumber } from '../../lib/resolve-number.js';
@@ -29,7 +29,7 @@ class Client {
       host: connection.host,
       port: connection.port || undefined,
       ssl: connection.postgresSsl,
-      stream: createSocksConnection(connection),
+      stream: await createSocksConnection(connection),
     };
 
     const queryTimeout = parseInt(connection.queryTimeout, 10);
@@ -118,21 +118,38 @@ class Client {
   }
 }
 
-function createSocksConnection(connection) {
-  if (connection.useSocks) {
-    return new SocksConnection(
-      {
-        host: connection.host,
-        port: connection.port,
-      },
-      {
-        host: connection.socksHost,
-        port: connection.socksPort,
-        user: connection.socksUsername,
-        pass: connection.socksPassword,
-      },
-    );
+/**
+ * Open a connection to the Postgres server through a SOCKS5 proxy.
+ * Returns undefined if the connection is not configured to use SOCKS.
+ * @param {object} connection
+ * @returns {Promise<import('net').Socket|undefined>}
+ */
+async function createSocksConnection(connection) {
+  if (!connection.useSocks) {
+    return undefined;
   }
+  const { socket } = await SocksClient.createConnection({
+    proxy: {
+      host: connection.socksHost,
+      port: parseInt(connection.socksPort, 10),
+      type: 5,
+      userId: connection.socksUsername || undefined,
+      password: connection.socksPassword || undefined,
+    },
+    command: 'connect',
+    destination: {
+      host: connection.host,
+      port: parseInt(connection.port, 10) || 5432,
+    },
+    timeout: 30000,
+  });
+  // pg calls stream.connect(port, host) and waits for 'connect'.
+  // The socket is already connected through the proxy, so just signal it.
+  socket.connect = function () {
+    process.nextTick(() => socket.emit('connect'));
+    return socket;
+  };
+  return socket;
 }
 
 const SCHEMA_SQL = `

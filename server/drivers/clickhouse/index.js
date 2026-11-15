@@ -1,5 +1,5 @@
 import { createClient } from '@clickhouse/client';
-import sqlLimiter from 'sql-limiter';
+import sqlLimiter from '../../lib/sql-limiter/index.cjs';
 import { formatSchemaQueryResults } from '../utils.js';
 
 const id = 'clickhouse';
