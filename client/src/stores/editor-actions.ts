@@ -309,10 +309,12 @@ export function selectConnectionId(connectionId: string) {
 
 export const formatQuery = async () => {
   const { focusedSessionId } = getState();
-  const { queryText, queryId } = getState().getFocusedSession();
+  const { queryText, queryId, connectionId } = getState().getFocusedSession();
 
+  // connectionId lets the server format using the connection's SQL dialect
   const json = await api.post('/api/format-sql', {
     query: queryText,
+    connectionId,
   });
 
   if (json.error) {

@@ -147,7 +147,7 @@ Locked = version resolved in the upstream `yarn.lock`. Latest = npm `latest` tag
 | `redis` | 4.7.1 | 6.3.1 | 2026-10-29 | 🟠 major behind | Must move with connect-redis (#13) |
 | `rimraf` | 6.0.1 | 6.1.4 | 2026-11-03 | 🟢 current major | → `fs.rm` (#11) |
 | `sanitize-filename` | 1.6.3 | 1.6.5 | 2026-11-07 | 🟢 current major |  |
-| `sequelize` | 6.37.7 | 6.37.8 | 2026-03-07 | 🟢 current major | Maintenance mode; keep 6.x |
+| `sequelize` | 6.37.7 | 6.37.8 | 2026-03-07 | 🟢 current major | Maintenance mode; keep 6.x (#15). Replacing the ORM (e.g. Sequelize 7, Drizzle, Kysely) is future work: models, migrations and the session store all depend on it |
 | `serve-favicon` | 2.5.1 | 2.5.1 | 2025-06-10 | 🟢 current major |  |
 | `session-file-store` | 1.5.0 | 1.5.0 | 2020-10-05 | 🔴 no release since 2020 | Evaluate keeping file sessions (#10) |
 | `socksjs` | 0.5.0 | 0.5.0 | 2014-11-26 | 🔴 no release since 2014 | Postgres SOCKS tunnel. → `socks` or drop (#10) |

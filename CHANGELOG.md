@@ -23,6 +23,8 @@
 - Express 5 and helmet 8. API behaviour is unchanged: bracket-array query strings (`tags[]=a`) still parse, and requests without a body still get an empty `req.body`. The `Strict-Transport-Security` header now defaults to `max-age` of one year (was 180 days)
 - `redis` 4 → 6, `connect-redis` 7 → 10, `connect-session-sequelize` 7 → 8. Existing Redis sessions (`sess:` keys) and cached results remain valid
 - Fix: losing the Redis connection (e.g. a Redis restart) crashed SQLPad with an unhandled `error` event. Clients now log the outage once and reconnect
+- Migrations run on `umzug` 3. Existing databases are recognized as before (the `schema_version` table is unchanged)
+- Format SQL uses `sql-formatter` 15 and the SQL dialect of the selected connection (Postgres, MySQL, SQL Server, SQLite, BigQuery, ClickHouse, Redshift, Trino/Presto; other drivers use generic SQL). Output differs slightly from before, and a query the formatter cannot parse now shows an error instead of being reformatted on a best-effort basis
 
 ## [7.5.7] - 2025-08-21
 
