@@ -21,6 +21,8 @@
 - `bcryptjs` 3: new password hashes use the `$2b$` prefix; existing `$2a$` hashes still validate
 - Server drops `node-fetch`, `mkdirp`, `rimraf`, `uuid`, `minimist`, `moment`, `dotenv` and `body-parser` in favour of Node/Express built-ins (`fetch`, `fs.mkdir`/`fs.rm`, `crypto.randomUUID`, `util.parseArgs`, `process.loadEnvFile`, `express.json`). CLI flags and `--config` `.env` files behave as before. In the batches API, `startTimeCalendar`/`stopTimeCalendar` are now `null` instead of `"Invalid date"` when the time is not set
 - Express 5 and helmet 8. API behaviour is unchanged: bracket-array query strings (`tags[]=a`) still parse, and requests without a body still get an empty `req.body`. The `Strict-Transport-Security` header now defaults to `max-age` of one year (was 180 days)
+- `redis` 4 → 6, `connect-redis` 7 → 10, `connect-session-sequelize` 7 → 8. Existing Redis sessions (`sess:` keys) and cached results remain valid
+- Fix: losing the Redis connection (e.g. a Redis restart) crashed SQLPad with an unhandled `error` event. Clients now log the outage once and reconnect
 
 ## [7.5.7] - 2025-08-21
 

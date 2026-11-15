@@ -3,10 +3,9 @@ import util from 'util';
 import path from 'path';
 import fs from 'fs';
 import { LRUCache } from 'lru-cache';
-import redis from 'redis';
+import createRedisClient from '../lib/redis-client.js';
 import { Op } from 'sequelize';
 import ensureJson from './ensure-json.js';
-import appLog from '../lib/app-log.js';
 const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
 const unlink = util.promisify(fs.unlink);
@@ -28,9 +27,10 @@ class Statements {
     this.queryResultStore = config.get('queryResultStore');
 
     if (this.queryResultStore === 'redis') {
-      const client = redis.createClient({ url: config.get('redisUri') });
-      client.connect().catch((error) => appLog.error(error));
-      this.redisClient = client;
+      this.redisClient = createRedisClient(
+        config.get('redisUri'),
+        'query result store',
+      );
     }
 
     if (this.queryResultStore === 'memory') {

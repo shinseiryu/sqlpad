@@ -2,7 +2,7 @@ import assert from 'assert';
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import redis from 'redis';
+import { createClient } from 'redis';
 import request from 'supertest';
 import detectPort from 'detect-port';
 import express from 'express';
@@ -93,16 +93,16 @@ class TestUtils {
 
   static redisAvailable(redisUri) {
     return new Promise((resolve) => {
-      const client = redis.createClient({ url: redisUri });
+      const client = createClient({ url: redisUri });
       client
         .connect()
         .then(() => {
           resolve(true);
-          client.quit();
+          return client.close();
         })
         .catch(() => {
           resolve(false);
-          client.quit();
+          client.destroy();
         });
     });
   }

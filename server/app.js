@@ -3,12 +3,12 @@ import path from 'path';
 import express from 'express';
 import helmet from 'helmet';
 import pino from 'pino';
-import redis from 'redis';
+import createRedisClient from './lib/redis-client.js';
 import session from 'express-session';
 import FileStoreFactory from 'session-file-store';
 import MemoryStoreFactory from 'memorystore';
 import SequelizeStoreFactory from 'connect-session-sequelize';
-import RedisStore from 'connect-redis';
+import { RedisStore } from 'connect-redis';
 import appLog from './lib/app-log.js';
 import Webhooks from './lib/webhooks.js';
 import favicon from 'serve-favicon';
@@ -191,10 +191,10 @@ async function makeApp(config, models) {
       break;
     }
     case 'redis': {
-      const redisClient = redis.createClient({
-        url: config.get('redisUri'),
-      });
-      redisClient.connect().catch((error) => appLog.error(error));
+      const redisClient = createRedisClient(
+        config.get('redisUri'),
+        'session store',
+      );
       sessionOptions.store = new RedisStore({ client: redisClient });
       sessionOptions.resave = false;
       break;
