@@ -1,5 +1,6 @@
 import assert from 'assert';
 import crypto from 'crypto';
+import request from 'supertest';
 import TestUtils from '../utils.js';
 
 describe('api/password-reset', function () {
@@ -54,6 +55,15 @@ describe('api/password-reset', function () {
       400,
     );
     assert.equal(body.title, 'Incorrect email address');
+  });
+
+  it('Errors (not 500) when request has no body', async function () {
+    // Express 5 leaves req.body undefined when there is no body; app.js defaults it to {}
+    const passwordResetId = await setReset();
+    const res = await request(utils.app)
+      .post(`/api/password-reset/${passwordResetId}`)
+      .expect(400);
+    assert.equal(res.body.title, 'Incorrect email address');
   });
 
   it('Errors for mismatched passwords', async function () {
