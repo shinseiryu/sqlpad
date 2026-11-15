@@ -1,43 +1,52 @@
 import path from 'path';
-import Umzug from 'umzug';
+import { pathToFileURL } from 'url';
+import { Umzug, SequelizeStorage } from 'umzug';
 import serverDirname from '../server-dirname.cjs';
+
+// Matches files like 06-00700-service-token-id-column.js
+const MIGRATION_FILE_GLOB = '[0-9]*-*.js';
 
 function makeMigrator(config, appLog, sequelizeInstance) {
   const umzug = new Umzug({
-    storage: 'sequelize',
-    storageOptions: {
-      sequelize: sequelizeInstance,
-      tableName: 'schema_version',
-    },
-    logging: (message) => {
-      appLog.info(message);
-    },
     migrations: {
-      params: [
-        sequelizeInstance.queryInterface,
-        config,
-        appLog,
-        sequelizeInstance,
+      glob: [
+        MIGRATION_FILE_GLOB,
+        { cwd: path.join(serverDirname, 'migrations') },
       ],
-      path: path.join(serverDirname, 'migrations'),
-      // The pattern that determines whether or not a file is a migration.
-      pattern: /^\d+[\w-]+\.js$/,
-
-      // A function that maps a file path to a migration object in the form
-      // { up: Function, down: Function }. The default for this is to require(...)
-      // the file as javascript, but you can use this to transpile TypeScript,
-      // read raw sql etc.
-      // See https://github.com/sequelize/umzug/blob/v2.x/test/fixtures/index.js
-      // for examples.
-      customResolver: (path) => {
-        const filePath = `file:///${path.replace(/\\/g, '/')}`;
-        const getModule = () => import(filePath);
+      // Migration names are the file names (including .js), which is also
+      // what umzug 2 recorded in schema_version, so existing databases
+      // continue to be recognized.
+      resolve: ({ name, path: filePath }) => {
+        const getModule = () => import(pathToFileURL(filePath).href);
         return {
-          up: async (upParams, config, appLog, sequelizeInstance) =>
-            (await getModule()).up(upParams, config, appLog, sequelizeInstance),
-          down: async (downParams) => (await getModule()).down(downParams),
+          name,
+          up: async () =>
+            (await getModule()).up(
+              sequelizeInstance.getQueryInterface(),
+              config,
+              appLog,
+              sequelizeInstance,
+            ),
+          down: async () =>
+            (await getModule()).down?.(sequelizeInstance.getQueryInterface()),
         };
       },
+    },
+    storage: new SequelizeStorage({
+      sequelize: sequelizeInstance,
+      tableName: 'schema_version',
+    }),
+    logger: {
+      info: (event) => {
+        if (event.event === 'migrating') {
+          appLog.info(`== ${event.name}: migrating =======`);
+        } else if (event.event === 'migrated') {
+          appLog.info(`== ${event.name}: migrated (${event.durationSeconds}s)`);
+        }
+      },
+      warn: (message) => appLog.warn(message),
+      error: (message) => appLog.error(message),
+      debug: () => {},
     },
   });
 
@@ -66,7 +75,7 @@ function makeMigrator(config, appLog, sequelizeInstance) {
       const migrationFileRegex = /\d\d-\d\d\d\d\d-(\w|-)+\.js/;
 
       const migrationFiles = executed
-        .map((migration) => migration.file)
+        .map((migration) => migration.name)
         .sort()
         .filter((name) => {
           // regex.test() is stateful if /g is set
