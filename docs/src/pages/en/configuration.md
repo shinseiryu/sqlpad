@@ -128,7 +128,7 @@ SQLPAD_DEFAULT_CONNECTION_ID = ""
 
 ```bash
 # URI for redis instance to use when SQLPAD_SESSION_STORE or SQLPAD_QUERY_RESULT_STORE are set to `redis`
-# Format should be [redis[s]:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]
+# Format should be redis[s]://[[username][:password]@][host][:port][/db-number]
 # More info at http://www.iana.org/assignments/uri-schemes/prov/redis
 SQLPAD_REDIS_URI = ""
 ```

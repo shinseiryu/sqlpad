@@ -1,5 +1,6 @@
 import assert from 'assert';
 import request from 'supertest';
+import { createClient } from 'redis';
 import TestUtils from '../utils.js';
 
 async function testSessionStore(sessionStore, additionalOpts = {}) {
@@ -44,6 +45,22 @@ describe('auth/session-stores', function () {
     if (!available || process.env.SKIP_INTEGRATION === 'true') {
       return this.skip();
     }
-    return testSessionStore('redis', { redisUri: 'redis://localhost:6379' });
+    const client = createClient({ url: 'redis://localhost:6379' });
+    await client.connect();
+    try {
+      const before = new Set(await client.keys('sess:*'));
+      await testSessionStore('redis', { redisUri: 'redis://localhost:6379' });
+
+      // Session must be stored in redis under the connect-redis default prefix, with a TTL
+      const created = (await client.keys('sess:*')).filter(
+        (key) => !before.has(key),
+      );
+      assert.equal(created.length, 1, 'one new session key');
+      const session = JSON.parse(await client.get(created[0]));
+      assert(session.passport.user, 'session has passport user');
+      assert((await client.ttl(created[0])) > 0, 'session key has TTL');
+    } finally {
+      await client.close();
+    }
   });
 });
