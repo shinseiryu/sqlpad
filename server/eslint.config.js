@@ -25,7 +25,7 @@ export default [
     },
   },
   {
-    files: ['test/**/*.js', 'drivers/*/test.js'],
+    files: ['test/**/*.{js,cjs}', 'drivers/*/test.js'],
     languageOptions: { globals: globals.mocha },
   },
   {

@@ -12,6 +12,7 @@
 - Dev/test tooling: mocha 12, `node --watch` replaces `node-dev`, `fs.cp` replaces `ncp`, pino-pretty 13
 - LDAP auth reimplemented on `ldapts` (replaces deprecated `ldapjs` / `passport-ldapauth`); existing `SQLPAD_LDAP_*` settings unchanged. Usernames and directory values are now escaped in LDAP search filters
 - Logging: pino 10, `pino-http` 11 replaces deprecated `express-pino-logger` (request log format unchanged)
+- `sql-limiter` vendored into `server/lib` (upstream archived/deprecated); Postgres SOCKS proxy uses `socks` instead of `socksjs` (same settings, SOCKS5)
 - Fix: `sqlpad` CLI shebang was malformed, so the globally installed command failed to start
 - Fix: batch could report an error while later statements were still queued
 - Removed drivers: `athena`, `cassandra`, `crate`, `mysql` (legacy; use `mysql2`), `unixodbc` (ODBC) and `vertica`. Saved connections using them still load but report that the driver is no longer supported. The `ODBC_ENABLED` Docker build option is gone.
