@@ -4,10 +4,10 @@ This fork continues [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad), which was
 
 **Plan and progress are tracked in [#23 Modernization roadmap](https://github.com/shinseiryu/sqlpad/issues/23)** and its sub-issues (#1–#22). This file is the reference analysis behind those issues. Snapshot date: **2026-11-13**, at upstream commit `57cc866b` (v7.5.7).
 
-## Status (2026-11-14)
+## Status (2026-11-15)
 
-- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4); in-range dependency updates (#34); sqlite3 6; test tooling (#5). Phase 1 complete.
-- **Next:** Phase 2 server security issues (#8, #9, #10, #14).
+- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4); in-range dependency updates (#34); sqlite3 6; test tooling (#5). Phase 1 complete. Phase 2: LDAP on `ldapts` (#8); `pino-http` (#9); sql-limiter vendored, `socks`, session store defaults to `database` with `file` deprecated (#10).
+- **Next:** Phase 2 remainder: auth libraries (#14), then #11, #12, #13, #15, #16.
 
 Tables below are the original snapshot; removed packages are marked.
 
