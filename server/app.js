@@ -93,6 +93,9 @@ async function makeApp(config, models) {
   const app = express();
 
   app.set('trust proxy', config.get('trustProxy'));
+  // Express 5 defaults to the "simple" query parser.
+  // The client sends arrays in bracket format (e.g. tags[]=a&tags[]=b), which needs "extended" (qs).
+  app.set('query parser', 'extended');
 
   // Default helmet protections, minus frameguard (becaue of sqlpad iframe embed), adding referrerPolicy
   app.use(helmet.dnsPrefetchControl());
@@ -134,6 +137,14 @@ async function makeApp(config, models) {
       extended: true,
     }),
   );
+  // Express 5 leaves req.body undefined when no body was parsed (Express 4 set {}).
+  // Keep the old behaviour so routes and auth strategies can read req.body safely.
+  app.use(function (req, res, next) {
+    if (req.body === undefined) {
+      req.body = {};
+    }
+    next();
+  });
 
   const cookieMaxAgeMs = parseInt(config.get('sessionMinutes'), 10) * 60 * 1000;
   const cookieSameSite = config.get('sessionCookieSameSite');
