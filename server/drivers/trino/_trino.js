@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 const NEXT_URI_TIMEOUT = 100;
 
 export default { send };

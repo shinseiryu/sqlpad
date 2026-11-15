@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import TestUtils from '../utils.js';
 
 function isNonAdminUserPayload(user) {
@@ -89,7 +89,7 @@ describe('api/users', function () {
   });
 
   it('Admin updates other user', async function () {
-    const passwordResetId = uuidv4();
+    const passwordResetId = crypto.randomUUID();
     const body = await utils.put('admin', `/api/users/${user.id}`, {
       role: 'admin',
       name: 'test',

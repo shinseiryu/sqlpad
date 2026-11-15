@@ -1,5 +1,5 @@
 import '../typedefs.js';
-import moment from 'moment';
+import { formatCalendar } from '../lib/format-date.js';
 import mustBeAuthenticated from '../middleware/must-be-authenticated.js';
 import { executeBatch, executeCancellableBatch } from '../lib/execute-batch.js';
 import { cancelBatch } from '../lib/cancel-batch.js';
@@ -100,9 +100,9 @@ async function list(req, res) {
   }
 
   batches.forEach((batch) => {
-    batch.startTimeCalendar = moment(batch.startTime).calendar();
-    batch.stopTimeCalendar = moment(batch.stopTime).calendar();
-    batch.createdAtCalendar = moment(batch.createdAt).calendar();
+    batch.startTimeCalendar = formatCalendar(batch.startTime);
+    batch.stopTimeCalendar = formatCalendar(batch.stopTime);
+    batch.createdAtCalendar = formatCalendar(batch.createdAt);
   });
 
   return res.utils.data(batches);

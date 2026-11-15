@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 import http from 'http';
 import https from 'https';
-import minimist from 'minimist';
+import parseCliArgs from './lib/cli-args.js';
 import detectPort from 'detect-port';
-import dotenv from 'dotenv';
 import makeApp from './app.js';
 import appLog from './lib/app-log.js';
 import Config from './lib/config/index.js';
@@ -16,7 +15,7 @@ import packageJson from './server-package-json.cjs';
 import fs from 'fs';
 import { setConfigRef } from './lib/config/config-store.js';
 
-const argv = minimist(process.argv.slice(2));
+const argv = parseCliArgs(process.argv.slice(2));
 
 const helpText = `
   SQLPad version ${packageJson.version}
@@ -46,12 +45,16 @@ if (argv.help || cliHas('help')) {
   process.exit(0);
 }
 
-// If an .env file was passed for config, call dotenv to apply it to process.env
+// If an .env file was passed for config, load it into process.env.
+// Like dotenv, variables already set in the environment are not overridden.
 const configFilePath = argv.config || process.env.SQLPAD_CONFIG;
 if (configFilePath && configFilePath.includes('.env')) {
-  const result = dotenv.config({ path: configFilePath });
-  if (result.error) {
-    appLog.error(result.error, 'Error loading .env file');
+  try {
+    // Available since Node 20.12, marked stable in 24.10; works on all supported Node versions
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
+    process.loadEnvFile(configFilePath);
+  } catch (error) {
+    appLog.error(error, 'Error loading .env file');
     process.exit(1);
   }
 }

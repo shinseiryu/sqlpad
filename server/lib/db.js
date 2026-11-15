@@ -1,5 +1,5 @@
+import fs from 'fs';
 import path from 'path';
-import { mkdirp } from 'mkdirp';
 import Models from '../models/index.js';
 import SequelizeDb from '../sequelize-db/index.js';
 
@@ -31,7 +31,7 @@ export async function getDb(instanceAlias = 'default') {
  */
 async function initDb(config) {
   const dbPath = config.get('dbPath');
-  mkdirp.sync(path.join(dbPath, '/cache'));
+  fs.mkdirSync(path.join(dbPath, '/cache'), { recursive: true });
 
   const sequelizeDb = new SequelizeDb(config);
   const models = new Models(sequelizeDb, config);

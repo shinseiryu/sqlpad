@@ -3,7 +3,7 @@ import papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import mustBeAuthenticated from '../middleware/must-be-authenticated.js';
 import wrap from '../lib/wrap.js';
-import moment from 'moment';
+import { formatIsoDate } from '../lib/format-date.js';
 import sanitize from 'sanitize-filename';
 import express from 'express';
 const router = express.Router();
@@ -67,7 +67,7 @@ async function handleDownload(req, res) {
   const columnNames = statement.columns.map((col) => col.name);
 
   const name = batch.name || 'SQLPad Query Results';
-  const simpleDate = moment().format('YYYY-MM-DD');
+  const simpleDate = formatIsoDate();
   const filename = encodeURIComponent(
     sanitize(`${name} ${simpleDate}.${format}`),
   );

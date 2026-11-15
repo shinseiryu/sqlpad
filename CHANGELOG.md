@@ -19,6 +19,7 @@
 - Session store now defaults to `database` (the SQLPad backend database) instead of `file`. `SQLPAD_SESSION_STORE=file` still works but logs a deprecation warning. Existing file-based sessions are not migrated, so users sign in again once after upgrading. Set `SQLPAD_SESSION_STORE=file` to keep the old behaviour for now.
 - OIDC auth moved to `openid-client` 6. Existing `SQLPAD_OIDC_*` settings are unchanged. Sign-in now uses PKCE, and the token endpoint still uses `client_secret_basic`. Plain-HTTP issuers are still accepted but log a warning. The client ID and secret are now form-encoded in the Basic auth header as RFC 6749 requires, so an IdP that doesn't decode them may reject secrets containing characters such as `-`, `.`, `_` or `~`.
 - `bcryptjs` 3: new password hashes use the `$2b$` prefix; existing `$2a$` hashes still validate
+- Server drops `node-fetch`, `mkdirp`, `rimraf`, `uuid`, `minimist`, `moment`, `dotenv` and `body-parser` in favour of Node/Express built-ins (`fetch`, `fs.mkdir`/`fs.rm`, `crypto.randomUUID`, `util.parseArgs`, `process.loadEnvFile`, `express.json`). CLI flags and `--config` `.env` files behave as before. In the batches API, `startTimeCalendar`/`stopTimeCalendar` are now `null` instead of `"Invalid date"` when the time is not set
 
 ## [7.5.7] - 2025-08-21
 

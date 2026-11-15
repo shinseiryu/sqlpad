@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import appLog from '../../lib/app-log.js';
 
 export const version = '1.0';

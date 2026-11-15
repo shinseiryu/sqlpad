@@ -2,7 +2,7 @@ import { strict as assert } from 'assert';
 import path from 'path';
 import TestUtils from '../utils.js';
 import ConnectionClient from '../../lib/connection-client.js';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import serverDirname from '../../server-dirname.cjs';
 
 function wait(ms) {
@@ -127,7 +127,7 @@ describe('lib/connection-clients', function () {
     );
 
     await assert.rejects(
-      connectionClient.cancelQuery(uuidv4()),
+      connectionClient.cancelQuery(crypto.randomUUID()),
       new Error('Driver SQLite does not support cancellation of queries'),
     );
   });

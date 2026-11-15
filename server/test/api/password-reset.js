@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import TestUtils from '../utils.js';
 
 describe('api/password-reset', function () {
@@ -8,7 +8,7 @@ describe('api/password-reset', function () {
   async function setReset() {
     const user = await utils.models.users.findOneByEmail('admin@test.com');
     const update = {
-      passwordResetId: uuidv4(),
+      passwordResetId: crypto.randomUUID(),
     };
     await utils.models.users.update(user.id, update);
     return update.passwordResetId;
@@ -31,7 +31,7 @@ describe('api/password-reset', function () {
     await setReset();
     await utils.post(
       'admin',
-      `/api/password-reset/${uuidv4()}`,
+      `/api/password-reset/${crypto.randomUUID()}`,
       {
         email: 'admin@test.com',
         password: 'admin',
