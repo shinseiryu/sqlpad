@@ -11,7 +11,6 @@ import SequelizeStoreFactory from 'connect-session-sequelize';
 import RedisStore from 'connect-redis';
 import appLog from './lib/app-log.js';
 import Webhooks from './lib/webhooks.js';
-import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import passport from 'passport';
 import authStrategies from './auth-strategies/index.js';
@@ -126,12 +125,12 @@ async function makeApp(config, models) {
   }
 
   app.use(
-    bodyParser.json({
+    express.json({
       limit: config.get('bodyLimit'),
     }),
   );
   app.use(
-    bodyParser.urlencoded({
+    express.urlencoded({
       extended: true,
     }),
   );

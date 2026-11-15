@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import appLog from './app-log.js';
 
 function userSummary(user) {

@@ -1,12 +1,10 @@
 import assert from 'assert';
-import { v4 as uuidv4 } from 'uuid';
-import { rimrafSync } from 'rimraf';
-import { mkdirp } from 'mkdirp';
+import crypto from 'crypto';
+import fs from 'fs';
 import path from 'path';
 import redis from 'redis';
 import request from 'supertest';
 import detectPort from 'detect-port';
-import bodyParser from 'body-parser';
 import express from 'express';
 import http from 'http';
 import Config from '../lib/config/index.js';
@@ -20,9 +18,24 @@ import ensureConnectionAccess from '../lib/ensure-connection-access.js';
 import ensureAdmin from '../lib/ensure-admin.js';
 import serverDirname from '../server-dirname.cjs';
 
+/**
+ * Removes the contents of a directory (not dotfiles, like the previous rimraf glob)
+ * @param {string} dir
+ */
+function emptyDirSync(dir) {
+  if (!fs.existsSync(dir)) {
+    return;
+  }
+  for (const name of fs.readdirSync(dir)) {
+    if (!name.startsWith('.')) {
+      fs.rmSync(path.join(dir, name), { recursive: true, force: true });
+    }
+  }
+}
+
 // At the start of any test run, clean out the root artifacts directory
 before(function () {
-  rimrafSync(path.join(serverDirname, 'test/artifacts/*'), { glob: true });
+  emptyDirSync(path.join(serverDirname, 'test/artifacts'));
 });
 
 class TestUtils {
@@ -54,7 +67,7 @@ class TestUtils {
 
     this.config = config;
     this.appLog = appLog;
-    this.instanceAlias = uuidv4();
+    this.instanceAlias = crypto.randomUUID();
     this.sequelizeDb = undefined;
     this.app = undefined;
     this.models = undefined;
@@ -98,7 +111,7 @@ class TestUtils {
     const responses = [];
     const port = await detectPort(4000);
     const app = express();
-    app.use(bodyParser.json());
+    app.use(express.json());
     app.post('/', function (req, res) {
       responses.push({
         headers: {
@@ -128,7 +141,7 @@ class TestUtils {
 
   static randomize_dbname(uri) {
     if (!uri) return '';
-    const salt = uuidv4().replace(/-/g, '');
+    const salt = crypto.randomUUID().replace(/-/g, '');
     const u = new URL(uri);
     u.pathname += salt;
     return u.href;
@@ -136,8 +149,8 @@ class TestUtils {
 
   prepDbDir() {
     const dbPath = this.config.get('dbPath');
-    mkdirp.sync(dbPath);
-    return rimrafSync(path.join(dbPath, '*'), { glob: true });
+    fs.mkdirSync(dbPath, { recursive: true });
+    return emptyDirSync(dbPath);
   }
 
   async initDbs() {

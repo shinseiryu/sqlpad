@@ -1,4 +1,5 @@
-import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
+import crypto from 'crypto';
+import uuidv5 from './uuid-v5.js';
 import consts from './consts.js';
 import drivers, { driverNotAvailableMessage } from '../drivers/index.js';
 import renderConnection from './render-connection.js';
@@ -19,7 +20,7 @@ class ConnectionClient {
    * @param {object} [user] - user to run query under. may not be provided if chart links turned on
    */
   constructor(connection, user) {
-    this.id = uuidv4();
+    this.id = crypto.randomUUID();
     this.connection = renderConnection(connection, user);
     this.driver = drivers[connection.driver];
 
@@ -183,7 +184,7 @@ class ConnectionClient {
     const startTime = new Date();
 
     const queryContext = {
-      executionId: uuidv4(),
+      executionId: crypto.randomUUID(),
       connectionClientId: this.id,
       driver: connection.driver,
       userId: user && user.id,
@@ -352,7 +353,7 @@ class ConnectionClient {
     const startTime = new Date();
 
     const queryContext = {
-      executionId: uuidv4(),
+      executionId: crypto.randomUUID(),
       connectionClientId: this.id,
       driver: connection.driver,
       userId: user && user.id,

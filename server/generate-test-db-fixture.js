@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import moment from 'moment';
 import sqliteDriver from './drivers/sqlite/index.js';
 import serverDirname from './server-dirname.cjs';
 
@@ -17,6 +16,20 @@ import serverDirname from './server-dirname.cjs';
  */
 
 const filename = path.join(serverDirname, 'test/fixtures/sales.sqlite');
+
+/**
+ * Week of year (UTC) where weeks start Sunday and week 1 contains Jan 1.
+ * Same as moment's en-locale week().
+ * @param {Date} date
+ */
+function weekOfYear(date) {
+  // Saturday ending this date's week decides which year the week belongs to
+  const weekEnd = new Date(date);
+  weekEnd.setUTCDate(date.getUTCDate() + (6 - date.getUTCDay()));
+  const jan1 = Date.UTC(weekEnd.getUTCFullYear(), 0, 1);
+  const dayOfYear = Math.floor((weekEnd - jan1) / 86400000);
+  return Math.floor(dayOfYear / 7) + 1;
+}
 
 const client = new sqliteDriver.Client({
   filename,
@@ -215,18 +228,15 @@ async function main() {
       const product = products[rowId % products.length];
 
       const hype = hypes[rowId % hypes.length];
-      const orderTimestamp = moment
-        .utc('2020-01-01')
-        .add(rowId * 43, 'minute')
-        .add(rowId * 37, 'seconds')
-        .toISOString();
+      const orderDate = new Date(
+        Date.UTC(2020, 0, 1) + rowId * 43 * 60 * 1000 + rowId * 37 * 1000,
+      );
+      const orderTimestamp = orderDate.toISOString();
 
-      const dayOfMonthMultiplier =
-        (moment(orderTimestamp).date() / 31) * 0.45 + 1;
-      const weekOfYearMultiplier =
-        (moment(orderTimestamp).week() / 52) * 0.25 + 1;
-      const minuteMultipler = (moment(orderTimestamp).minute() / 60) * 0.75 + 1;
-      const secondMultipler = (moment(orderTimestamp).second() / 60) * 0.75 + 1;
+      const dayOfMonthMultiplier = (orderDate.getUTCDate() / 31) * 0.45 + 1;
+      const weekOfYearMultiplier = (weekOfYear(orderDate) / 52) * 0.25 + 1;
+      const minuteMultipler = (orderDate.getUTCMinutes() / 60) * 0.75 + 1;
+      const secondMultipler = (orderDate.getUTCSeconds() / 60) * 0.75 + 1;
 
       const multiplier =
         regionMultiplier *

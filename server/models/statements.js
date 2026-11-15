@@ -2,7 +2,6 @@ import util from 'util';
 
 import path from 'path';
 import fs from 'fs';
-import { mkdirp } from 'mkdirp';
 import { LRUCache } from 'lru-cache';
 import redis from 'redis';
 import { Op } from 'sequelize';
@@ -12,6 +11,7 @@ const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
 const unlink = util.promisify(fs.unlink);
 const access = util.promisify(fs.access);
+const mkdir = fs.promises.mkdir;
 
 function redisDbKey(id) {
   return `statement-result/${id}`;
@@ -173,7 +173,7 @@ class Statements {
 
       if (this.isFileStore()) {
         const dir = id.slice(0, 3);
-        await mkdirp(path.join(dbPath, 'results', dir));
+        await mkdir(path.join(dbPath, 'results', dir), { recursive: true });
         resultsPath = path.join('results', dir, `${id}.json`);
         const fullPath = path.join(dbPath, resultsPath);
         await writeFile(fullPath, JSON.stringify(arrOfArr));

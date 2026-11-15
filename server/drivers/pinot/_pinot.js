@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 function getHeaders() {
   return {
     'Content-Type': 'application/json',
