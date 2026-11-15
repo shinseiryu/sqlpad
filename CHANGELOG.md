@@ -17,6 +17,8 @@
 - Fix: batch could report an error while later statements were still queued
 - Removed drivers: `athena`, `cassandra`, `crate`, `mysql` (legacy; use `mysql2`), `unixodbc` (ODBC) and `vertica`. Saved connections using them still load but report that the driver is no longer supported. The `ODBC_ENABLED` Docker build option is gone.
 - Session store now defaults to `database` (the SQLPad backend database) instead of `file`. `SQLPAD_SESSION_STORE=file` still works but logs a deprecation warning. Existing file-based sessions are not migrated, so users sign in again once after upgrading. Set `SQLPAD_SESSION_STORE=file` to keep the old behaviour for now.
+- OIDC auth moved to `openid-client` 6. Existing `SQLPAD_OIDC_*` settings are unchanged. Sign-in now uses PKCE, and the token endpoint still uses `client_secret_basic`. Plain-HTTP issuers are still accepted but log a warning. The client ID and secret are now form-encoded in the Basic auth header as RFC 6749 requires, so an IdP that doesn't decode them may reject secrets containing characters such as `-`, `.`, `_` or `~`.
+- `bcryptjs` 3: new password hashes use the `$2b$` prefix; existing `$2a$` hashes still validate
 
 ## [7.5.7] - 2025-08-21
 
