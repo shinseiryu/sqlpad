@@ -1,0 +1,35 @@
+# SQLPad with sessions and query results stored in Redis.
+# Use this when running several SQLPad instances behind a load balancer,
+# so that every instance sees the same sessions.
+services:
+  redis:
+    image: redis:7-alpine
+    restart: always
+    # Persist to disk so sessions survive a Redis restart
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - redis-data:/data
+
+  sqlpad:
+    # To use Dockerfile at root of this project, use build instead of image
+    # build: ../../
+    image: ghcr.io/shinseiryu/sqlpad:master
+    hostname: 'sqlpad'
+    depends_on:
+      - redis
+    ports:
+      - '3000:3000'
+    environment:
+      SQLPAD_ADMIN: 'admin@sqlpad.com'
+      SQLPAD_ADMIN_PASSWORD: 'admin'
+      SQLPAD_APP_LOG_LEVEL: info
+      SQLPAD_WEB_LOG_LEVEL: warn
+      SQLPAD_SESSION_STORE: 'redis'
+      SQLPAD_QUERY_RESULT_STORE: 'redis'
+      SQLPAD_REDIS_URI: 'redis://redis:6379'
+    volumes:
+      - sqlpad-data:/var/lib/sqlpad
+
+volumes:
+  redis-data:
+  sqlpad-data:

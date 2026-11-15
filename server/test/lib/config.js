@@ -49,6 +49,21 @@ describe('lib/config', function () {
     );
   });
 
+  it('Default session store is database', function () {
+    const config = new Config({}, {});
+    assert.equal(config.get('sessionStore'), 'database');
+  });
+
+  it('Warning: file session store is deprecated', function () {
+    const config = new Config({ dbPath: 'db', sessionStore: 'file' }, {});
+    const { warnings } = config.getValidations();
+    assert(
+      warnings.some((w) =>
+        w.includes('SQLPAD_SESSION_STORE=file is deprecated'),
+      ),
+    );
+  });
+
   it('Error: Unknown query result store', function () {
     configHasError({ queryResultStore: 'not-real-store' }, (error) =>
       error.includes('SQLPAD_QUERY_RESULT_STORE must be one of'),

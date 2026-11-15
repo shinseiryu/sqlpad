@@ -16,6 +16,7 @@
 - Fix: `sqlpad` CLI shebang was malformed, so the globally installed command failed to start
 - Fix: batch could report an error while later statements were still queued
 - Removed drivers: `athena`, `cassandra`, `crate`, `mysql` (legacy; use `mysql2`), `unixodbc` (ODBC) and `vertica`. Saved connections using them still load but report that the driver is no longer supported. The `ODBC_ENABLED` Docker build option is gone.
+- Session store now defaults to `database` (the SQLPad backend database) instead of `file`. `SQLPAD_SESSION_STORE=file` still works but logs a deprecation warning. Existing file-based sessions are not migrated, so users sign in again once after upgrading. Set `SQLPAD_SESSION_STORE=file` to keep the old behaviour for now.
 
 ## [7.5.7] - 2025-08-21
 
