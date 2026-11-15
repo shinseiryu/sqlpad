@@ -1,9 +1,10 @@
 import passport from 'passport';
 import appLog from '../lib/app-log.js';
 import checkAllowedDomains from '../lib/check-allowed-domains.js';
-import { Issuer, Strategy } from 'openid-client';
+import * as oidcClient from 'openid-client';
+import { Strategy } from 'openid-client/passport';
 
-async function openidClientHandler(req, tokenSet, userinfo, done) {
+async function openidClientHandler(req, tokenSet, done) {
   const { models, config, appLog, webhooks } = req;
 
   const _json = tokenSet.claims() || {};
@@ -75,24 +76,38 @@ async function enableOidc(config) {
     const baseUrl = config.get('baseUrl');
     const publicUrl = config.get('publicUrl');
 
-    const issuer = await Issuer.discover(config.get('oidcIssuer'));
+    const issuerUrl = new URL(config.get('oidcIssuer'));
+    const callbackURL = `${publicUrl}${baseUrl}/auth/oidc/callback`;
 
-    const client = new issuer.Client({
-      client_id: config.get('oidcClientId'),
-      client_secret: config.get('oidcClientSecret'),
-      redirect_uris: [`${publicUrl}${baseUrl}/auth/oidc/callback`],
-      post_logout_redirect_uris: [`${publicUrl}${baseUrl}`],
-    });
+    // openid-client 6 refuses plain-http endpoints by default.
+    // v5 allowed them, so keep allowing them (e.g. local IdPs), but warn.
+    const discoveryOptions = {};
+    if (issuerUrl.protocol === 'http:') {
+      appLog.warn(
+        'OIDC issuer uses plain HTTP. This is insecure and should only be used for local development.',
+      );
+      discoveryOptions.execute = [oidcClient.allowInsecureRequests];
+    }
+
+    // client_secret_basic was the openid-client 5 default token endpoint auth method.
+    // v6 defaults to client_secret_post, so set basic explicitly to keep IdP compatibility.
+    const oidcConfig = await oidcClient.discovery(
+      issuerUrl,
+      config.get('oidcClientId'),
+      undefined,
+      oidcClient.ClientSecretBasic(config.get('oidcClientSecret')),
+      discoveryOptions,
+    );
 
     passport.use(
       'oidc',
       new Strategy(
         {
+          name: 'oidc',
+          config: oidcConfig,
+          callbackURL,
           passReqToCallback: true,
-          client,
-          params: {
-            scope: config.get('oidcScope') || 'openid profile email roles',
-          },
+          scope: config.get('oidcScope') || 'openid profile email roles',
         },
         openidClientHandler,
       ),

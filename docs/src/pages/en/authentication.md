@@ -146,12 +146,9 @@ SQLPAD_OIDC_SCOPE = "openid profile email roles"
 # as long as the OIDC provider supplies .well-known endpoints
 SQLPAD_OIDC_ISSUER = "https://some.openidprovider.com/oauth2/default"
 
-# If .well-known is not supported, the additional 3 endpoints must be supplied
-# Supplying these endpoints is not recommended,
-# as it uses an older openid implementation which may not be compatible with your auth provider.
-SQLPAD_OIDC_AUTHORIZATION_URL = "https://some.openidprovider.com/oauth2/default/v1/authorize"
-SQLPAD_OIDC_TOKEN_URL = "https://some.openidprovider.com/oauth2/default/v1/token"
-SQLPAD_OIDC_USER_INFO_URL = "https://some.openidprovider.okta.com/oauth2/default/v1/userinfo"
+# Legacy settings from older SQLPad versions. They are ignored:
+# endpoints are always discovered from SQLPAD_OIDC_ISSUER.
+# SQLPAD_OIDC_AUTHORIZATION_URL, SQLPAD_OIDC_TOKEN_URL, SQLPAD_OIDC_USER_INFO_URL
 
 # To enable spec compliant browsers to work.
 # Default is 'strict' and that removes the session cookie on redirects.
@@ -159,6 +156,8 @@ SQLPAD_SESSION_COOKIE_SAME_SITE = 'Lax'
 ```
 
 The callback redirect URI used by SQLPad is `<baseurl>/auth/oidc/callback`.
+
+SQLPad authenticates to the token endpoint with `client_secret_basic` and uses PKCE (S256) for the authorization code flow. User details come from the ID token claims (`email` or `preferred_username`, `name` or `given_name` + `family_name`, and `roles`). Issuers on plain `http://` are accepted for local development, but SQLPad logs a warning.
 
 For the above configuration, assuming `SQLPAD_BASE_URL = "/sqlpad"`, the callback URI configured with the provider should be `http://localhost:3010/sqlpad/auth/oidc/callback`.
 
