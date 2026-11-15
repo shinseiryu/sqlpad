@@ -154,6 +154,7 @@ async function makeApp(config, models) {
 
   switch (sessionStore) {
     case 'file': {
+      // Deprecated: session-file-store is unmaintained. See config validation warning.
       const sessionPath = path.join(config.get('dbPath'), '/sessions');
       sessionOptions.store = new FileStore({
         path: sessionPath,

@@ -55,12 +55,12 @@ SQLPAD_BODY_LIMIT = "1mb"
 SQLPAD_SESSION_MINUTES = 60
 
 # Store to use for user session
-# Valid values are `file` (default), `database`, `redis`, `memory`
-# `file` uses files in the sessions directory under SQLPAD_DB_PATH
-# `memory` may be used for single sqlpad instances, and works well for no-auth setups
-# `redis` offers best performance and is most commonly used. SQLPAD_REDIS_URI must also be set.
-# `database` will use whatever backend database is used (or SQLite if SQLPAD_DB_PATH is set)
-SQLPAD_SESSION_STORE = "file"
+# Valid values are `database` (default), `redis`, `memory`, `file` (deprecated)
+# `database` uses the SQLPad backend database (SQLite under SQLPAD_DB_PATH, or SQLPAD_BACKEND_DB_URI)
+# `redis` suits multiple SQLPad instances behind a load balancer. SQLPAD_REDIS_URI must also be set.
+# `memory` may be used for single sqlpad instances, and works well for no-auth setups. Sessions are lost on restart.
+# `file` uses files in the sessions directory under SQLPAD_DB_PATH. Deprecated and will be removed in a future major release.
+SQLPAD_SESSION_STORE = "database"
 
 # The the SameSite restriction for the Session cookie
 # You may need to switch this to 'Lax' for proper login routing in browsers e.g. oidc does not work in firefox with 'strict'.

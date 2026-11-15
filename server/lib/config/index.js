@@ -126,6 +126,12 @@ class Config {
       errors.push(`Redis session store requires SQLPAD_REDIS_URI to be set`);
     }
 
+    if (this.all.sessionStore === 'file') {
+      warnings.push(
+        'SQLPAD_SESSION_STORE=file is deprecated and will be removed in a future major release. Use database (the default) or redis.',
+      );
+    }
+
     // Check for any old environment variables in env.
     // Any key that starts with SQLPAD_ that isn't known should raise a message.
     // Exceptions:

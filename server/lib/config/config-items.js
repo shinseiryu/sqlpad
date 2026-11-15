@@ -42,7 +42,7 @@ const configItems = [
   {
     key: 'sessionStore',
     envVar: 'SQLPAD_SESSION_STORE',
-    default: 'file', // database, redis, memory
+    default: 'database', // database, redis, memory, file (deprecated)
   },
   {
     key: 'timeoutSeconds',
