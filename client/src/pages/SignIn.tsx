@@ -1,6 +1,6 @@
 import GoogleIcon from 'mdi-react/GoogleIcon';
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
 import HSpacer from '../common/HSpacer';
@@ -13,7 +13,7 @@ import useAppContext from '../utilities/use-app-context';
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const { config } = useAppContext();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function SignIn() {
       return message.error('Username or password incorrect');
     }
     await api.reloadAppInfo();
-    history.push('/');
+    navigate('/');
   };
 
   if (!config) {

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../common/Button';
 import FormExplain from '../common/FormExplain';

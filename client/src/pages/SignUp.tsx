@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import message from '../common/message';
@@ -7,7 +7,7 @@ import Spacer from '../common/Spacer';
 import { api } from '../utilities/api';
 
 function SignUp() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -23,7 +23,7 @@ function SignUp() {
     if (json.error) {
       return message.error(json.error);
     }
-    history.push('/');
+    navigate('/');
   };
 
   return (

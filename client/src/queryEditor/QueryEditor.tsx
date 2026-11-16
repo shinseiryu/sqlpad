@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import SplitPane from 'react-split-pane';
 import AppHeader from '../app-header/AppHeader';
 import { debouncedResizeChart } from '../common/tauChartRef';
@@ -18,13 +18,9 @@ import QuerySaveModal from './QuerySaveModal';
 import Toolbar from './Toolbar';
 import UnsavedQuerySelector from './UnsavedQuerySelector';
 
-interface Params {
-  queryId?: string;
-}
-
 function QueryEditor() {
   const [showNotFound, setShowNotFound] = useState(false);
-  const { queryId = '' } = useParams<Params>();
+  const { queryId = '' } = useParams<'queryId'>();
   useShortcuts();
 
   // On queryId change from URL string, load query as needed.

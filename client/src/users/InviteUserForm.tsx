@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Button from '../common/Button';
 import FormExplain from '../common/FormExplain';
 import Input from '../common/Input';

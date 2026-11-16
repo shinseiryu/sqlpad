@@ -1,7 +1,7 @@
 import { MenuItem } from '@reach/menu-button';
 import DotsVerticalIcon from 'mdi-react/DotsVerticalIcon';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import IconMenu from '../common/IconMenu';
 import { resetState } from '../stores/editor-actions';
 import UserProfileModal from '../users/UserProfileModal';
@@ -13,7 +13,7 @@ function AppMenu() {
   const { currentUser } = useAppContext();
   const [showAbout, setShowAbout] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   let hideUserItems = false;
   if (!currentUser || currentUser.id === 'noauth') {
@@ -31,7 +31,7 @@ function AppMenu() {
           hidden={hideUserItems}
           onSelect={async () => {
             await api.signout();
-            history.push(`/signin`);
+            navigate(`/signin`);
             resetState();
           }}
         >

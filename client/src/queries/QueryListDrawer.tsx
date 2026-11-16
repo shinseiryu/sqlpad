@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import React, { useCallback, useEffect, useState } from 'react';
 import Measure from 'react-measure';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import { useDebounce } from 'use-debounce';
