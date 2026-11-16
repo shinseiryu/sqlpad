@@ -12,7 +12,7 @@ import {
   QueryResultFormat,
 } from '../types';
 import { api } from '../utilities/api';
-import { getHistory } from '../utilities/history';
+import { navigate } from '../utilities/navigation';
 import {
   removeLocalQueryText,
   setLocalQueryText,
@@ -649,8 +649,7 @@ export const saveQuery = async (additionalUpdates?: Partial<EditorSession>) => {
       }
       // TypeScript doesn't know that if error did not exist we are dealing with data
       if (data) {
-        const history = getHistory();
-        history?.push(`/queries/${data.id}`);
+        navigate(`/queries/${data.id}`);
         removeLocalQueryText(data.id);
         setSession(focusedSessionId, {
           isSaving: false,
@@ -678,7 +677,6 @@ export const saveQuery = async (additionalUpdates?: Partial<EditorSession>) => {
 export const handleCloneClick = () => {
   const { focusedSessionId } = getState();
   const { queryName } = getState().getFocusedSession();
-  const history = getHistory();
   setSession(focusedSessionId, {
     queryId: '',
     queryName: `Copy of ${queryName}`,
@@ -687,7 +685,7 @@ export const handleCloneClick = () => {
     canWrite: true,
     canRead: true,
   });
-  history?.push(`/queries/new`);
+  navigate(`/queries/new`);
 };
 
 export const resetNewQuery = () => {

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Button from '../common/Button';
 import HorizontalFormItem from '../common/HorizontalFormItem';
 import Input from '../common/Input';

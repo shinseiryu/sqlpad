@@ -1,18 +1,14 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import message from '../common/message';
 import Spacer from '../common/Spacer';
 import { api } from '../utilities/api';
 
-interface Params {
-  passwordResetId: string;
-}
-
 function PasswordReset() {
-  const { passwordResetId } = useParams<Params>();
-  const history = useHistory();
+  const { passwordResetId } = useParams<'passwordResetId'>();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -25,7 +21,7 @@ function PasswordReset() {
     if (json.error) {
       return message.error(json.error);
     }
-    history.push('/');
+    navigate('/');
   };
 
   useEffect(() => {

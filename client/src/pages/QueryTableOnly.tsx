@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import ExportButton from '../common/ExportButton';
 import IncompleteDataNotification from '../common/IncompleteDataNotification';
 import QueryResultContainer from '../common/QueryResultContainer';
@@ -14,17 +14,13 @@ import {
   useStatementRowCount,
 } from '../stores/editor-store';
 
-type Props = {
-  queryId: string;
-};
-
 interface ParsedQueryString {
   sequence?: string;
   connectionClientId?: string;
 }
 
 function QueryTableOnly() {
-  const { queryId } = useParams<Props>();
+  const { queryId = '' } = useParams<'queryId'>();
   const qs: ParsedQueryString = queryString.parse(window.location.search);
   const sequence = qs.sequence ? parseInt(qs.sequence) : undefined;
 

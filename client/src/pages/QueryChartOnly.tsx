@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import ExportButton from '../common/ExportButton';
 import IncompleteDataNotification from '../common/IncompleteDataNotification';
 import QueryResultRunning from '../common/QueryResultRunning';
@@ -20,12 +20,8 @@ import {
 } from '../stores/editor-store';
 import { api } from '../utilities/api';
 
-type Props = {
-  queryId: string;
-};
-
 function QueryChartOnly() {
-  const { queryId } = useParams<Props>();
+  const { queryId = '' } = useParams<'queryId'>();
   const isRunning = useSessionIsRunning();
   const statementId = useLastStatementId();
   const queryError = useSessionQueryError();

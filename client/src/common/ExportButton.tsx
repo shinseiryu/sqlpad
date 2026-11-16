@@ -1,7 +1,7 @@
 import { MenuItem, MenuLink } from '@reach/menu-button';
 import DownloadIcon from 'mdi-react/DownloadIcon';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import useAppContext from '../utilities/use-app-context';
 import IconMenu from './IconMenu';
 
@@ -13,7 +13,7 @@ interface NavigationLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorEleme
 
 const NavigationLink = React.forwardRef<Ref, NavigationLinkProps>(
   (props, ref) => {
-    return <Link {...props} innerRef={ref} />;
+    return <Link {...props} ref={ref} />;
   },
 );
 

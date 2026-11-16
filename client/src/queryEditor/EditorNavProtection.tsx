@@ -1,5 +1,5 @@
-import React from 'react';
-import { Prompt } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useBlocker } from 'react-router';
 import { useMouseOverResultPane } from '../stores/editor-store';
 
 // Guard against accidental navigation away from query results
@@ -10,13 +10,19 @@ import { useMouseOverResultPane } from '../stores/editor-store';
 // If nav occurs we assume its probably from side scroll
 function EditorNavProtection() {
   const mouseOverResultPane = useMouseOverResultPane();
+  const blocker = useBlocker(mouseOverResultPane);
 
-  return (
-    <Prompt
-      when={mouseOverResultPane}
-      message="Are you sure you want to leave?"
-    />
-  );
+  useEffect(() => {
+    if (blocker.state === 'blocked') {
+      if (window.confirm('Are you sure you want to leave?')) {
+        blocker.proceed();
+      } else {
+        blocker.reset();
+      }
+    }
+  }, [blocker]);
+
+  return null;
 }
 
 export default EditorNavProtection;
