@@ -1,28 +1,30 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import AceEditor from 'react-ace';
+import ReactAce from 'react-ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import Measure from 'react-measure';
+import cjsDefault from '../utilities/cjs-default';
 import useAppContext from '../utilities/use-app-context';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-sqlserver';
 
+const AceEditor = cjsDefault(ReactAce);
+
 const noop = () => {};
 
 export interface Props {
-  autoHeight: boolean;
+  autoHeight?: boolean;
   onChange?: (value: string) => void;
-  readOnly: boolean;
-  value: string;
-  onSelectionChange: (value: string) => void;
+  readOnly?: boolean;
+  value?: string;
+  onSelectionChange?: (value: string) => void;
 }
 
 function SqlEditor({
-  autoHeight,
+  autoHeight = true,
   onChange,
-  readOnly,
-  value,
-  onSelectionChange,
+  readOnly = false,
+  value = '',
+  onSelectionChange = noop,
 }: Props) {
   const { config } = useAppContext();
   const [dimensions, setDimensions] = useState({ width: -1, height: -1 });
@@ -119,20 +121,5 @@ function SqlEditor({
     />
   );
 }
-
-SqlEditor.propTypes = {
-  autoHeight: PropTypes.bool,
-  onChange: PropTypes.func,
-  onSelectionChange: PropTypes.func,
-  readOnly: PropTypes.bool,
-  value: PropTypes.string,
-};
-
-SqlEditor.defaultProps = {
-  autoHeight: true,
-  onSelectionChange: () => {},
-  readOnly: false,
-  value: '',
-};
 
 export default React.memo(SqlEditor);

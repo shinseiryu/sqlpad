@@ -1,4 +1,5 @@
-import * as ace from 'ace-builds/src-noconflict/ace';
+// Default import is the live global ace object (react-ace adds acequire to it)
+import ace from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-min-noconflict/ext-language_tools';
 import { ConnectionSchema } from '../types';
 

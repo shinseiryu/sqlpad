@@ -1,5 +1,4 @@
 import useSWR, { mutate } from 'swr';
-import 'whatwg-fetch';
 import message from '../common/message';
 import {
   AppInfo,

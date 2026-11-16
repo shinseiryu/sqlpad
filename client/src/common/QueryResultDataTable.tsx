@@ -27,6 +27,28 @@ const scrollbarWidth = () => {
   return scrollbarWidth;
 };
 
+/**
+ * Drag handle for resizing a column.
+ * nodeRef keeps react-draggable from calling findDOMNode, which React 19 removed.
+ */
+function ColumnResizeHandle({ onDrag }: { onDrag: (deltaX: number) => void }) {
+  const nodeRef = React.useRef<HTMLSpanElement>(null);
+  return (
+    <Draggable
+      axis="x"
+      nodeRef={nodeRef as React.RefObject<HTMLElement>}
+      defaultClassName="DragHandle"
+      defaultClassNameDragging="DragHandleActive"
+      onDrag={(event, { deltaX }) => onDrag(deltaX)}
+      position={{ x: 0, y: 0 }}
+    >
+      <span ref={nodeRef} className="DragHandleIcon">
+        ⋮
+      </span>
+    </Draggable>
+  );
+}
+
 const renderValue = (input: any, column: StatementColumn) => {
   if (input === null || input === undefined) {
     return <em>null</em>;
@@ -311,18 +333,11 @@ class QueryResultDataTable extends React.PureComponent<
       return (
         <div style={Object.assign({}, style, headerCellStyle)}>
           <div>{column.name}</div>
-          <Draggable
-            axis="x"
-            defaultClassName="DragHandle"
-            defaultClassNameDragging="DragHandleActive"
-            onDrag={(event, { deltaX }) => {
+          <ColumnResizeHandle
+            onDrag={(deltaX) => {
               this.resizeColumn({ dataKey: column.name, deltaX, columnIndex });
             }}
-            position={{ x: 0, y: 0 }}
-            // zIndex={999}
-          >
-            <span className="DragHandleIcon">⋮</span>
-          </Draggable>
+          />
         </div>
       );
     }

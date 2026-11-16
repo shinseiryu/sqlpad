@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { Chart } from 'taucharts';
 import { StatementColumn, StatementResults } from '../types';
@@ -82,11 +81,5 @@ function SqlpadTauChart({
 
   return <div id="chart" className="flex-center h-100 w-100" />;
 }
-
-SqlpadTauChart.propTypes = {
-  isRunning: PropTypes.bool,
-  chartConfiguration: PropTypes.object,
-  queryError: PropTypes.string,
-};
 
 export default SqlpadTauChart;
