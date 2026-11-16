@@ -1,6 +1,5 @@
 import React from 'react';
-import { VariableSizeGrid } from 'react-window';
-import throttle from 'lodash/throttle';
+import { CellComponentProps, Grid, GridImperativeAPI } from 'react-window';
 import Draggable from 'react-draggable';
 import { ElementSize, Measure } from '../utilities/use-element-size';
 import { QueryResultFormat, StatementColumn, StatementResults } from '../types';
@@ -174,6 +173,19 @@ interface QueryResultDataTableState {
   scrollbarWidth: number;
 }
 
+/**
+ * Data passed to every grid cell and to the size functions.
+ * The grid re-renders cells and re-measures columns when any of these change.
+ */
+interface GridData {
+  columns: StatementColumn[];
+  rows?: StatementResults;
+  columnWidths: { [key: string]: number };
+  width: number;
+  scrollbarWidth: number;
+  onResizeColumn: (dataKey: string, deltaX: number) => void;
+}
+
 class QueryResultDataTable extends React.PureComponent<
   QueryResultDataTableProps,
   QueryResultDataTableState
@@ -199,7 +211,8 @@ class QueryResultDataTable extends React.PureComponent<
 
   componentDidUpdate = (prevProps: QueryResultDataTableProps) => {
     const { columns } = this.props;
-    const { columnWidths } = this.state;
+    // Copy so the grid sees a new object and re-measures columns
+    const columnWidths = { ...this.state.columnWidths };
 
     const { width } = this.state.dimensions;
 
@@ -243,10 +256,7 @@ class QueryResultDataTable extends React.PureComponent<
     }
 
     if (newInitialColumn) {
-      this.setState({ columnWidths }, () => this.recalc(0));
-    } else {
-      // Make sure fake column is added in and sized right
-      this.recalc(0);
+      this.setState({ columnWidths });
     }
   };
 
@@ -254,11 +264,11 @@ class QueryResultDataTable extends React.PureComponent<
   // An empty dummy column is added to the grid for visual purposes
   // If dataKey was found this is a real column of data from the query result
   // If not, it's the dummy column at the end, and it should fill the rest of the grid width
-  getColumnWidth = (index: number) => {
-    const { columnWidths, scrollbarWidth, dimensions } = this.state;
-    const { columns } = this.props;
+  static getColumnWidth = (
+    index: number,
+    { columns, columnWidths, scrollbarWidth, width }: GridData,
+  ) => {
     const column = columns[index];
-    const { width } = dimensions;
 
     if (column) {
       return columnWidths[column.name] || 0;
@@ -276,82 +286,54 @@ class QueryResultDataTable extends React.PureComponent<
     return fakeColumnWidth < 10 ? 10 : fakeColumnWidth;
   };
 
-  headerGrid = React.createRef<VariableSizeGrid>();
-  bodyGrid = React.createRef<VariableSizeGrid>();
+  headerGrid = React.createRef<GridImperativeAPI>();
 
-  resizeColumn = ({
-    dataKey,
-    deltaX,
-    columnIndex,
-  }: {
-    dataKey: string;
-    deltaX: number;
-    columnIndex: number;
-  }) => {
-    this.setState(
-      (prevState) => {
-        const prevWidths = prevState.columnWidths;
-        const newWidth = prevWidths[dataKey] + deltaX;
-        return {
-          columnWidths: {
-            ...prevWidths,
-            [dataKey]: newWidth > 100 ? newWidth : 100,
-          },
-        };
-      },
-      () => {
-        this.recalc(columnIndex);
-      },
-    );
+  resizeColumn = (dataKey: string, deltaX: number) => {
+    this.setState((prevState) => {
+      const prevWidths = prevState.columnWidths;
+      const newWidth = prevWidths[dataKey] + deltaX;
+      return {
+        columnWidths: {
+          ...prevWidths,
+          [dataKey]: newWidth > 100 ? newWidth : 100,
+        },
+      };
+    });
   };
 
-  recalc = throttle((columnIndex) => {
-    if (this.headerGrid?.current?.resetAfterColumnIndex) {
-      this.headerGrid.current.resetAfterColumnIndex(columnIndex);
-      this.bodyGrid?.current?.resetAfterColumnIndex(columnIndex);
-    }
-  }, 100);
-
-  HeaderCell = ({
+  static HeaderCell = ({
+    ariaAttributes,
     columnIndex,
-    rowIndex,
     style,
-  }: {
-    columnIndex: number;
-    rowIndex: number;
-    style: React.CSSProperties;
-  }) => {
-    const { columns } = this.props;
+    columns,
+    onResizeColumn,
+  }: CellComponentProps<GridData>) => {
     const column = columns[columnIndex];
 
     // If dataKey is present this is an actual header to render
     if (column) {
       return (
-        <div style={Object.assign({}, style, headerCellStyle)}>
+        <div {...ariaAttributes} style={{ ...style, ...headerCellStyle }}>
           <div>{column.name}</div>
           <ColumnResizeHandle
-            onDrag={(deltaX) => {
-              this.resizeColumn({ dataKey: column.name, deltaX, columnIndex });
-            }}
+            onDrag={(deltaX) => onResizeColumn(column.name, deltaX)}
           />
         </div>
       );
     }
 
     // If this is a dummy header cell render an empty header cell
-    return <div style={Object.assign({}, style, headerCellStyle)} />;
+    return <div {...ariaAttributes} style={{ ...style, ...headerCellStyle }} />;
   };
 
-  Cell = ({
+  static Cell = ({
+    ariaAttributes,
     columnIndex,
     rowIndex,
     style,
-  }: {
-    columnIndex: number;
-    rowIndex: number;
-    style: React.CSSProperties;
-  }) => {
-    const { columns, rows } = this.props;
+    columns,
+    rows,
+  }: CellComponentProps<GridData>) => {
     const column = columns[columnIndex];
     const finalStyle = Object.assign({}, style, cellStyle);
 
@@ -369,6 +351,7 @@ class QueryResultDataTable extends React.PureComponent<
       const value = rows?.[rowIndex]?.[columnIndex];
       return (
         <pre
+          {...ariaAttributes}
           data-is-cell="true"
           data-column-name={column.name}
           className={scrollboxClass}
@@ -383,14 +366,13 @@ class QueryResultDataTable extends React.PureComponent<
     // If no dataKey this is a dummy cell.
     // It should render nothing, but match the row's style
     return (
-      <div style={finalStyle}>
+      <div {...ariaAttributes} style={finalStyle}>
         <div className="truncate" />
       </div>
     );
   };
 
-  getRowHeight = (index: number) => {
-    const { rows } = this.props;
+  static getRowHeight = (index: number, { rows }: GridData) => {
     if (rows) {
       let lines = 1;
       const row = rows[index] || [];
@@ -414,9 +396,11 @@ class QueryResultDataTable extends React.PureComponent<
 
   // When a scroll occurs in the body grid,
   // synchronize the scroll position of the header grid
-  handleGridScroll = ({ scrollLeft }: { scrollLeft: number }) => {
-    // scrollTop previously was not supplied
-    this.headerGrid?.current?.scrollTo({ scrollLeft, scrollTop: 0 });
+  handleGridScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const header = this.headerGrid.current?.element;
+    if (header) {
+      header.scrollLeft = event.currentTarget.scrollLeft;
+    }
   };
 
   handleContainerResize = (dimensions: ElementSize) => {
@@ -472,6 +456,14 @@ class QueryResultDataTable extends React.PureComponent<
       const rowCount = rows.length;
       // Add extra column to fill remaining grid width if necessary
       const columnCount = columns.length + 1;
+      const gridData: GridData = {
+        columns,
+        rows,
+        columnWidths: this.state.columnWidths,
+        width,
+        scrollbarWidth: this.state.scrollbarWidth,
+        onResizeColumn: this.resizeColumn,
+      };
 
       if (queryResultFormat === 'fullColumns') {
         return (
@@ -539,31 +531,34 @@ class QueryResultDataTable extends React.PureComponent<
               {/* Input fields for copy-paste value sourcing */}
               <OffScreenInput id="cell-copy-value" value={cellCopyValue} />
 
-              <VariableSizeGrid
+              <Grid
                 columnCount={columnCount}
                 rowCount={1}
-                columnWidth={this.getColumnWidth}
-                rowHeight={() => 30}
-                height={30}
-                width={width - this.state.scrollbarWidth}
-                ref={this.headerGrid}
-                style={headerStyle}
-              >
-                {this.HeaderCell}
-              </VariableSizeGrid>
-              <VariableSizeGrid
-                style={bodyStyle}
+                columnWidth={QueryResultDataTable.getColumnWidth}
+                rowHeight={30}
+                gridRef={this.headerGrid}
+                cellComponent={QueryResultDataTable.HeaderCell}
+                cellProps={gridData}
+                style={{
+                  ...headerStyle,
+                  height: 30,
+                  width: Math.max(0, width - this.state.scrollbarWidth),
+                }}
+              />
+              <Grid
                 columnCount={columnCount}
                 rowCount={rowCount}
-                columnWidth={this.getColumnWidth}
-                rowHeight={this.getRowHeight}
-                width={width}
-                height={height - 30}
-                ref={this.bodyGrid}
+                columnWidth={QueryResultDataTable.getColumnWidth}
+                rowHeight={QueryResultDataTable.getRowHeight}
+                cellComponent={QueryResultDataTable.Cell}
+                cellProps={gridData}
                 onScroll={this.handleGridScroll}
-              >
-                {this.Cell}
-              </VariableSizeGrid>
+                style={{
+                  ...bodyStyle,
+                  height: Math.max(0, height - 30),
+                  width: Math.max(0, width),
+                }}
+              />
 
               <PositionedMenu
                 open={contextMenuOpen}

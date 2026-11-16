@@ -6,7 +6,7 @@ import {
 import { MenuItem, PositionedMenu } from '../common/Menu';
 import React, { ChangeEvent, ReactNode, useState } from 'react';
 import { useElementSize } from '../utilities/use-element-size';
-import { FixedSizeList as List } from 'react-window';
+import { List, RowComponentProps } from 'react-window';
 import Divider from '../common/Divider';
 import ErrorBlock from '../common/ErrorBlock';
 import IconButton from '../common/IconButton';
@@ -17,11 +17,12 @@ import Text from '../common/Text';
 import Tooltip from '../common/Tooltip';
 import { loadSchema, toggleSchemaItem } from '../stores/editor-actions';
 import {
+  ExpandedMap,
   useSchemaState,
   useSessionConnectionId,
   useSessionSchemaExpanded,
 } from '../stores/editor-store';
-import getSchemaList from './getSchemaList';
+import getSchemaList, { SchemaListItem } from './getSchemaList';
 import styles from './SchemaSidebar.module.css';
 import searchSchemaInfo from './searchSchemaInfo';
 
@@ -75,6 +76,102 @@ function CopyMenuItem({ id, value }: { id: string; value: string }) {
   );
 }
 
+interface SchemaRowProps {
+  visibleItems: SchemaListItem[];
+  expanded: ExpandedMap;
+  connectionId: string;
+}
+
+function SchemaRow({
+  ariaAttributes,
+  index,
+  style,
+  visibleItems,
+  expanded,
+  connectionId,
+}: RowComponentProps<SchemaRowProps>) {
+  const row = visibleItems[index];
+
+  if (!row) {
+    return null;
+  }
+
+  const classNames = [styles.schemaItem];
+
+  let icon = null;
+
+  const expandable = row.type === 'schema' || row.type === 'table';
+  if (expandable) {
+    classNames.push(styles.expandable);
+    icon =
+      expanded[row.id] === true ? (
+        <OpenIcon size={ICON_SIZE} style={ICON_STYLE} />
+      ) : (
+        <ClosedIcon size={ICON_SIZE} style={ICON_STYLE} />
+      );
+  }
+
+  const indentationPadding = row.level * 20 + (!expandable ? 10 : 0);
+
+  const description = row.description ? (
+    <Tooltip
+      key="colDesc"
+      label={row.description}
+      style={{
+        maxWidth: '300px',
+        whiteSpace: 'normal',
+      }}
+    >
+      <span>{row.description}</span>
+    </Tooltip>
+  ) : null;
+
+  const dataType = row.dataType ? <span>{row.dataType}</span> : null;
+
+  let secondary = null;
+  if (dataType && description) {
+    secondary = (
+      <Text type="secondary" style={{ paddingLeft: 8 }}>
+        {dataType} - {description}
+      </Text>
+    );
+  } else if (dataType) {
+    secondary = (
+      <Text type="secondary" style={{ paddingLeft: 8 }}>
+        {dataType}
+      </Text>
+    );
+  } else if (description) {
+    secondary = (
+      <Text type="secondary" style={{ paddingLeft: 8 }}>
+        {description}
+      </Text>
+    );
+  }
+
+  function handleClick() {
+    if (expandable) {
+      toggleSchemaItem(connectionId, row);
+    }
+  }
+
+  // TODO either switch to button or improve aria for clicking on li
+  return (
+    <li
+      {...ariaAttributes}
+      id={row.id}
+      key={row.id}
+      className={classNames.join(' ')}
+      style={{ ...style, paddingLeft: indentationPadding }}
+      onClick={handleClick}
+    >
+      {icon}
+      {row.name}
+      {secondary}
+    </li>
+  );
+}
+
 function SchemaSidebar() {
   const connectionId = useSessionConnectionId();
   const [search, setSearch] = useState('');
@@ -98,91 +195,6 @@ function SchemaSidebar() {
   const filteredSchemaInfo = searchSchemaInfo(connectionSchema || {}, search);
   const visibleItems = getSchemaList(filteredSchemaInfo, expanded);
 
-  const Row: React.FunctionComponent<{
-    index: number;
-    style: React.CSSProperties;
-  }> = ({ index, style }) => {
-    const row = visibleItems[index];
-
-    if (!row) {
-      return null;
-    }
-
-    const classNames = [styles.schemaItem];
-
-    let icon = null;
-
-    const expandable = row.type === 'schema' || row.type === 'table';
-    if (expandable) {
-      classNames.push(styles.expandable);
-      icon =
-        expanded[row.id] === true ? (
-          <OpenIcon size={ICON_SIZE} style={ICON_STYLE} />
-        ) : (
-          <ClosedIcon size={ICON_SIZE} style={ICON_STYLE} />
-        );
-    }
-
-    const indentationPadding = row.level * 20 + (!expandable ? 10 : 0);
-
-    const description = row.description ? (
-      <Tooltip
-        key="colDesc"
-        label={row.description}
-        style={{
-          maxWidth: '300px',
-          whiteSpace: 'normal',
-        }}
-      >
-        <span>{row.description}</span>
-      </Tooltip>
-    ) : null;
-
-    const dataType = row.dataType ? <span>{row.dataType}</span> : null;
-
-    let secondary = null;
-    if (dataType && description) {
-      secondary = (
-        <Text type="secondary" style={{ paddingLeft: 8 }}>
-          {dataType} - {description}
-        </Text>
-      );
-    } else if (dataType) {
-      secondary = (
-        <Text type="secondary" style={{ paddingLeft: 8 }}>
-          {dataType}
-        </Text>
-      );
-    } else if (description) {
-      secondary = (
-        <Text type="secondary" style={{ paddingLeft: 8 }}>
-          {description}
-        </Text>
-      );
-    }
-
-    function handleClick() {
-      if (expandable) {
-        toggleSchemaItem(connectionId, row);
-      }
-    }
-
-    // TODO either switch to button or improve aria for clicking on li
-    return (
-      <li
-        id={row.id}
-        key={row.id}
-        className={classNames.join(' ')}
-        style={{ ...style, paddingLeft: indentationPadding }}
-        onClick={handleClick}
-      >
-        {icon}
-        {row.name}
-        {secondary}
-      </li>
-    );
-  };
-
   let content: ReactNode;
   if (error) {
     content = <ErrorBlock>{error}</ErrorBlock>;
@@ -197,16 +209,18 @@ function SchemaSidebar() {
       <ul style={{ paddingLeft: 0 }}>
         <List
           // position absolute takes list out of flow,
-          // preventing some weird react-measure behavior in Firefox
-          style={{ position: 'absolute' }}
-          height={dimensions.height}
-          itemCount={visibleItems.length}
-          itemSize={22}
-          width={dimensions.width}
+          // preventing some weird measuring behavior in Firefox
+          style={{
+            position: 'absolute',
+            height: Math.max(0, dimensions.height),
+            width: Math.max(0, dimensions.width),
+          }}
+          rowCount={visibleItems.length}
+          rowHeight={22}
+          rowComponent={SchemaRow}
+          rowProps={{ visibleItems, expanded, connectionId }}
           overscanCount={10}
-        >
-          {Row}
-        </List>
+        />
       </ul>
     );
   }

@@ -1,7 +1,7 @@
 import { ConnectionSchema } from '../types';
 import { ExpandedMap } from '../stores/editor-store';
 
-interface SchemaListItem {
+export interface SchemaListItem {
   type: 'schema' | 'table' | 'column';
   name: string;
   description?: string;

@@ -147,7 +147,6 @@ function MultiSelect(props: Props) {
     isOpen,
     getMenuProps,
     getInputProps,
-    getComboboxProps,
     highlightedIndex,
     getItemProps,
   } = useCombobox({
@@ -198,7 +197,6 @@ function MultiSelect(props: Props) {
               }
             : undefined
         }
-        {...getComboboxProps()}
       >
         {selectedItems.map((selectedItem, index) => (
           <Tag
@@ -213,24 +211,18 @@ function MultiSelect(props: Props) {
         <input
           className={styles.input}
           placeholder={placeholder}
-          {...getInputProps({
-            onKeyDown(event) {
-              // Don't propagate the escape key press - it could close modals or drawers
-              // We just want it to close the suggestion box
-              if (event.key === 'Escape' && isOpen) {
-                event.stopPropagation();
-              }
-            },
-            ...getDropdownProps({
+          {...getInputProps(
+            getDropdownProps({
+              // Escape with suggestions open only closes the suggestions;
+              // Modal and Drawer check aria-expanded (see dialog-escape.ts)
               preventKeyAction: isOpen,
+              // For some reason the input blur state change doesn't happen consistently in the onStateChange function
+              // To ensure input is cleared of any unselected partial value on blur, clear input here as well
+              onBlur() {
+                setInputValue('');
+              },
             }),
-            // For some reason the input blur state change doesn't happen consistently in the onStateChange function
-            // This could be something I am doing messing with other things
-            // To ensure input is cleared of any unselected partial value on blur, clear input here as well
-            onBlur() {
-              setInputValue('');
-            },
-          })}
+          )}
         />
       </div>
       <Menu {...getMenuProps()} style={{}}>

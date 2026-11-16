@@ -35,6 +35,7 @@ const DeleteConfirmButton = React.forwardRef<Ref, ButtonProps>(
             onClick={() => setVisible(true)}
             ref={ref}
             variant="danger"
+            aria-label={typeof children === 'string' ? children : 'Delete'}
             {...rest}
           >
             <DeleteIcon />

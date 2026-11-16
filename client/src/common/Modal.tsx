@@ -3,6 +3,7 @@ import { CloseIcon } from './icons';
 import React from 'react';
 import styles from './Modal.module.css';
 import IconButton from './IconButton';
+import { keepDialogOpenForOpenPopup } from './dialog-escape';
 
 export interface Props extends React.HTMLAttributes<HTMLElement> {
   title: string;
@@ -33,6 +34,7 @@ function Modal({
             className={`dialog-content ${styles.Dialog}`}
             style={{ width }}
             aria-describedby={undefined}
+            onEscapeKeyDown={keepDialogOpenForOpenPopup}
             onOpenAutoFocus={(event) => {
               if (initialFocusRef?.current) {
                 event.preventDefault();

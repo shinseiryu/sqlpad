@@ -2,8 +2,8 @@ import queryString from 'query-string';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useElementSize } from '../utilities/use-element-size';
 import { Link } from 'react-router';
-import { FixedSizeList as List } from 'react-window';
-import InfiniteLoader from 'react-window-infinite-loader';
+import { List, RowComponentProps } from 'react-window';
+import { useInfiniteLoader } from 'react-window-infinite-loader';
 import { useDebounce } from 'use-debounce';
 import DeleteConfirmButton from '../common/DeleteConfirmButton';
 import Drawer from '../common/Drawer';
@@ -33,6 +33,58 @@ type Props = {
   visible?: boolean;
   onClose: (...args: any[]) => any;
 };
+
+interface QueryRowProps {
+  queries: Query[];
+  onPreview: (query: Query | null) => void;
+  onOpen: () => void;
+  onDelete: (queryId: string) => void;
+}
+
+function QueryRow({
+  ariaAttributes,
+  index,
+  style,
+  queries,
+  onPreview,
+  onOpen,
+  onDelete,
+}: RowComponentProps<QueryRowProps>) {
+  const query = queries[index];
+  const queryUrl = `/queries/${query.id}`;
+
+  return (
+    <ListItem
+      {...ariaAttributes}
+      key={query.id}
+      className={styles.ListItem}
+      onMouseEnter={() => onPreview(query)}
+      onMouseLeave={() => onPreview(null)}
+      style={style}
+    >
+      <Link
+        className={`${styles.queryLink} truncate`}
+        to={queryUrl}
+        onClick={onOpen}
+      >
+        {query.name}
+      </Link>
+      <div className={styles.listItemActions}>
+        <DeleteConfirmButton
+          icon
+          key="del"
+          confirmMessage={`Delete ${query.name}`}
+          onConfirm={() => {
+            onDelete(query.id);
+          }}
+          disabled={!query.canDelete}
+        >
+          Delete
+        </DeleteConfirmButton>
+      </div>
+    </ListItem>
+  );
+}
 
 function QueryListDrawer({ onClose, visible }: Props) {
   const [preview, setPreview] = useState<Query | null>(null);
@@ -137,48 +189,19 @@ function QueryListDrawer({ onClose, visible }: Props) {
     onClose();
   }
 
-  const Row = ({ index, style }: any) => {
-    const query = queries[index];
-    const queryUrl = `/queries/${query.id}`;
-
-    return (
-      <ListItem
-        key={query.id}
-        className={styles.ListItem}
-        onMouseEnter={() => setPreview(query)}
-        onMouseLeave={() => setPreview(null)}
-        style={style}
-      >
-        <Link
-          className={`${styles.queryLink} truncate`}
-          to={queryUrl}
-          onClick={handleClose}
-        >
-          {query.name}
-        </Link>
-        <div className={styles.listItemActions}>
-          <DeleteConfirmButton
-            icon
-            key="del"
-            confirmMessage={`Delete ${query.name}`}
-            onConfirm={() => {
-              deleteQuery(query.id);
-            }}
-            disabled={!query.canDelete}
-          >
-            Delete
-          </DeleteConfirmButton>
-        </div>
-      </ListItem>
-    );
-  };
-
   const loadMore = (startIndex: number, stopIndex: number) => {
     if (!loading && next) {
       return getQueries(next);
     }
     return Promise.resolve();
   };
+
+  // Row count is open-ended; the server returns a next link while more exist
+  const onRowsRendered = useInfiniteLoader({
+    isRowLoaded: (index: number) => index < queries.length,
+    rowCount: 1000,
+    loadMoreRows: loadMore,
+  });
 
   return (
     <Drawer
@@ -268,28 +291,26 @@ function QueryListDrawer({ onClose, visible }: Props) {
             </div>
           )}
           {!error && queries.length > 0 && (
-            <InfiniteLoader
-              isItemLoaded={(index: any) => index < queries.length}
-              itemCount={1000}
-              loadMoreItems={loadMore}
-            >
-              {({ onItemsRendered, ref }: any) => (
-                <List
-                  // position absolute takes list out of flow,
-                  // preventing some weird react-measure behavior in Firefox
-                  style={{ position: 'absolute' }}
-                  ref={ref}
-                  onItemsRendered={onItemsRendered}
-                  height={dimensions.height}
-                  itemCount={queries.length}
-                  itemSize={48}
-                  width={dimensions.width}
-                  overscanCount={2}
-                >
-                  {Row}
-                </List>
-              )}
-            </InfiniteLoader>
+            <List
+              // position absolute takes list out of flow,
+              // preventing some weird measuring behavior in Firefox
+              style={{
+                position: 'absolute',
+                height: Math.max(0, dimensions.height),
+                width: Math.max(0, dimensions.width),
+              }}
+              onRowsRendered={onRowsRendered}
+              rowCount={queries.length}
+              rowHeight={48}
+              rowComponent={QueryRow}
+              rowProps={{
+                queries,
+                onPreview: setPreview,
+                onOpen: handleClose,
+                onDelete: deleteQuery,
+              }}
+              overscanCount={2}
+            />
           )}
         </div>
 
