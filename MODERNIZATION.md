@@ -9,8 +9,8 @@ This fork continues [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad), which was
 - **Phase 1, foundation (done):** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4); in-range dependency updates (#34); sqlite3 6; test tooling (#5).
 - **Phase 2, server deprecations (done):** driver scope decided and six drivers removed (#6, #7); ldapjs → ldapts (#8); express-pino-logger → pino-http, pino 10 (#9); sql-limiter vendored, socksjs → socks (#10); small utility deps → Node built-ins (#11). Session store now defaults to the database; the file store is deprecated (#41).
 - **Phase 3, server major upgrades (done):** Express 5 and helmet 8 (#12); redis 6, connect-redis 10, connect-session-sequelize 8 (#13); openid-client 6, bcryptjs 3 (#14); umzug 3, sql-formatter 15 (#15); mssql 12, bigquery 9, hdb 2 (#16).
-- **Phase 4, client (in progress):** React 19, Vite 8, TypeScript 6 (#17); react-router-dom 5 → react-router 8 (#18); Reach UI → Radix UI (#19).
-- **Next:** small abandoned UI deps (#21), then state/data libraries (#22), then charting (#20) last.
+- **Phase 4, client (in progress):** React 19, Vite 8, TypeScript 6 (#17); react-router-dom 5 → react-router 8 (#18); Reach UI → Radix UI (#19); mdi-react, react-split-pane, react-measure, keymaster replaced and react-ace 15 (#21); swr 2, zustand 5, react-window 2, downshift 9 and other state/data libraries (#22).
+- **Next:** charting (#20), the last Phase 4 task. Optional follow-up: evaluate CodeMirror 6 / Monaco for the SQL editor (#53).
 
 Tables below are the original snapshot; removed packages are marked.
 

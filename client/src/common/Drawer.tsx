@@ -3,6 +3,7 @@ import { CloseIcon } from './icons';
 import React from 'react';
 import styles from './Drawer.module.css';
 import IconButton from './IconButton';
+import { keepDialogOpenForOpenPopup } from './dialog-escape';
 
 export interface Props extends React.HTMLAttributes<HTMLElement> {
   title: string;
@@ -43,6 +44,7 @@ function Drawer({
             className={`dialog-content ${styles.Dialog}`}
             style={style}
             aria-describedby={undefined}
+            onEscapeKeyDown={keepDialogOpenForOpenPopup}
           >
             <div className={styles.titleWrapper}>
               <Dialog.Title className={styles.title}>{title}</Dialog.Title>

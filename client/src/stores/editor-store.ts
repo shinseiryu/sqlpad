@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import {
   ACLRecord,
   Batch,
@@ -127,6 +127,11 @@ export const useEditorStore = create<EditorStoreState>((set, get) => ({
     return session;
   },
 }));
+
+// Selectors must return stable references: zustand 5 re-renders forever
+// when a selector returns a new object on every call.
+const EMPTY_EXPANDED_MAP: ExpandedMap = {};
+const EMPTY_SCHEMA_STATE: SchemaState = { loading: false };
 
 export function useInitialized() {
   return useEditorStore((s) => s.initialized);
@@ -276,7 +281,7 @@ export function useSessionSchemaExpanded(connectionId?: string) {
   return useEditorStore((s) => {
     const { schemaExpansions } = s.getFocusedSession();
     if (!connectionId || !schemaExpansions || !schemaExpansions[connectionId]) {
-      return {};
+      return EMPTY_EXPANDED_MAP;
     }
     return schemaExpansions[connectionId];
   });
@@ -285,8 +290,7 @@ export function useSessionSchemaExpanded(connectionId?: string) {
 export function useSchemaState(connectionId?: string) {
   return useEditorStore((s) => {
     if (!connectionId || !s.schemaStates[connectionId]) {
-      const emptySchemaState: SchemaState = { loading: false };
-      return emptySchemaState;
+      return EMPTY_SCHEMA_STATE;
     }
     return s.schemaStates[connectionId];
   });
