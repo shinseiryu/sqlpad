@@ -1,11 +1,18 @@
 import chartDefinitions from '../utilities/chartDefinitions';
-import exportTo from 'taucharts/dist/plugins/export-to';
-import legend from 'taucharts/dist/plugins/legend';
-import quickFilter from 'taucharts/dist/plugins/quick-filter';
-import tooltip from 'taucharts/dist/plugins/tooltip';
-import tcTrendline from 'taucharts/dist/plugins/trendline';
+import exportToPlugin from 'taucharts/dist/plugins/export-to';
+import legendPlugin from 'taucharts/dist/plugins/legend';
+import quickFilterPlugin from 'taucharts/dist/plugins/quick-filter';
+import tooltipPlugin from 'taucharts/dist/plugins/tooltip';
+import trendlinePlugin from 'taucharts/dist/plugins/trendline';
 import baseUrl from '../utilities/baseUrl';
+import cjsDefault from '../utilities/cjs-default';
 import { StatementColumn } from '../types';
+
+const exportTo = cjsDefault(exportToPlugin);
+const legend = cjsDefault(legendPlugin);
+const quickFilter = cjsDefault(quickFilterPlugin);
+const tooltip = cjsDefault(tooltipPlugin);
+const tcTrendline = cjsDefault(trendlinePlugin);
 
 /**
  * Caution this uses any type for a few things

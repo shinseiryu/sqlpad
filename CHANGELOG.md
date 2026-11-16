@@ -26,6 +26,7 @@
 - Migrations run on `umzug` 3. Existing databases are recognized as before (the `schema_version` table is unchanged)
 - Format SQL uses `sql-formatter` 15 and the SQL dialect of the selected connection (Postgres, MySQL, SQL Server, SQLite, BigQuery, ClickHouse, Redshift, Trino/Presto; other drivers use generic SQL). Output differs slightly from before, and a query the formatter cannot parse now shows an error instead of being reformatted on a best-effort basis
 - Database drivers: `mssql` 11 → 12 (SQL Server), `@google-cloud/bigquery` 8 → 9, `hdb` 0.19 → 2.30 (SAP HANA; version numbering now follows SAP's HANA client). Connection settings are unchanged. `pg`, `mysql2`, `mariadb` and `@clickhouse/client` were already on their latest versions
+- Client: React 19, Vite 8 and TypeScript 6. Build tools and type packages moved to `devDependencies`; `whatwg-fetch` and `prop-types` removed. No visible UI changes
 
 ## [7.5.7] - 2025-08-21
 

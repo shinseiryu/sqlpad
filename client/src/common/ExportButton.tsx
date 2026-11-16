@@ -1,6 +1,5 @@
 import { MenuItem, MenuLink } from '@reach/menu-button';
 import DownloadIcon from 'mdi-react/DownloadIcon';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useAppContext from '../utilities/use-app-context';
@@ -87,10 +86,5 @@ function ExportButton({
     <IconMenu icon={<DownloadIcon aria-label="Download" />}>{items}</IconMenu>
   );
 }
-
-ExportButton.propTypes = {
-  links: PropTypes.object,
-  onSaveImageClick: PropTypes.func,
-};
 
 export default ExportButton;

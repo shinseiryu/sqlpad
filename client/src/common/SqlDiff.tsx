@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Measure from 'react-measure';
 import { diff as DiffEditor } from 'react-ace';
@@ -9,7 +8,7 @@ export interface Props {
   value?: string[];
 }
 
-function SqlDiff({ value }: Props) {
+function SqlDiff({ value = ['', ''] }: Props) {
   const [dimensions, setDimensions] = useState({ width: -1, height: -1 });
   const { width, height } = dimensions;
 
@@ -45,13 +44,5 @@ function SqlDiff({ value }: Props) {
     </Measure>
   );
 }
-
-SqlDiff.propTypes = {
-  value: PropTypes.arrayOf(PropTypes.string),
-};
-
-SqlDiff.defaultProps = {
-  value: ['', ''],
-};
 
 export default SqlDiff;
