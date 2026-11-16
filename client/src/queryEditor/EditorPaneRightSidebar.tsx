@@ -1,21 +1,16 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import { SplitGroup, SplitPane, SplitSeparator } from '../common/SplitPanes';
 import Spacer from '../common/Spacer';
-import { debouncedResizeChart } from '../common/tauChartRef';
 import { useSessionShowVisProperties } from '../stores/editor-store';
 import ChartInputs from './ChartInputs';
 import ChartStatementDisclaimer from './ChartStatementDisclaimer';
 import ChartTypeSelect from './ChartTypeSelect';
 
 interface EditorPaneRightSidebarProps {
-  queryId: string;
   children: ReactElement;
 }
 
-const EditorPaneRightSidebar = ({
-  children,
-  queryId,
-}: EditorPaneRightSidebarProps) => {
+const EditorPaneRightSidebar = ({ children }: EditorPaneRightSidebarProps) => {
   const showVisProperties = useSessionShowVisProperties();
 
   let sidebarContent = null;
@@ -36,10 +31,7 @@ const EditorPaneRightSidebar = ({
   }
 
   return (
-    <SplitGroup
-      orientation="horizontal"
-      onResize={() => debouncedResizeChart(queryId)}
-    >
+    <SplitGroup orientation="horizontal">
       <SplitPane>{children}</SplitPane>
       <SplitSeparator />
       <SplitPane

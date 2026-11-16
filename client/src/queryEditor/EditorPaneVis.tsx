@@ -1,18 +1,15 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import { SplitGroup, SplitPane, SplitSeparator } from '../common/SplitPanes';
-import { debouncedResizeChart } from '../common/tauChartRef';
 import { useSessionChartType } from '../stores/editor-store';
 import QueryEditorChart from './QueryEditorChart';
 import QueryEditorChartToolbar from './QueryEditorChartToolbar';
 
 interface EditorPaneVisProps {
-  queryId: string;
   children: ReactElement;
 }
 
 const EditorPaneVis: FunctionComponent<EditorPaneVisProps> = ({
   children,
-  queryId,
 }: EditorPaneVisProps) => {
   const chartType = useSessionChartType();
   const showVis = Boolean(chartType);
@@ -22,11 +19,7 @@ const EditorPaneVis: FunctionComponent<EditorPaneVisProps> = ({
   }
 
   return (
-    <SplitGroup
-      key="editorAndVis"
-      orientation="horizontal"
-      onResize={() => debouncedResizeChart(queryId)}
-    >
+    <SplitGroup key="editorAndVis" orientation="horizontal">
       <SplitPane defaultSize="50%">{children}</SplitPane>
       <SplitSeparator />
       <SplitPane minSize={200}>

@@ -1,7 +1,6 @@
 const chartDefinitions = [
   {
     chartType: 'line',
-    tauChartsType: 'line',
     chartLabel: 'Line',
     fields: [
       {
@@ -31,7 +30,7 @@ const chartDefinitions = [
       },
       {
         fieldId: 'xFacet',
-        requied: false,
+        required: false,
         label: 'x Facet',
         inputType: 'field-dropdown',
         forceDimension: true,
@@ -71,7 +70,6 @@ const chartDefinitions = [
   },
   {
     chartType: 'bar',
-    tauChartsType: 'horizontalBar',
     chartLabel: 'Bar - Horizontal',
     fields: [
       {
@@ -104,7 +102,6 @@ const chartDefinitions = [
   },
   {
     chartType: 'verticalbar',
-    tauChartsType: 'bar',
     chartLabel: 'Bar - Vertical',
     fields: [
       {
@@ -137,7 +134,6 @@ const chartDefinitions = [
   },
   {
     chartType: 'bubble',
-    tauChartsType: 'scatterplot',
     chartLabel: 'Scatterplot',
     fields: [
       {
@@ -166,7 +162,7 @@ const chartDefinitions = [
       },
       {
         fieldId: 'xFacet',
-        requied: false,
+        required: false,
         label: 'x Facet',
         inputType: 'field-dropdown',
         forceDimension: true,
@@ -194,7 +190,6 @@ const chartDefinitions = [
   },
   {
     chartType: 'stacked-bar-vertical',
-    tauChartsType: 'stacked-bar',
     chartLabel: 'Stacked Bar - Vertical',
     fields: [
       {
@@ -233,7 +228,6 @@ const chartDefinitions = [
   },
   {
     chartType: 'stacked-bar-horizontal',
-    tauChartsType: 'horizontal-stacked-bar',
     chartLabel: 'Stacked Bar - Horizontal',
     fields: [
       {

@@ -36,6 +36,10 @@ const IconButton = React.forwardRef<Ref, ButtonProps & LinkProps>(
     ref,
   ) => {
     const classNames = [styles.btn];
+    // Icon-only buttons are named by their tooltip unless labelled explicitly
+    if (tooltip && !rest['aria-label']) {
+      rest['aria-label'] = tooltip;
+    }
 
     if (className) {
       classNames.push(className);

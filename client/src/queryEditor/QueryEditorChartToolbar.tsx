@@ -1,7 +1,7 @@
 import { DownloadIcon, OpenInNewIcon } from '../common/icons';
 import React from 'react';
 import IconButton from '../common/IconButton';
-import { exportPng } from '../common/tauChartRef';
+import { exportPng } from '../common/chartRef';
 import {
   useLastStatementId,
   useSessionQueryId,

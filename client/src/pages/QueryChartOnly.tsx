@@ -3,8 +3,8 @@ import { useParams } from 'react-router';
 import ExportButton from '../common/ExportButton';
 import IncompleteDataNotification from '../common/IncompleteDataNotification';
 import QueryResultRunning from '../common/QueryResultRunning';
-import SqlpadTauChart from '../common/SqlpadTauChart';
-import { exportPng } from '../common/tauChartRef';
+import SqlpadChart from '../common/LazySqlpadChart';
+import { exportPng } from '../common/chartRef';
 import { loadQuery, runQuery } from '../stores/editor-actions';
 import {
   useLastStatementId,
@@ -89,7 +89,7 @@ function QueryChartOnly() {
         </div>
       </div>
       <div style={{ height: '100%', display: 'flex' }}>
-        <SqlpadTauChart
+        <SqlpadChart
           queryId={queryId}
           chartConfiguration={chart}
           columns={columns}

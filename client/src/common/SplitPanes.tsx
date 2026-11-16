@@ -4,8 +4,6 @@ import { Group, Panel, PanelProps, Separator } from 'react-resizable-panels';
 interface SplitGroupProps {
   /** "horizontal" lays panes side by side, "vertical" stacks them */
   orientation: 'horizontal' | 'vertical';
-  /** Called while panes are being resized */
-  onResize?: () => void;
   children: React.ReactNode;
 }
 
@@ -13,16 +11,10 @@ interface SplitGroupProps {
  * Resizable group of panes filling its positioned parent.
  * Panes go in <SplitPane>, separated by <SplitSeparator>.
  */
-export function SplitGroup({
-  orientation,
-  onResize,
-  children,
-}: SplitGroupProps) {
+export function SplitGroup({ orientation, children }: SplitGroupProps) {
   return (
     <div className="split-group-container">
-      <Group orientation={orientation} onLayoutChange={onResize}>
-        {children}
-      </Group>
+      <Group orientation={orientation}>{children}</Group>
     </div>
   );
 }

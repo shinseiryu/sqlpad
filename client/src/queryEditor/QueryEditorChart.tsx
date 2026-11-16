@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useMemo } from 'react';
-import SqlpadTauChart from '../common/SqlpadTauChart';
+import SqlpadChart from '../common/LazySqlpadChart';
 import {
   useLastStatementId,
   useSessionChartFields,
@@ -29,7 +29,7 @@ const ConnectedChart: FunctionComponent = (props) => {
   }, [chartType, chartFields]);
 
   return (
-    <SqlpadTauChart
+    <SqlpadChart
       queryId={queryId}
       isRunning={isRunning}
       columns={columns}
