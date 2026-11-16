@@ -7,10 +7,16 @@ import { useMouseOverResultPane } from '../stores/editor-store';
 // At this time the only scenario protected against is when the user is scrolling back over query results
 // Scrolling too far can trigger the back navigation, which is often undesired
 // To protect against this, we track when the mouse is over query results.
-// If nav occurs we assume its probably from side scroll
+// If a back/forward navigation occurs we assume its probably from side scroll.
+//
+// Only history (POP) navigation is guarded. App navigation, like opening a
+// newly saved query, never prompts, even if the hover flag is stale (it can
+// stick after the cell context menu, rendered in a portal, closes).
 function EditorNavProtection() {
   const mouseOverResultPane = useMouseOverResultPane();
-  const blocker = useBlocker(mouseOverResultPane);
+  const blocker = useBlocker(
+    ({ historyAction }) => mouseOverResultPane && historyAction === 'POP',
+  );
 
   useEffect(() => {
     if (blocker.state === 'blocked') {
