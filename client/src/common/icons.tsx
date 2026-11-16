@@ -43,7 +43,8 @@ export interface IconProps extends React.AriaAttributes {
  * Material Design Icons (@mdi/js paths rendered by @mdi/react), with the
  * same props mdi-react had: numeric size is pixels, and aria-label names the
  * icon (@mdi/react otherwise renders it as role=presentation).
- * `@mdi/react` is CommonJS, so it is imported by name (see cjs-default.ts).
+ * `@mdi/react` is CommonJS; import it by name, since under Vite 8 a default
+ * import yields the whole module object.
  */
 function createIcon(path: string, displayName: string) {
   function Icon({

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { SplitGroup, SplitPane, SplitSeparator } from '../common/SplitPanes';
 import AppHeader from '../app-header/AppHeader';
-import { debouncedResizeChart } from '../common/tauChartRef';
 import SchemaInfoLoader from '../schema/SchemaInfoLoader';
 import { connectConnectionClient, loadQuery } from '../stores/editor-actions';
 import useShortcuts from '../utilities/use-shortcuts';
@@ -56,14 +55,11 @@ function QueryEditor() {
       <AppHeader />
       <Toolbar />
       <div style={{ position: 'relative', flexGrow: 1 }}>
-        <EditorPaneRightSidebar queryId={queryId}>
-          <EditorPaneSchemaSidebar queryId={queryId}>
-            <SplitGroup
-              orientation="vertical"
-              onResize={() => debouncedResizeChart(queryId)}
-            >
+        <EditorPaneRightSidebar>
+          <EditorPaneSchemaSidebar>
+            <SplitGroup orientation="vertical">
               <SplitPane defaultSize="60%" minSize={100}>
-                <EditorPaneVis queryId={queryId}>
+                <EditorPaneVis>
                   <QueryEditorSqlEditor />
                 </EditorPaneVis>
               </SplitPane>
