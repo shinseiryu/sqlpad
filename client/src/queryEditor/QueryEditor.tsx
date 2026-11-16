@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import SplitPane from 'react-split-pane';
+import { SplitGroup, SplitPane, SplitSeparator } from '../common/SplitPanes';
 import AppHeader from '../app-header/AppHeader';
 import { debouncedResizeChart } from '../common/tauChartRef';
 import SchemaInfoLoader from '../schema/SchemaInfoLoader';
@@ -58,19 +58,20 @@ function QueryEditor() {
       <div style={{ position: 'relative', flexGrow: 1 }}>
         <EditorPaneRightSidebar queryId={queryId}>
           <EditorPaneSchemaSidebar queryId={queryId}>
-            {/* @ts-expect-error SplitPane types are off */}
-            <SplitPane
-              split="horizontal"
-              minSize={100}
-              defaultSize={'60%'}
-              maxSize={-100}
-              onChange={() => debouncedResizeChart(queryId)}
+            <SplitGroup
+              orientation="vertical"
+              onResize={() => debouncedResizeChart(queryId)}
             >
-              <EditorPaneVis queryId={queryId}>
-                <QueryEditorSqlEditor />
-              </EditorPaneVis>
-              <QueryEditorResultPane />
-            </SplitPane>
+              <SplitPane defaultSize="60%" minSize={100}>
+                <EditorPaneVis queryId={queryId}>
+                  <QueryEditorSqlEditor />
+                </EditorPaneVis>
+              </SplitPane>
+              <SplitSeparator />
+              <SplitPane minSize={100}>
+                <QueryEditorResultPane />
+              </SplitPane>
+            </SplitGroup>
           </EditorPaneSchemaSidebar>
         </EditorPaneRightSidebar>
       </div>

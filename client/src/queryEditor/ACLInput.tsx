@@ -1,4 +1,4 @@
-import DeleteIcon from 'mdi-react/DeleteIcon';
+import { DeleteIcon } from '../common/icons';
 import React, { ChangeEvent } from 'react';
 import FormExplain from '../common/FormExplain';
 import HSpacer from '../common/HSpacer';

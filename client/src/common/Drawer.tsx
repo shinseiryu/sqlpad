@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import CloseIcon from 'mdi-react/CloseIcon';
+import { CloseIcon } from './icons';
 import React from 'react';
 import styles from './Drawer.module.css';
 import IconButton from './IconButton';

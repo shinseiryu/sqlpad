@@ -1,8 +1,10 @@
 import Tooltip from '../common/Tooltip';
-import MenuLeftIcon from 'mdi-react/MenuLeftIcon';
-import OpenInNewIcon from 'mdi-react/OpenInNewIcon';
-import TableIcon from 'mdi-react/TableIcon';
-import RowHorizontalIcon from 'mdi-react/LandRowsHorizontalIcon';
+import {
+  MenuLeftIcon,
+  OpenInNewIcon,
+  TableIcon,
+  LandRowsHorizontalIcon as RowHorizontalIcon,
+} from '../common/icons';
 import React from 'react';
 import ClipboardButton from '../common/ClipboardButton';
 import Button from '../common/Button';

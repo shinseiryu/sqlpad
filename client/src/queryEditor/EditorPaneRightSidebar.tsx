@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import SplitPane from 'react-split-pane';
+import { SplitGroup, SplitPane, SplitSeparator } from '../common/SplitPanes';
 import Spacer from '../common/Spacer';
 import { debouncedResizeChart } from '../common/tauChartRef';
 import { useSessionShowVisProperties } from '../stores/editor-store';
@@ -36,18 +36,21 @@ const EditorPaneRightSidebar = ({
   }
 
   return (
-    // @ts-expect-error SplitPane types are off
-    <SplitPane
-      split="vertical"
-      primary="second"
-      defaultSize={260}
-      maxSize={400}
-      minSize={160}
-      onChange={() => debouncedResizeChart(queryId)}
+    <SplitGroup
+      orientation="horizontal"
+      onResize={() => debouncedResizeChart(queryId)}
     >
-      {children}
-      {sidebarContent}
-    </SplitPane>
+      <SplitPane>{children}</SplitPane>
+      <SplitSeparator />
+      <SplitPane
+        defaultSize={260}
+        minSize={160}
+        maxSize={400}
+        groupResizeBehavior="preserve-pixel-size"
+      >
+        {sidebarContent}
+      </SplitPane>
+    </SplitGroup>
   );
 };
 

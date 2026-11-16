@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 import React, { useCallback, useEffect, useState } from 'react';
-import Measure from 'react-measure';
+import { useElementSize } from '../utilities/use-element-size';
 import { Link } from 'react-router';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -41,10 +41,7 @@ function QueryListDrawer({ onClose, visible }: Props) {
   const [creatorSearch, setCreatorSearch] = useState(ALL);
   const [sort, setSort] = useState('SAVE_DATE');
   const [connectionId, setConnectionId] = useState('');
-  const [dimensions, setDimensions] = useState({
-    width: -1,
-    height: -1,
-  });
+  const [measureRef, dimensions] = useElementSize();
   const [debouncedSearch] = useDebounce(search, 400);
 
   const [queries, setQueries] = useState<Query[]>([]);
@@ -251,61 +248,50 @@ function QueryListDrawer({ onClose, visible }: Props) {
           </div>
         </div>
 
-        <Measure
-          bounds
-          onResize={(contentRect) => {
-            if (contentRect?.bounds) {
-              setDimensions(contentRect.bounds);
-            }
+        <div
+          ref={measureRef}
+          style={{
+            display: 'flex',
+            width: '100%',
+            height: '100%',
           }}
         >
-          {({ measureRef }) => (
-            <div
-              ref={measureRef}
-              style={{
-                display: 'flex',
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              {loading && queries.length === 0 && (
-                <div className="h-100 w-100 flex-center">
-                  <SpinKitCube />
-                </div>
-              )}
-              {error && <ErrorBlock>Error getting queries</ErrorBlock>}
-              {!error && !loading && queries.length === 0 && (
-                <div style={{ height: 150, width: '100%' }}>
-                  <InfoBlock>No queries found</InfoBlock>
-                </div>
-              )}
-              {!error && queries.length > 0 && (
-                <InfiniteLoader
-                  isItemLoaded={(index: any) => index < queries.length}
-                  itemCount={1000}
-                  loadMoreItems={loadMore}
-                >
-                  {({ onItemsRendered, ref }: any) => (
-                    <List
-                      // position absolute takes list out of flow,
-                      // preventing some weird react-measure behavior in Firefox
-                      style={{ position: 'absolute' }}
-                      ref={ref}
-                      onItemsRendered={onItemsRendered}
-                      height={dimensions.height}
-                      itemCount={queries.length}
-                      itemSize={48}
-                      width={dimensions.width}
-                      overscanCount={2}
-                    >
-                      {Row}
-                    </List>
-                  )}
-                </InfiniteLoader>
-              )}
+          {loading && queries.length === 0 && (
+            <div className="h-100 w-100 flex-center">
+              <SpinKitCube />
             </div>
           )}
-        </Measure>
+          {error && <ErrorBlock>Error getting queries</ErrorBlock>}
+          {!error && !loading && queries.length === 0 && (
+            <div style={{ height: 150, width: '100%' }}>
+              <InfoBlock>No queries found</InfoBlock>
+            </div>
+          )}
+          {!error && queries.length > 0 && (
+            <InfiniteLoader
+              isItemLoaded={(index: any) => index < queries.length}
+              itemCount={1000}
+              loadMoreItems={loadMore}
+            >
+              {({ onItemsRendered, ref }: any) => (
+                <List
+                  // position absolute takes list out of flow,
+                  // preventing some weird react-measure behavior in Firefox
+                  style={{ position: 'absolute' }}
+                  ref={ref}
+                  onItemsRendered={onItemsRendered}
+                  height={dimensions.height}
+                  itemCount={queries.length}
+                  itemSize={48}
+                  width={dimensions.width}
+                  overscanCount={2}
+                >
+                  {Row}
+                </List>
+              )}
+            </InfiniteLoader>
+          )}
+        </div>
 
         <QueryPreview key={preview && preview.id} query={preview} />
       </div>

@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import DeleteIcon from 'mdi-react/DeleteIcon';
+import { DeleteIcon } from './icons';
 import React, { useRef, useState } from 'react';
 import Button from './Button';
 import styles from './DeleteConfirmButton.module.css';

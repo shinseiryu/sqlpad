@@ -1,4 +1,4 @@
-import GoogleIcon from 'mdi-react/GoogleIcon';
+import { GoogleIcon } from '../common/icons';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import Button from '../common/Button';

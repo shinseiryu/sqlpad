@@ -1,5 +1,4 @@
-import DownloadIcon from 'mdi-react/DownloadIcon';
-import OpenInNewIcon from 'mdi-react/OpenInNewIcon';
+import { DownloadIcon, OpenInNewIcon } from '../common/icons';
 import React from 'react';
 import IconButton from '../common/IconButton';
 import { exportPng } from '../common/tauChartRef';

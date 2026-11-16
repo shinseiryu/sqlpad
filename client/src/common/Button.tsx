@@ -1,4 +1,4 @@
-import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
+import { ChevronDownIcon } from './icons';
 import React, { ReactNode } from 'react';
 import styles from './Button.module.css';
 import { Menu, MenuContent, MenuTrigger } from './Menu';

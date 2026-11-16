@@ -1,4 +1,4 @@
-import HistoryIcon from 'mdi-react/HistoryIcon';
+import { HistoryIcon } from '../common/icons';
 import React, { useState } from 'react';
 import IconButton from '../common/IconButton';
 import HistoryDrawer from './HistoryDrawer';

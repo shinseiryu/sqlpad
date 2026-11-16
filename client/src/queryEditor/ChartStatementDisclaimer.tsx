@@ -2,7 +2,7 @@ import React from 'react';
 import FormExplain from '../common/FormExplain';
 import Spacer from '../common/Spacer';
 import { useSessionBatch } from '../stores/editor-store';
-import AlertIcon from 'mdi-react/AlertCircleOutlineIcon';
+import { AlertCircleOutlineIcon as AlertIcon } from '../common/icons';
 
 function ChartStatementDisclaimer() {
   const batch = useSessionBatch();

@@ -1,4 +1,4 @@
-import AlertIcon from 'mdi-react/AlertIcon';
+import { AlertIcon } from './icons';
 import React from 'react';
 import Text from './Text';
 import Tooltip from './Tooltip';

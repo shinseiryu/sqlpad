@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ReactAce from 'react-ace';
+import AceEditor from 'react-ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
-import Measure from 'react-measure';
-import cjsDefault from '../utilities/cjs-default';
+import { useElementSize } from '../utilities/use-element-size';
 import useAppContext from '../utilities/use-app-context';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-sqlserver';
-
-const AceEditor = cjsDefault(ReactAce);
 
 const noop = () => {};
 
@@ -27,7 +24,7 @@ function SqlEditor({
   onSelectionChange = noop,
 }: Props) {
   const { config } = useAppContext();
-  const [dimensions, setDimensions] = useState({ width: -1, height: -1 });
+  const [measureRef, dimensions] = useElementSize();
   const [editor, setEditor] = useState<any>(null);
 
   useEffect(() => {
@@ -68,34 +65,27 @@ function SqlEditor({
 
   if (autoHeight) {
     return (
-      <Measure
-        bounds
-        onResize={(contentRect: any) => setDimensions(contentRect.bounds)}
-      >
-        {({ measureRef }) => (
-          <div ref={measureRef} className="h-100 w-100">
-            <AceEditor
-              editorProps={{ $blockScrolling: Infinity }}
-              focus={!readOnly}
-              height={height + 'px'}
-              fontSize={14}
-              highlightActiveLine={false}
-              mode="sql"
-              name="query-ace-editor"
-              onChange={onChange || noop}
-              onLoad={(editor) => setEditor(editor)}
-              onSelectionChange={handleSelection}
-              readOnly={readOnly}
-              setOptions={setOptions}
-              showGutter={true}
-              showPrintMargin={false}
-              theme="sqlserver"
-              value={value}
-              width={width + 'px'}
-            />
-          </div>
-        )}
-      </Measure>
+      <div ref={measureRef} className="h-100 w-100">
+        <AceEditor
+          editorProps={{ $blockScrolling: Infinity }}
+          focus={!readOnly}
+          height={height + 'px'}
+          fontSize={14}
+          highlightActiveLine={false}
+          mode="sql"
+          name="query-ace-editor"
+          onChange={onChange || noop}
+          onLoad={(editor) => setEditor(editor)}
+          onSelectionChange={handleSelection}
+          readOnly={readOnly}
+          setOptions={setOptions}
+          showGutter={true}
+          showPrintMargin={false}
+          theme="sqlserver"
+          value={value}
+          width={width + 'px'}
+        />
+      </div>
     );
   }
 

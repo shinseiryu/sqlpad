@@ -2,7 +2,7 @@ import React from 'react';
 import { VariableSizeGrid } from 'react-window';
 import throttle from 'lodash/throttle';
 import Draggable from 'react-draggable';
-import Measure from 'react-measure';
+import { ElementSize, Measure } from '../utilities/use-element-size';
 import { QueryResultFormat, StatementColumn, StatementResults } from '../types';
 import styles from './QueryResultDataTable.module.css';
 import Modal from './Modal';
@@ -419,8 +419,8 @@ class QueryResultDataTable extends React.PureComponent<
     this.headerGrid?.current?.scrollTo({ scrollLeft, scrollTop: 0 });
   };
 
-  handleContainerResize = (contentRect: any) => {
-    this.setState({ dimensions: contentRect.bounds });
+  handleContainerResize = (dimensions: ElementSize) => {
+    this.setState({ dimensions });
   };
 
   handleContextMenu = (event: React.MouseEvent) => {
@@ -509,7 +509,7 @@ class QueryResultDataTable extends React.PureComponent<
       }
 
       return (
-        <Measure bounds onResize={this.handleContainerResize}>
+        <Measure onResize={this.handleContainerResize}>
           {({ measureRef }) => (
             <div
               ref={measureRef}

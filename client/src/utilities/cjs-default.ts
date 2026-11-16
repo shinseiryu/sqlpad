@@ -4,8 +4,8 @@
  *
  * Vite 8 follows Node's interop: a default import of such a module yields the
  * whole `module.exports` object rather than `exports.default`, which earlier
- * Vite versions unwrapped. Only react-ace and the taucharts plugins need this;
- * remove it once those are replaced (#20, #21).
+ * Vite versions unwrapped. Only the taucharts plugins need this now;
+ * remove it once taucharts is replaced (#20).
  */
 export default function cjsDefault<T>(mod: T): T {
   const m = mod as { __esModule?: boolean; default?: T };

@@ -1,5 +1,7 @@
-import SuccessIcon from 'mdi-react/CheckboxMarkedCircleOutlineIcon';
-import CloseCircleOutlineIcon from 'mdi-react/CloseCircleOutlineIcon';
+import {
+  CheckboxMarkedCircleOutlineIcon as SuccessIcon,
+  CloseCircleOutlineIcon,
+} from '../common/icons';
 import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import Button from '../common/Button';
 import ErrorBlock from '../common/ErrorBlock';
