@@ -4,7 +4,7 @@ import React from 'react';
 import { SWRConfig } from 'swr';
 import { MessageDisplayer } from './common/message';
 import './css/index.css';
-import './css/react-split-pane.css';
+import './css/split-panes.css';
 import './css/vendorOverrides.css';
 import Routes from './Routes';
 import swrFetcher from './utilities/swr-fetcher';

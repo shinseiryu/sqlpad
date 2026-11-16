@@ -1,5 +1,7 @@
-import ConnectedIcon from 'mdi-react/ServerNetworkIcon';
-import DisconnectedIcon from 'mdi-react/ServerNetworkOffIcon';
+import {
+  ServerNetworkIcon as ConnectedIcon,
+  ServerNetworkOffIcon as DisconnectedIcon,
+} from '../common/icons';
 import React, { useState } from 'react';
 import IconButton from '../common/IconButton';
 import {

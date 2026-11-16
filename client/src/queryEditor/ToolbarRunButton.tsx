@@ -1,7 +1,9 @@
-import CopyIcon from 'mdi-react/ContentCopyIcon';
-import UnsavedIcon from 'mdi-react/ContentSaveEditIcon';
-import SaveIcon from 'mdi-react/ContentSaveIcon';
-import FormatIcon from 'mdi-react/FormatAlignLeftIcon';
+import {
+  ContentCopyIcon as CopyIcon,
+  ContentSaveEditIcon as UnsavedIcon,
+  ContentSaveIcon as SaveIcon,
+  FormatAlignLeftIcon as FormatIcon,
+} from '../common/icons';
 import { MenuItem } from '../common/Menu';
 import React, { CSSProperties } from 'react';
 import Button from '../common/Button';

@@ -1,4 +1,4 @@
-import DownloadIcon from 'mdi-react/DownloadIcon';
+import { DownloadIcon } from './icons';
 import React from 'react';
 import { Link } from 'react-router';
 import useAppContext from '../utilities/use-app-context';

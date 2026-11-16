@@ -1,5 +1,5 @@
 import React from 'react';
-import ClipboardIcon from 'mdi-react/ClipboardIcon';
+import { ClipboardIcon } from './icons';
 import IconButton from './IconButton';
 
 async function copyToClipboardModern(text: string) {

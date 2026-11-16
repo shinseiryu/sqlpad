@@ -1,4 +1,4 @@
-import OpenInNewIcon from 'mdi-react/OpenInNewIcon';
+import { OpenInNewIcon } from '../common/icons';
 import React from 'react';
 import Button from '../common/Button';
 import ExportButton from '../common/ExportButton';

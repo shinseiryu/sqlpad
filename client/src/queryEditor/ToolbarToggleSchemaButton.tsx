@@ -1,4 +1,4 @@
-import DatabaseIcon from 'mdi-react/DatabaseIcon';
+import { DatabaseIcon } from '../common/icons';
 import React from 'react';
 import IconButton from '../common/IconButton';
 import { toggleSchema } from '../stores/editor-actions';

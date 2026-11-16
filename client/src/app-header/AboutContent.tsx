@@ -1,5 +1,5 @@
 import React from 'react';
-import OpenInNewIcon from 'mdi-react/OpenInNewIcon';
+import { OpenInNewIcon } from '../common/icons';
 
 const LINK_STYLE = { display: 'inline-flex', alignItems: 'center' };
 

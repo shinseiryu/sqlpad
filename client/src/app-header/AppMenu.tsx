@@ -1,4 +1,4 @@
-import DotsVerticalIcon from 'mdi-react/DotsVerticalIcon';
+import { DotsVerticalIcon } from '../common/icons';
 import { MenuItem } from '../common/Menu';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';

@@ -1,9 +1,11 @@
-import OpenIcon from 'mdi-react/MenuDownIcon';
-import ClosedIcon from 'mdi-react/MenuRightIcon';
-import RefreshIcon from 'mdi-react/RefreshIcon';
+import {
+  MenuDownIcon as OpenIcon,
+  MenuRightIcon as ClosedIcon,
+  RefreshIcon,
+} from '../common/icons';
 import { MenuItem, PositionedMenu } from '../common/Menu';
 import React, { ChangeEvent, ReactNode, useState } from 'react';
-import Measure from 'react-measure';
+import { useElementSize } from '../utilities/use-element-size';
 import { FixedSizeList as List } from 'react-window';
 import Divider from '../common/Divider';
 import ErrorBlock from '../common/ErrorBlock';
@@ -76,10 +78,7 @@ function CopyMenuItem({ id, value }: { id: string; value: string }) {
 function SchemaSidebar() {
   const connectionId = useSessionConnectionId();
   const [search, setSearch] = useState('');
-  const [dimensions, setDimensions] = useState({
-    width: -1,
-    height: -1,
-  });
+  const [measureRef, dimensions] = useElementSize();
 
   const [contextTop, setContextTop] = useState(0);
   const [contextLeft, setContextLeft] = useState(0);
@@ -184,7 +183,7 @@ function SchemaSidebar() {
     );
   };
 
-  let content: ReactNode = null;
+  let content: ReactNode;
   if (error) {
     content = <ErrorBlock>{error}</ErrorBlock>;
   } else if (loading) {
@@ -230,90 +229,79 @@ function SchemaSidebar() {
   }
 
   return (
-    <Measure
-      bounds
-      onResize={(contentRect) => {
-        if (contentRect.bounds) {
-          setDimensions(contentRect.bounds);
-        }
-      }}
-    >
-      {({ measureRef }) => (
-        <Sidebar>
-          <div style={{ display: 'flex' }}>
-            <Input
-              value={search}
-              placeholder="Search schema"
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setSearch(event.target.value)
-              }
-            />
-            <IconButton
-              tooltip="Refresh schema"
-              style={{ marginLeft: 8 }}
-              disabled={loading}
-              onClick={handleRefreshClick}
-            >
-              <RefreshIcon />
-            </IconButton>
-          </div>
+    <Sidebar>
+      <div style={{ display: 'flex' }}>
+        <Input
+          value={search}
+          placeholder="Search schema"
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setSearch(event.target.value)
+          }
+        />
+        <IconButton
+          tooltip="Refresh schema"
+          style={{ marginLeft: 8 }}
+          disabled={loading}
+          onClick={handleRefreshClick}
+        >
+          <RefreshIcon />
+        </IconButton>
+      </div>
 
-          <Divider style={{ margin: '4px 0' }} />
+      <Divider style={{ margin: '4px 0' }} />
 
-          {/* Input fields for copy-paste value sourcing */}
-          <OffScreenInput
-            id="schema-copy-value-no-quote"
-            value={formatIdentifiers(schemaItemId)}
-          />
-          <OffScreenInput
-            id="schema-copy-value-quote"
-            value={formatIdentifiers(schemaItemId, '"')}
-          />
-          <OffScreenInput
-            id="schema-copy-value-bracket"
-            value={formatIdentifiers(schemaItemId, '[]')}
-          />
+      {/* Input fields for copy-paste value sourcing */}
+      <OffScreenInput
+        id="schema-copy-value-no-quote"
+        value={formatIdentifiers(schemaItemId)}
+      />
+      <OffScreenInput
+        id="schema-copy-value-quote"
+        value={formatIdentifiers(schemaItemId, '"')}
+      />
+      <OffScreenInput
+        id="schema-copy-value-bracket"
+        value={formatIdentifiers(schemaItemId, '[]')}
+      />
 
-          <PositionedMenu
-            open={contextMenuOpen}
-            onOpenChange={setContextMenuOpen}
-            left={contextLeft}
-            top={contextTop}
-          >
-            <CopyMenuItem
-              id="#schema-copy-value-no-quote"
-              value={formatIdentifiers(schemaItemId)}
-            />
-            <CopyMenuItem
-              id="#schema-copy-value-quote"
-              value={formatIdentifiers(schemaItemId, '"')}
-            />
-            <CopyMenuItem
-              id="#schema-copy-value-bracket"
-              value={formatIdentifiers(schemaItemId, '[]')}
-            />
-          </PositionedMenu>
+      <PositionedMenu
+        open={contextMenuOpen}
+        onOpenChange={setContextMenuOpen}
+        left={contextLeft}
+        top={contextTop}
+      >
+        <CopyMenuItem
+          id="#schema-copy-value-no-quote"
+          value={formatIdentifiers(schemaItemId)}
+        />
+        <CopyMenuItem
+          id="#schema-copy-value-quote"
+          value={formatIdentifiers(schemaItemId, '"')}
+        />
+        <CopyMenuItem
+          id="#schema-copy-value-bracket"
+          value={formatIdentifiers(schemaItemId, '[]')}
+        />
+      </PositionedMenu>
 
-          <div
-            style={{
-              display: 'flex',
-              flexGrow: 1,
-            }}
-          >
-            <div
-              ref={measureRef}
-              onContextMenu={handleContextMenu}
-              style={{
-                display: 'flex',
-                width: '100%',
-              }}
-            >
-              {content}
-            </div>
-          </div>
-        </Sidebar>
-      )}
-    </Measure>
+      <div
+        style={{
+          display: 'flex',
+          flexGrow: 1,
+        }}
+      >
+        <div
+          ref={measureRef}
+          onContextMenu={handleContextMenu}
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+        >
+          {content}
+        </div>
+      </div>
+    </Sidebar>
   );
 }
 

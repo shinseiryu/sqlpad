@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Tag.module.css';
-import CloseIcon from 'mdi-react/CloseIcon';
+import { CloseIcon } from './icons';
 
 export interface Props extends React.HTMLProps<HTMLDivElement> {
   onClose?: () => void;

@@ -1,4 +1,4 @@
-import ChartIcon from 'mdi-react/ChartBarIcon';
+import { ChartBarIcon as ChartIcon } from '../common/icons';
 import React from 'react';
 import IconButton from '../common/IconButton';
 import { toggleVisProperties } from '../stores/editor-actions';
