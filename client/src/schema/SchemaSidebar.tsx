@@ -1,13 +1,7 @@
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  MenuPopover,
-} from '@reach/menu-button';
 import OpenIcon from 'mdi-react/MenuDownIcon';
 import ClosedIcon from 'mdi-react/MenuRightIcon';
 import RefreshIcon from 'mdi-react/RefreshIcon';
+import { MenuItem, PositionedMenu } from '../common/Menu';
 import React, { ChangeEvent, ReactNode, useState } from 'react';
 import Measure from 'react-measure';
 import { FixedSizeList as List } from 'react-window';
@@ -90,6 +84,7 @@ function SchemaSidebar() {
   const [contextTop, setContextTop] = useState(0);
   const [contextLeft, setContextLeft] = useState(0);
   const [schemaItemId, setSchemaItemId] = useState('');
+  const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
   const expanded = useSessionSchemaExpanded(connectionId);
   const { loading, connectionSchema, error } = useSchemaState(connectionId);
@@ -219,10 +214,7 @@ function SchemaSidebar() {
 
   // On right-click we'd like to show a context menu related to item clicked
   // For now this will be options to copy the full path of the item
-  // The way this works is kind of hacky:
-  // * We take note of location clicked
-  // * Move hidden menu button to location
-  // * Fire a click event on that hidden menu button
+  // The menu is anchored at the location clicked
   function handleContextMenu(event: React.MouseEvent) {
     event.preventDefault();
 
@@ -234,12 +226,7 @@ function SchemaSidebar() {
     setContextTop(event.clientY);
     setContextLeft(event.clientX);
 
-    if (id) {
-      const el = document.getElementById('context-menu');
-      const clickEvent = document.createEvent('MouseEvents');
-      clickEvent.initEvent('mousedown', true, true);
-      el?.dispatchEvent(clickEvent);
-    }
+    setContextMenuOpen(Boolean(id));
   }
 
   return (
@@ -287,41 +274,25 @@ function SchemaSidebar() {
             value={formatIdentifiers(schemaItemId, '[]')}
           />
 
-          {/* 
-            This menu is hidden and moves around based on where context-menu click happens 
-            This is hacky but works! reach-ui does not expose the menu components 
-            in a way that allows them to be used for context menu
-          */}
-          <Menu>
-            <MenuButton
-              id="context-menu"
-              style={{
-                visibility: 'hidden',
-                position: 'fixed',
-                height: 1,
-                left: contextLeft,
-                top: contextTop,
-              }}
-            >
-              Hidden context menu
-            </MenuButton>
-            <MenuPopover style={{ zIndex: 999999 }}>
-              <MenuItems>
-                <CopyMenuItem
-                  id="#schema-copy-value-no-quote"
-                  value={formatIdentifiers(schemaItemId)}
-                />
-                <CopyMenuItem
-                  id="#schema-copy-value-quote"
-                  value={formatIdentifiers(schemaItemId, '"')}
-                />
-                <CopyMenuItem
-                  id="#schema-copy-value-bracket"
-                  value={formatIdentifiers(schemaItemId, '[]')}
-                />
-              </MenuItems>
-            </MenuPopover>
-          </Menu>
+          <PositionedMenu
+            open={contextMenuOpen}
+            onOpenChange={setContextMenuOpen}
+            left={contextLeft}
+            top={contextTop}
+          >
+            <CopyMenuItem
+              id="#schema-copy-value-no-quote"
+              value={formatIdentifiers(schemaItemId)}
+            />
+            <CopyMenuItem
+              id="#schema-copy-value-quote"
+              value={formatIdentifiers(schemaItemId, '"')}
+            />
+            <CopyMenuItem
+              id="#schema-copy-value-bracket"
+              value={formatIdentifiers(schemaItemId, '[]')}
+            />
+          </PositionedMenu>
 
           <div
             style={{

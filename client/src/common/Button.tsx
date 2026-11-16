@@ -1,7 +1,7 @@
-import { Menu, MenuButton, MenuList } from '@reach/menu-button';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import React, { ReactNode } from 'react';
 import styles from './Button.module.css';
+import { Menu, MenuContent, MenuTrigger } from './Menu';
 
 const ICON_SIZE = 18;
 
@@ -66,13 +66,14 @@ const Button = React.forwardRef<Ref, Props>(
         </button>
         {menuItems && menuItems.length > 0 && (
           <Menu>
-            <MenuButton
+            <MenuTrigger
               disabled={disabled}
               className={rightClassNames.join(' ')}
+              aria-label="More actions"
             >
               <ChevronDownIcon size={14} style={{ marginTop: 2 }} />
-            </MenuButton>
-            <MenuList>{menuItems}</MenuList>
+            </MenuTrigger>
+            <MenuContent align="end">{menuItems}</MenuContent>
           </Menu>
         )}
       </>

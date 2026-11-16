@@ -1,7 +1,5 @@
 import localforage from 'localforage';
 import './css/reset.css';
-import '@reach/dialog/styles.css';
-import '@reach/menu-button/styles.css';
 import React from 'react';
 import { SWRConfig } from 'swr';
 import { MessageDisplayer } from './common/message';

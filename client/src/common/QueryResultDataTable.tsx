@@ -1,10 +1,3 @@
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  MenuPopover,
-} from '@reach/menu-button';
 import React from 'react';
 import { VariableSizeGrid } from 'react-window';
 import throttle from 'lodash/throttle';
@@ -13,6 +6,7 @@ import Measure from 'react-measure';
 import { QueryResultFormat, StatementColumn, StatementResults } from '../types';
 import styles from './QueryResultDataTable.module.css';
 import Modal from './Modal';
+import { MenuItem, PositionedMenu } from './Menu';
 
 // https://davidwalsh.name/detect-scrollbar-width
 const scrollbarWidth = () => {
@@ -165,6 +159,7 @@ interface QueryResultDataTableProps {
 
 interface QueryResultDataTableState {
   cellModalVisible: boolean;
+  contextMenuOpen: boolean;
   contextTop: number;
   contextLeft: number;
   cellColumnName: string;
@@ -185,6 +180,7 @@ class QueryResultDataTable extends React.PureComponent<
 > {
   state: QueryResultDataTableState = {
     cellModalVisible: false,
+    contextMenuOpen: false,
     contextTop: 0,
     contextLeft: 0,
     cellColumnName: '',
@@ -443,15 +439,13 @@ class QueryResultDataTable extends React.PureComponent<
         cellCopyValue,
         contextTop: event.clientY,
         contextLeft: event.clientX,
+        contextMenuOpen: true,
       });
-
-      if (cellCopyValue) {
-        const el = document.getElementById('cell-value-context-menu');
-        const clickEvent = document.createEvent('MouseEvents');
-        clickEvent.initEvent('mousedown', true, true);
-        el?.dispatchEvent(clickEvent);
-      }
     }
+  };
+
+  handleContextMenuOpenChange = (contextMenuOpen: boolean) => {
+    this.setState({ contextMenuOpen });
   };
 
   handleCellModalClose = () => {
@@ -466,6 +460,7 @@ class QueryResultDataTable extends React.PureComponent<
     const { columns, rows, queryResultFormat } = this.props;
     const {
       cellModalVisible,
+      contextMenuOpen,
       cellColumnName,
       cellCopyValue,
       contextLeft,
@@ -570,37 +565,21 @@ class QueryResultDataTable extends React.PureComponent<
                 {this.Cell}
               </VariableSizeGrid>
 
-              {/*
-                This menu is hidden and moves around based on where context-menu click happens
-                This is hacky but works! reach-ui does not expose the menu components
-                in a way that allows them to be used for context menu
-              */}
-              <Menu>
-                <MenuButton
-                  id="cell-value-context-menu"
-                  style={{
-                    visibility: 'hidden',
-                    position: 'fixed',
-                    height: 1,
-                    left: contextLeft,
-                    top: contextTop,
+              <PositionedMenu
+                open={contextMenuOpen}
+                onOpenChange={this.handleContextMenuOpenChange}
+                left={contextLeft}
+                top={contextTop}
+              >
+                <CopyMenuItem id="#cell-copy-value" value={cellCopyValue} />
+                <MenuItem
+                  onSelect={() => {
+                    this.setState({ cellModalVisible: true });
                   }}
                 >
-                  Hidden context menu
-                </MenuButton>
-                <MenuPopover style={{ zIndex: 999999 }}>
-                  <MenuItems>
-                    <CopyMenuItem id="#cell-copy-value" value={cellCopyValue} />
-                    <MenuItem
-                      onSelect={() => {
-                        this.setState({ cellModalVisible: true });
-                      }}
-                    >
-                      View expanded value
-                    </MenuItem>
-                  </MenuItems>
-                </MenuPopover>
-              </Menu>
+                  View expanded value
+                </MenuItem>
+              </PositionedMenu>
 
               <Modal
                 title={cellColumnName}

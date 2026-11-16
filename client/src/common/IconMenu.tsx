@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, MenuButton, MenuList } from '@reach/menu-button';
+import { Menu, MenuContent, MenuTrigger } from './Menu';
 import Tooltip from './Tooltip';
 import iconButtonStyles from './IconButton.module.css';
 
@@ -17,31 +17,27 @@ const IconMenu = ({ children, icon, tooltip, variant, ...rest }: Props) => {
       ? `${iconButtonStyles.btn} ${iconButtonStyles.ghost}`
       : iconButtonStyles.btn;
 
-  const menu = (
-    <Menu>
-      <MenuButton className={className} {...rest}>
-        {icon &&
-          React.cloneElement(
-            icon,
-            {
-              size: ICON_SIZE,
-            },
-            null,
-          )}
-      </MenuButton>
-      <MenuList className="slide-down">{children}</MenuList>
-    </Menu>
+  const trigger = (
+    <MenuTrigger className={className} {...rest}>
+      {icon &&
+        React.cloneElement(
+          icon,
+          {
+            size: ICON_SIZE,
+          },
+          null,
+        )}
+    </MenuTrigger>
   );
 
-  if (tooltip) {
-    return (
-      <Tooltip label={tooltip}>
-        <span>{menu}</span>
-      </Tooltip>
-    );
-  }
-
-  return menu;
+  return (
+    <Menu>
+      {tooltip ? <Tooltip label={tooltip}>{trigger}</Tooltip> : trigger}
+      <MenuContent align="end" className="slide-down">
+        {children}
+      </MenuContent>
+    </Menu>
+  );
 };
 
 export default IconMenu;

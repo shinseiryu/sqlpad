@@ -1,8 +1,8 @@
-import { MenuItem } from '@reach/menu-button';
 import CopyIcon from 'mdi-react/ContentCopyIcon';
 import UnsavedIcon from 'mdi-react/ContentSaveEditIcon';
 import SaveIcon from 'mdi-react/ContentSaveIcon';
 import FormatIcon from 'mdi-react/FormatAlignLeftIcon';
+import { MenuItem } from '../common/Menu';
 import React, { CSSProperties } from 'react';
 import Button from '../common/Button';
 import {
