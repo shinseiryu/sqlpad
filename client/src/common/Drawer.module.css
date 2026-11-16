@@ -31,3 +31,9 @@
   padding: 16px;
   overflow-y: auto;
 }
+
+.title {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}

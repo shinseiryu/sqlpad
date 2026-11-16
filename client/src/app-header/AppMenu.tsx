@@ -1,5 +1,5 @@
-import { MenuItem } from '@reach/menu-button';
 import DotsVerticalIcon from 'mdi-react/DotsVerticalIcon';
+import { MenuItem } from '../common/Menu';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import IconMenu from '../common/IconMenu';
@@ -23,20 +23,21 @@ function AppMenu() {
   return (
     <div>
       <IconMenu variant="ghost" icon={<DotsVerticalIcon aria-label="menu" />}>
-        <MenuItem hidden={hideUserItems} onSelect={() => setShowProfile(true)}>
-          Profile
-        </MenuItem>
+        {!hideUserItems && (
+          <MenuItem onSelect={() => setShowProfile(true)}>Profile</MenuItem>
+        )}
         <MenuItem onSelect={() => setShowAbout(true)}>About</MenuItem>
-        <MenuItem
-          hidden={hideUserItems}
-          onSelect={async () => {
-            await api.signout();
-            navigate(`/signin`);
-            resetState();
-          }}
-        >
-          Sign out
-        </MenuItem>
+        {!hideUserItems && (
+          <MenuItem
+            onSelect={async () => {
+              await api.signout();
+              navigate(`/signin`);
+              resetState();
+            }}
+          >
+            Sign out
+          </MenuItem>
+        )}
       </IconMenu>
 
       <AboutModal visible={showAbout} onClose={() => setShowAbout(false)} />

@@ -17,7 +17,9 @@
 }
 
 .title {
-  margin-right: 32px;
+  margin: 0 32px 0 0;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 .dialogBody {

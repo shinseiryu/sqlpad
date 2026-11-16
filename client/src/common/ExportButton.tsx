@@ -1,21 +1,9 @@
-import { MenuItem, MenuLink } from '@reach/menu-button';
 import DownloadIcon from 'mdi-react/DownloadIcon';
 import React from 'react';
 import { Link } from 'react-router';
 import useAppContext from '../utilities/use-app-context';
 import IconMenu from './IconMenu';
-
-type Ref = HTMLAnchorElement;
-
-interface NavigationLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  to: string;
-}
-
-const NavigationLink = React.forwardRef<Ref, NavigationLinkProps>(
-  (props, ref) => {
-    return <Link {...props} ref={ref} />;
-  },
-);
+import { MenuItem } from './Menu';
 
 function ExportButton({
   statementId,
@@ -44,37 +32,37 @@ function ExportButton({
 
   if (allowCsvDownload) {
     items.push(
-      <MenuLink
-        key="csv"
-        as={NavigationLink}
-        to={`/statement-results/${statementId}.csv`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        csv
-      </MenuLink>,
+      <MenuItem key="csv" asChild>
+        <Link
+          to={`/statement-results/${statementId}.csv`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          csv
+        </Link>
+      </MenuItem>,
     );
     items.push(
-      <MenuLink
-        key="xlsx"
-        as={NavigationLink}
-        to={`/statement-results/${statementId}.xlsx`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        xlsx
-      </MenuLink>,
+      <MenuItem key="xlsx" asChild>
+        <Link
+          to={`/statement-results/${statementId}.xlsx`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          xlsx
+        </Link>
+      </MenuItem>,
     );
     items.push(
-      <MenuLink
-        key="json"
-        as={NavigationLink}
-        to={`/statement-results/${statementId}.json`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        json
-      </MenuLink>,
+      <MenuItem key="json" asChild>
+        <Link
+          to={`/statement-results/${statementId}.json`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          json
+        </Link>
+      </MenuItem>,
     );
   }
 
