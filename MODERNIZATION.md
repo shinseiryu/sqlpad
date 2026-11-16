@@ -4,10 +4,13 @@ This fork continues [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad), which was
 
 **Plan and progress are tracked in [#23 Modernization roadmap](https://github.com/shinseiryu/sqlpad/issues/23)** and its sub-issues (#1–#22). This file is the reference analysis behind those issues. Snapshot date: **2026-11-13**, at upstream commit `57cc866b` (v7.5.7).
 
-## Status (2026-11-14)
+## Status (2026-11-16)
 
-- **Done:** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); driver scope decided and six drivers removed (#6, #7); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4); in-range dependency updates (#34); sqlite3 6; test tooling (#5). Phase 1 complete.
-- **Next:** Phase 2 server security issues (#8, #9, #10, #14).
+- **Phase 1, foundation (done):** CI enabled, Dependabot, images on GHCR (#3); Node 26 in Docker, Node 24 minimum (#1); pnpm workspaces (#2); ESLint 10 flat config and Prettier 3 (#4); in-range dependency updates (#34); sqlite3 6; test tooling (#5).
+- **Phase 2, server deprecations (done):** driver scope decided and six drivers removed (#6, #7); ldapjs → ldapts (#8); express-pino-logger → pino-http, pino 10 (#9); sql-limiter vendored, socksjs → socks (#10); small utility deps → Node built-ins (#11). Session store now defaults to the database; the file store is deprecated (#41).
+- **Phase 3, server major upgrades (done):** Express 5 and helmet 8 (#12); redis 6, connect-redis 10, connect-session-sequelize 8 (#13); openid-client 6, bcryptjs 3 (#14); umzug 3, sql-formatter 15 (#15); mssql 12, bigquery 9, hdb 2 (#16).
+- **Phase 4, client (in progress):** React 19, Vite 8, TypeScript 6 (#17); react-router-dom 5 → react-router 8 (#18); Reach UI → Radix UI (#19).
+- **Next:** small abandoned UI deps (#21), then state/data libraries (#22), then charting (#20) last.
 
 Tables below are the original snapshot; removed packages are marked.
 
