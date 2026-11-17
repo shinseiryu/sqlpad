@@ -1,6 +1,6 @@
 {
   "name": "sqlpad-front-end",
-  "version": "7.5.7",
+  "version": "8.0.0",
   "private": true,
   "dependencies": {
     "@mdi/js": "^7.4.47",

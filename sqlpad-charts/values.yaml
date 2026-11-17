@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: sqlpad/sqlpad
+  repository: ghcr.io/shinseiryu/sqlpad
   pullPolicy: IfNotPresent
-  tag: "5"
+  tag: "8"
 
 resources:
   limits:

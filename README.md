@@ -6,9 +6,9 @@ A web app for writing and running SQL queries and visualizing the results.
 
 ## About this fork
 
-The original [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad) was archived by its maintainer in 2025. This fork keeps SQLPad maintained: current Node, updated dependencies and fewer, better-supported drivers. Progress is tracked in the [modernization roadmap](https://github.com/shinseiryu/sqlpad/issues/23).
+SQLPad was created by Rick Bergfalk and its contributors, and this fork builds on their work. The original [sqlpad/sqlpad](https://github.com/sqlpad/sqlpad) was archived by its maintainer in 2025. This fork keeps SQLPad maintained: current Node, updated dependencies and fewer, better-supported drivers. Progress is tracked in the [modernization roadmap](https://github.com/shinseiryu/sqlpad/issues/23).
 
-This fork follows [semver](https://semver.org): breaking changes bump the major version. The first fork release will be 8.0.0 (see [CHANGELOG](CHANGELOG.md)).
+This fork follows [semver](https://semver.org): breaking changes bump the major version. The first fork release is 8.0.0, continuing from upstream 7.5.7 (see [CHANGELOG](CHANGELOG.md)).
 
 ## Supported databases
 
@@ -23,7 +23,7 @@ Removed: Athena, Cassandra, CrateDB, Vertica, ODBC and the legacy MySQL driver (
 ## Docker Image
 
 ```sh
-docker pull ghcr.io/shinseiryu/sqlpad:master
+docker pull ghcr.io/shinseiryu/sqlpad:8
 ```
 
 The docker image runs on port 3000 and uses `/var/lib/sqlpad` for the embedded database directory.

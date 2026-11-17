@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [8.0.0] - 2026-11-17
 
 - Node 24 or later required; Docker image now uses Node 26 (Debian 13)
 - Docker images published to ghcr.io/shinseiryu/sqlpad

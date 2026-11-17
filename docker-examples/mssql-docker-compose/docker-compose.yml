@@ -11,7 +11,7 @@ services:
   sqlpad:
     # To use Dockerfile at root of this project, use build instead of image
     # build: ../../
-    image: sqlpad/sqlpad:5
+    image: ghcr.io/shinseiryu/sqlpad:8
     hostname: 'sqlpad'
     ports:
       - '3000:3000'
