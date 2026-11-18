@@ -1,4 +1,4 @@
-FROM sqlpad/sqlpad:5.6.0
+FROM ghcr.io/shinseiryu/sqlpad:8
 
 ENV SQLPAD_ADMIN "admin"
 ENV SQLPAD_ADMIN_PASSWORD "admin"

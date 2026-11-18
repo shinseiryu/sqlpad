@@ -51,7 +51,7 @@ spec:
           - name: postgres-initdb
             mountPath: /docker-entrypoint-initdb.d
       - name: sqlpad
-        image: sqlpad/sqlpad:5
+        image: ghcr.io/shinseiryu/sqlpad:8
         ports:
         - containerPort: 3000
         resources:

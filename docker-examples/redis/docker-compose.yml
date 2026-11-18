@@ -13,7 +13,7 @@ services:
   sqlpad:
     # To use Dockerfile at root of this project, use build instead of image
     # build: ../../
-    image: ghcr.io/shinseiryu/sqlpad:master
+    image: ghcr.io/shinseiryu/sqlpad:8
     hostname: 'sqlpad'
     depends_on:
       - redis
